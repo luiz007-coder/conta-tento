@@ -2,8 +2,8 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>conta tento</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>contador de tento</title>
     <style>
         * {
             margin: 0;
@@ -13,33 +13,41 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #2c3e50;
+            background-color: #006400;
             color: #ecf0f1;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: flex-start;
             align-items: center;
             height: 100vh;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/6/6b/Truco_Mesa.jpg');
+            background-size: cover;
+            touch-action: manipulation;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #FFD700;
+            text-shadow: 2px 2px 4px #000;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
         .container {
             text-align: center;
-            background-color: #34495e;
+            background-color: rgba(0, 0, 0, 0.7);
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            width: 350px;
-        }
-
-        h1 {
-            font-size: 24px;
-            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            width: 400px;
         }
 
         .scoreboard {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
         .dupla {
@@ -48,9 +56,10 @@
             font-size: 36px;
         }
 
-        .dupla p {
-            margin-top: 5px;
-            font-size: 18px;
+        .dupla h2 {
+            margin-bottom: 10px;
+            font-size: 24px;
+            color: #FFD700;
         }
 
         .dupla div {
@@ -81,12 +90,12 @@
         }
 
         .truco-btn {
-            padding: 10px 40px;
+            padding: 15px 60px;
             background-color: #e74c3c;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             color: #fff;
-            font-size: 18px;
+            font-size: 24px;
             cursor: pointer;
             margin-top: 20px;
             transition: background-color 0.3s ease;
@@ -99,44 +108,81 @@
         .vitorias {
             display: flex;
             justify-content: space-between;
+            font-size: 20px;
+            color: #FFD700;
+            margin-top: 20px;
         }
 
         .vitorias span {
-            font-size: 18px;
+            font-size: 20px;
         }
 
+        .mensagem-vitoria {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #FFD700;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            z-index: 10;
+        }
+
+        .mensagem-vitoria button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .mensagem-vitoria button:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>CONTA TENTO</h1>
+    <h1>é TRUUUCO, ladrãoo!!!</h1>
 
+    <div class="container">
         <div class="scoreboard">
             <div class="dupla">
+                <h2>NÓS</h2>
                 <div id="dupla1-tentos">0</div>
                 <div class="controls">
                     <button onclick="incrementarPontos('dupla1')">+</button>
                     <button onclick="decrementarPontos('dupla1')">-</button>
                 </div>
-                <p id="dupla1-nome">NÓS</p>
             </div>
 
             <div class="dupla">
+                <h2>ELES</h2>
                 <div id="dupla2-tentos">0</div>
                 <div class="controls">
                     <button onclick="incrementarPontos('dupla2')">+</button>
                     <button onclick="decrementarPontos('dupla2')">-</button>
                 </div>
-                <p id="dupla2-nome">ELES</p>
             </div>
         </div>
 
         <div class="vitorias">
-            <span>v: <span id="dupla1-vitorias">0</span></span>
-            <span>v: <span id="dupla2-vitorias">0</span></span>
+            <span>Vitórias: <span id="dupla1-vitorias">0</span></span>
+            <span>Vitórias: <span id="dupla2-vitorias">0</span></span>
         </div>
 
         <button class="truco-btn" onclick="ativarTruco()">TRUCO (<span id="truco-pontos">0</span> Tentos)</button>
+    </div>
+
+    <div class="mensagem-vitoria" id="mensagem-vitoria">
+        <h2 id="ganhador"></h2>
+        <button onclick="reiniciarJogo()">Recomeçar</button>
     </div>
 
     <script>
@@ -153,16 +199,30 @@
         let trucoTento = 0;
         let trucoAtivo = false;
 
+        function carregarVitorias() {
+            const vitoriasSalvas = JSON.parse(localStorage.getItem('vitorias')) || {dupla1: 0, dupla2: 0};
+            vitorias.dupla1 = vitoriasSalvas.dupla1;
+            vitorias.dupla2 = vitoriasSalvas.dupla2;
+            document.getElementById('dupla1-vitorias').textContent = vitorias.dupla1;
+            document.getElementById('dupla2-vitorias').textContent = vitorias.dupla2;
+        }
+
+        function salvarVitorias() {
+            localStorage.setItem('vitorias', JSON.stringify(vitorias));
+        }
+
         function incrementarPontos(dupla) {
             tentos[dupla] += (trucoAtivo ? trucoTento : 1);
             document.getElementById(`${dupla}-tentos`).textContent = tentos[dupla];
 
             if (tentos[dupla] >= 12) {
-                alert(`${document.getElementById(`${dupla}-nome`).textContent} ganhou!`);
+                exibirMensagemVitoria(dupla);
                 vitorias[dupla]++;
                 document.getElementById(`${dupla}-vitorias`).textContent = vitorias[dupla];
+                salvarVitorias();
                 resetarTentos();
             }
+            resetarTruco();
         }
 
         function decrementarPontos(dupla) {
@@ -190,6 +250,13 @@
             document.getElementById('truco-pontos').textContent = trucoTento;
         }
 
+        function exibirMensagemVitoria(dupla) {
+            const mensagem = document.getElementById('mensagem-vitoria');
+            const ganhador = document.getElementById('ganhador');
+            ganhador.textContent = `${dupla === 'dupla1' ? 'NÓS' : 'ELES'} ganhou!`;
+            mensagem.style.display = 'block';
+        }
+
         function resetarTentos() {
             tentos.dupla1 = 0;
             tentos.dupla2 = 0;
@@ -199,6 +266,19 @@
             trucoTento = 0;
             document.getElementById('truco-pontos').textContent = trucoTento;
         }
+
+        function reiniciarJogo() {
+            resetarTentos();
+            document.getElementById('mensagem-vitoria').style.display = 'none';
+        }
+
+        function resetarTruco() {
+            trucoAtivo = false;
+            trucoTento = 0;
+            document.getElementById('truco-pontos').textContent = trucoTento;
+        }
+
+        window.onload = carregarVitorias;
     </script>
 </body>
 </html>

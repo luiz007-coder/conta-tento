@@ -146,6 +146,38 @@
         .mensagem-vitoria button:hover {
             background-color: #218838;
         }
+
+        .historico-container {
+            display: none;
+            background-color: rgba(46, 46, 46, 0.9);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .historico-container p {
+            margin: 5px 0;
+            border-bottom: 1px solid #fff;
+            padding-bottom: 5px;
+        }
+
+        .historico-btn {
+            background-color: #2e2e2e;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 20px;
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .historico-btn:hover {
+            background-color: #1c1c1c;
+        }
     </style>
 </head>
 <body>
@@ -178,6 +210,10 @@
         </div>
 
         <button class="truco-btn" onclick="ativarTruco()">TRUCO (<span id="truco-pontos">0</span> Tentos)</button>
+
+        <button class="historico-btn" onclick="toggleHistorico()">Histórico</button>
+        
+        <div class="historico-container" id="historico-container"></div>
     </div>
 
     <div class="mensagem-vitoria" id="mensagem-vitoria">
@@ -198,6 +234,7 @@
 
         let trucoTento = 0;
         let trucoAtivo = false;
+        let historico = [];
 
         function carregarVitorias() {
             const vitoriasSalvas = JSON.parse(localStorage.getItem('vitorias')) || {dupla1: 0, dupla2: 0};
@@ -211,15 +248,33 @@
             localStorage.setItem('vitorias', JSON.stringify(vitorias));
         }
 
+        function salvarHistorico() {
+            localStorage.setItem('historico', JSON.stringify(historico));
+        }
+
+        function carregarHistorico() {
+            historico = JSON.parse(localStorage.getItem('historico')) || [];
+            mostrarHistorico();
+        }
+
         function incrementarPontos(dupla) {
-            tentos[dupla] += (trucoAtivo ? trucoTento : 1);
+            let pontosAdicionados = trucoAtivo ? trucoTento : 1;
+            tentos[dupla] += pontosAdicionados;
             document.getElementById(`${dupla}-tentos`).textContent = tentos[dupla];
+
+            // Atualiza histórico
+            if (tentos[dupla] === 11) {
+                atualizarHistorico(`${dupla === 'dupla1' ? 'NÓS' : 'ELES'} está na mão de onze.`);
+            }
+
+            atualizarHistorico(`${dupla === 'dupla1' ? 'NÓS' : 'ELES'} marcou ${pontosAdicionados} tento${pontosAdicionados > 1 ? 's' : ''}.`);
 
             if (tentos[dupla] >= 12) {
                 exibirMensagemVitoria(dupla);
                 vitorias[dupla]++;
                 document.getElementById(`${dupla}-vitorias`).textContent = vitorias[dupla];
                 salvarVitorias();
+                atualizarHistorico(`${dupla === 'dupla1' ? 'NÓS' : 'ELES'} venceu a partida!`);
                 resetarTentos();
             }
             resetarTruco();
@@ -230,6 +285,7 @@
                 tentos[dupla] -= (trucoAtivo ? trucoTento : 1);
                 if (tentos[dupla] < 0) tentos[dupla] = 0;
                 document.getElementById(`${dupla}-tentos`).textContent = tentos[dupla];
+                atualizarHistorico(`${dupla === 'dupla1' ? 'NÓS' : 'ELES'} perdeu 1 tento.`);
             }
         }
 
@@ -237,15 +293,20 @@
             if (!trucoAtivo) {
                 trucoAtivo = true;
                 trucoTento = 3;
+                atualizarHistorico(`Truco ativado, agora está valendo 3 tentos.`);
             } else if (trucoTento === 3) {
                 trucoTento = 6;
+                atualizarHistorico(`Truco aumentado para 6 tentos.`);
             } else if (trucoTento === 6) {
                 trucoTento = 9;
+                atualizarHistorico(`Truco aumentado para 9 tentos.`);
             } else if (trucoTento === 9) {
                 trucoTento = 12;
+                atualizarHistorico(`Truco aumentado para 12 tentos.`);
             } else {
                 trucoAtivo = false;
                 trucoTento = 0;
+                atualizarHistorico(`Truco desativado.`);
             }
             document.getElementById('truco-pontos').textContent = trucoTento;
         }
@@ -255,6 +316,24 @@
             const ganhador = document.getElementById('ganhador');
             ganhador.textContent = `${dupla === 'dupla1' ? 'NÓS' : 'ELES'} ganhou!`;
             mensagem.style.display = 'block';
+        }
+
+        function atualizarHistorico(acao) {
+            const now = new Date();
+            const dataHora = now.toLocaleString('pt-BR');
+            historico.push(`${dataHora}: ${acao}`);
+            mostrarHistorico();
+            salvarHistorico();
+        }
+
+        function mostrarHistorico() {
+            const historicoContainer = document.getElementById('historico-container');
+            historicoContainer.innerHTML = historico.map(entry => `<p>${entry}</p>`).join('');
+        }
+
+        function toggleHistorico() {
+            const historicoContainer = document.getElementById('historico-container');
+            historicoContainer.style.display = historicoContainer.style.display === 'none' ? 'block' : 'none';
         }
 
         function resetarTentos() {
@@ -278,7 +357,11 @@
             document.getElementById('truco-pontos').textContent = trucoTento;
         }
 
-        window.onload = carregarVitorias;
+        window.onload = function() {
+            carregarVitorias();
+            carregarHistorico();
+        };
     </script>
 </body>
 </html>
+

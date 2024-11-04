@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Contador de Tento - Truco</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -13,34 +14,44 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #1e1e1e;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #202020;
             color: #fff;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
             height: 100vh;
-            background-image: url('https://upload.wikimedia.org/wikipedia/commons/6/6b/Truco_Mesa.jpg');
+            background-image: url('https://cdn.pixabay.com/photo/2020/09/24/16/45/card-suit-5599226_960_720.png');
             background-size: cover;
+            background-repeat: no-repeat;
             touch-action: manipulation;
+            padding: 60px;
+            overflow-y: hidden;
+        }
+
+        body.claro {
+            background-color: #F8F8FF;
         }
 
         h1 {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
             font-size: 36px;
-            color: #ff4747;
-            text-shadow: 2px 2px 4px #000;
+            color: #ffffff;
+            text-shadow: 3px 3px 5px #000;
             margin: 20px 0;
             text-align: center;
         }
 
         .container {
+            text-shadow: 3px 3px 5px #000;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
             text-align: center;
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: #1e1e1e;
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            width: 400px;
+            width: 410px;
         }
 
         .scoreboard {
@@ -74,23 +85,31 @@
         }
 
         .controls button {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
             background-color: #ff4747;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             color: #fff;
             font-size: 24px;
             margin: 0 10px;
             padding: 5px 15px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .controls button:hover {
-            background-color: #c0392b;
+            background-color: #ff1f1f;
+        }
+
+        .controls button:active {
+            transform: scale(0.95);
         }
 
         .truco-btn {
-            padding: 15px 60px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            padding: 15px 55px;
             background-color: #e74c3c;
             border: none;
             border-radius: 12px;
@@ -103,6 +122,10 @@
 
         .truco-btn:hover {
             background-color: #c0392b;
+        }
+
+        .truco-btn:active {
+            transform: scale(0.95);
         }
 
         .vitorias {
@@ -123,65 +146,128 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: rgba(0, 0, 0, 0.8);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7));
             color: #ff4747;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border-radius: 16px; /* Bordas mais suaves */
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8); /* Sombra mais forte */
             text-align: center;
             z-index: 10;
+            animation: fadeIn 0.5s ease;
+            transition: transform 0.3s ease; /* Efeito de suavização ao abrir */
+        }
+
+        .mensagem-vitoria h1 {
+            margin: 0;
+            font-size: 32px; /* Aumenta o tamanho do título */
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Sombra para destacar */
+        }
+
+        .mensagem-vitoria p {
+            margin: 10px 0;
+            font-size: 20px;
         }
 
         .mensagem-vitoria button {
-            margin-top: 10px;
-            padding: 10px 20px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            margin-top: 15px;
+            padding: 12px 25px;
             border: none;
             border-radius: 8px;
-            background-color: #28a745;
-            color: white;
+            background-color: #ff4747;
+            color: #fff;
+            font-size: 18px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         .mensagem-vitoria button:hover {
-            background-color: #218838;
+            background-color: #ff1f1f;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
         }
 
         .historico-container {
             display: none;
-            background-color: rgba(46, 46, 46, 0.9);
-            padding: 10px;
-            border-radius: 8px;
+            background: linear-gradient(135deg, rgba(46, 46, 46, 0.9), rgba(30, 30, 30, 0.9));
+            padding: 15px;
+            border-radius: 10px;
             margin-top: 10px;
             max-height: 200px;
             overflow-y: auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .historico-container::-webkit-scrollbar {
+            display: none;
         }
 
         .historico-container p {
-            margin: 5px 0;
-            border-bottom: 1px solid #fff;
+            margin: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             padding-bottom: 5px;
+            color: #fff;
+            font-size: 16px;
         }
 
         .historico-btn {
-            background-color: #2e2e2e;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #3a3a3a;
             border: none;
             border-radius: 8px;
             color: #fff;
             font-size: 20px;
-            padding: 10px 20px;
+            padding: 11px 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
             margin-top: 10px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         .historico-btn:hover {
             background-color: #1c1c1c;
         }
+
+        .historico-btn:active {
+            transform: scale(0.95);
+        }
+
+        .limpar-historico-btn {
+            background-color: transparent;
+            border: none;
+            color: #ff4747;
+            font-size: 24px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+            float: right;
+        }
+
+        .limpar-historico-btn:hover {
+            color: #ff1f1f;
+        }
+
+        .limpar-historico-btn:active {
+            transform: scale(0.95);
+        }
     </style>
 </head>
 <body>
-    <h1>É TRUUUCO, Ladrãoo!!!</h1>
+    <h1 style="display: flex; align-items: center;">
+        CONTADOR DE TENTO
+        <button id="theme-toggle" style="margin-left: 20px; padding: 10px; border: none; border-radius: 8px; background-color: transparent; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); color: #fff; cursor: pointer;">
+            <i id="theme-icon" class="fas fa-sun"></i>
+        </button>
+    </h1>
 
     <div class="container">
         <div class="scoreboard">
@@ -189,8 +275,8 @@
                 <h2>NÓS</h2>
                 <div id="dupla1-tentos">0</div>
                 <div class="controls">
-                    <button onclick="incrementarPontos('dupla1')">+</button>
                     <button onclick="decrementarPontos('dupla1')">-</button>
+                    <button onclick="incrementarPontos('dupla1')">+</button>
                 </div>
             </div>
 
@@ -198,8 +284,8 @@
                 <h2>ELES</h2>
                 <div id="dupla2-tentos">0</div>
                 <div class="controls">
-                    <button onclick="incrementarPontos('dupla2')">+</button>
                     <button onclick="decrementarPontos('dupla2')">-</button>
+                    <button onclick="incrementarPontos('dupla2')">+</button>
                 </div>
             </div>
         </div>
@@ -213,7 +299,9 @@
 
         <button class="historico-btn" onclick="toggleHistorico()">Histórico</button>
         
-        <div class="historico-container" id="historico-container"></div>
+        <div class="historico-container" id="historico-container">
+            <button class="limpar-historico-btn" onclick="limparHistorico()">✖</button> 
+        </div>
     </div>
 
     <div class="mensagem-vitoria" id="mensagem-vitoria">
@@ -231,6 +319,23 @@
             dupla1: 0,
             dupla2: 0
         };
+
+        let temaAtual = 'escuro';
+            document.getElementById('theme-toggle').addEventListener('click', function() {
+            const icon = document.getElementById('theme-icon');
+        if (temaAtual === 'escuro') {
+            temaAtual = 'claro';
+            document.body.classList.add('claro');
+            icon.classList.remove('fas', 'fa-sun');
+            icon.classList.add('fas', 'fa-moon');
+        } else {
+            temaAtual = 'escuro';
+            document.body.classList.remove('claro');
+            icon.classList.remove('fas', 'fa-moon');
+            icon.classList.add('fas', 'fa-sun');
+        }
+            localStorage.setItem('temaAtual', temaAtual);
+    });
 
         let trucoTento = 0;
         let trucoAtivo = false;
@@ -262,12 +367,11 @@
             tentos[dupla] += pontosAdicionados;
             document.getElementById(`${dupla}-tentos`).textContent = tentos[dupla];
 
-            // Atualiza histórico
+            atualizarHistorico(`${dupla === 'dupla1' ? 'NÓS' : 'ELES'} marcou ${pontosAdicionados} tento${pontosAdicionados > 1 ? 's' : ''}.`);
+
             if (tentos[dupla] === 11) {
                 atualizarHistorico(`${dupla === 'dupla1' ? 'NÓS' : 'ELES'} está na mão de onze.`);
             }
-
-            atualizarHistorico(`${dupla === 'dupla1' ? 'NÓS' : 'ELES'} marcou ${pontosAdicionados} tento${pontosAdicionados > 1 ? 's' : ''}.`);
 
             if (tentos[dupla] >= 12) {
                 exibirMensagemVitoria(dupla);
@@ -285,7 +389,7 @@
                 tentos[dupla] -= (trucoAtivo ? trucoTento : 1);
                 if (tentos[dupla] < 0) tentos[dupla] = 0;
                 document.getElementById(`${dupla}-tentos`).textContent = tentos[dupla];
-                atualizarHistorico(`${dupla === 'dupla1' ? 'NÓS' : 'ELES'} perdeu 1 tento.`);
+                atualizarHistorico(`${dupla === 'dupla1' ? 'NÓS' : 'ELES'} desceu 1 tento.`);
             }
         }
 
@@ -293,20 +397,20 @@
             if (!trucoAtivo) {
                 trucoAtivo = true;
                 trucoTento = 3;
-                atualizarHistorico(`Truco ativado, agora está valendo 3 tentos.`);
+                atualizarHistorico(`Truco on, agora está valendo 3 tentos.`);
             } else if (trucoTento === 3) {
                 trucoTento = 6;
-                atualizarHistorico(`Truco aumentado para 6 tentos.`);
+                atualizarHistorico(`Truco subiu para 6 tentos.`);
             } else if (trucoTento === 6) {
                 trucoTento = 9;
-                atualizarHistorico(`Truco aumentado para 9 tentos.`);
+                atualizarHistorico(`Truco subiu para 9 tentos.`);
             } else if (trucoTento === 9) {
                 trucoTento = 12;
-                atualizarHistorico(`Truco aumentado para 12 tentos.`);
+                atualizarHistorico(`Truco subiu para 12 tentos.`);
             } else {
                 trucoAtivo = false;
                 trucoTento = 0;
-                atualizarHistorico(`Truco desativado.`);
+                atualizarHistorico(`Truco off.`);
             }
             document.getElementById('truco-pontos').textContent = trucoTento;
         }
@@ -322,18 +426,35 @@
             const now = new Date();
             const dataHora = now.toLocaleString('pt-BR');
             historico.push(`${dataHora}: ${acao}`);
-            mostrarHistorico();
             salvarHistorico();
+    
+        if (document.getElementById('historico-container').style.display === 'block') {
+            mostrarHistorico();
+            }
         }
 
         function mostrarHistorico() {
             const historicoContainer = document.getElementById('historico-container');
-            historicoContainer.innerHTML = historico.map(entry => `<p>${entry}</p>`).join('');
+            historicoContainer.innerHTML = `
+            <button class="limpar-historico-btn" onclick="limparHistorico()">✖</button>
+            ${historico.map(entry => `<p>${entry}</p>`).join('')}
+        `;
+        historicoContainer.style.display = 'block'; 
+        }
+
+        function limparHistorico() {
+            historico = [];
+            localStorage.removeItem('historico'); 
+            mostrarHistorico();
         }
 
         function toggleHistorico() {
             const historicoContainer = document.getElementById('historico-container');
-            historicoContainer.style.display = historicoContainer.style.display === 'none' ? 'block' : 'none';
+        if (historicoContainer.style.display === 'block') {
+            historicoContainer.style.display = 'none';
+        } else {
+         mostrarHistorico();
+            }
         }
 
         function resetarTentos() {
@@ -341,9 +462,7 @@
             tentos.dupla2 = 0;
             document.getElementById('dupla1-tentos').textContent = 0;
             document.getElementById('dupla2-tentos').textContent = 0;
-            trucoAtivo = false;
-            trucoTento = 0;
-            document.getElementById('truco-pontos').textContent = trucoTento;
+            resetarTruco();
         }
 
         function reiniciarJogo() {
@@ -358,10 +477,19 @@
         }
 
         window.onload = function() {
+            const temaSalvo = localStorage.getItem('temaAtual');
+        if (temaSalvo) {
+            temaAtual = temaSalvo;
+        if (temaAtual === 'claro') {
+            document.body.classList.add('claro');
+            document.getElementById('theme-icon').classList.remove('fas', 'fa-sun');
+            document.getElementById('theme-icon').classList.add('fas', 'fa-moon');
+            }
+        }
             carregarVitorias();
             carregarHistorico();
+            document.getElementById('historico-container').style.display = 'none';
         };
     </script>
 </body>
 </html>
-

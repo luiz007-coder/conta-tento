@@ -270,8 +270,8 @@
     background: rgba(30, 30, 30, 0.95);
     padding: 17px;
     border-radius: 8px;
-    margin-top: 10px;
-    max-height: 130px;
+    margin-top: 8px;
+    max-height: 100px;
     overflow-y: auto;
     border: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
@@ -438,6 +438,80 @@
     transition: transform 0.2s ease;
 }
 
+.level-bar {
+    font-size: 8px;
+    color: #fff;
+}
+
+.xp-container {
+    background: rgba(255, 255, 255, 0.1);
+    height: 6px;
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 0 auto; 
+    margin-bottom: 5px;
+    margin-top: -50px;
+    width: 50%;
+}
+
+.xp-bar {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.3s ease;
+    background-size: 400% 400%;
+    background: rgb(255, 0, 0);
+    background: linear-gradient(90deg, rgb(255, 0, 0), rgb(0, 255, 0), rgb(0, 0, 255)); 
+    animation: rgbAnimation 5s infinite alternate;
+}
+
+@keyframes rgbAnimation {
+    0% {
+        background: rgb(255, 0, 0);
+    }
+    25% {
+        background: rgb(255, 165, 0);
+    }
+    50% {
+        background: rgb(0, 255, 0);
+    }
+    75% {
+        background: rgb(0, 0, 255);
+    }
+    100% {
+        background: rgb(75, 0, 130);
+    }
+}
+
+#dupla1-level {
+    font-size: 14px;
+    background-color: #bad700;
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 3px;
+    display: inline-block;
+    top: 30px;
+    transform: translateY(-210%);
+}
+
+#dupla2-level {
+    font-size: 14px;
+    background-color: #005ec9;
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 3px;
+    display: inline-block;
+    top: 30px;
+    transform: translateY(-210%);
+}
+
+#dupla1-nome {
+    color: #bad700;
+}
+
+#dupla2-nome {
+    color: #005ec9;
+}
+
     </style>
 </head>
 <body>
@@ -448,6 +522,12 @@
     <div class="container">
         <div class="scoreboard">
             <div class="dupla">
+                <div class="level-bar">
+                    <span id="dupla1-level">Nível 1</span>
+                    <div class="xp-container">
+                        <div class="xp-bar" id="dupla1-xp-bar"></div>
+                    </div>
+                </div>
                 <div class="nome-dupla">
                     <h2 id="dupla1-nome">NÓS</h2>
                     <i class="fas fa-edit editar-nome" onclick="editarNome('dupla1')"></i>
@@ -465,6 +545,12 @@
             </div>
             
             <div class="dupla">
+                <div class="level-bar">
+                    <span id="dupla2-level">Nível 1</span>
+                    <div class="xp-container">
+                        <div class="xp-bar" id="dupla2-xp-bar"></div>
+                    </div>
+                </div>
                 <div class="nome-dupla">
                     <h2 id="dupla2-nome">ELES</h2>
                     <i class="fas fa-edit editar-nome" onclick="editarNome('dupla2')"></i>
@@ -522,6 +608,48 @@
     dupla2: "ELES"
 };
 
+let xpData = {
+            dupla1: { xp: 0, level: 1 },
+            dupla2: { xp: 0, level: 1 }
+        };
+
+        function calcularXPNecessario(level) {
+            return 100 * Math.pow(level, 2);
+        }
+
+        function adicionarXP(dupla, xpGanho) {
+            xpData[dupla].xp += xpGanho;
+            while (xpData[dupla].xp >= calcularXPNecessario(xpData[dupla].level)) {
+                xpData[dupla].xp -= calcularXPNecessario(xpData[dupla].level);
+                xpData[dupla].level++;
+            }
+            salvarXPData();
+            atualizarBarraXP(dupla);
+        }
+
+        function atualizarBarraXP(dupla) {
+            const currentLevel = xpData[dupla].level;
+            const currentXP = xpData[dupla].xp;
+            const requiredXP = calcularXPNecessario(currentLevel);
+            const porcentagem = (currentXP / requiredXP) * 100;
+
+            document.getElementById(`${dupla}-xp-bar`).style.width = `${porcentagem}%`;
+            document.getElementById(`${dupla}-level`).textContent = `Nível ${currentLevel}`;
+        }
+
+        function salvarXPData() {
+            localStorage.setItem('xpData', JSON.stringify(xpData));
+        }
+
+        function carregarXPData() {
+            const savedData = localStorage.getItem('xpData');
+            if (savedData) {
+                xpData = JSON.parse(savedData);
+                atualizarBarraXP('dupla1');
+                atualizarBarraXP('dupla2');
+            }
+        }
+
 function editarNome(dupla) {
     const novoNome = prompt(`Digite o novo nome para ${nomesDuplas[dupla]}:`, nomesDuplas[dupla]);
     if (novoNome && novoNome.trim() !== "") {
@@ -570,6 +698,8 @@ function carregarNomes() {
             tentos[dupla] += pontosAdicionados;
             document.getElementById(`${dupla}-tentos`).textContent = tentos[dupla];
 
+            adicionarXP(dupla, 10 * pontosAdicionados);
+
             atualizarHistorico(`${nomesDuplas[dupla]} marcou ${pontosAdicionados} tento${pontosAdicionados > 1 ? 's' : ''}.`);
 
             if (tentos[dupla] === 11) {
@@ -578,6 +708,7 @@ function carregarNomes() {
 
             if (tentos[dupla] >= 12) {
                 exibirMensagemVitoria(dupla);
+                adicionarXP(dupla, 100);
                 vitorias[dupla]++;
                 document.getElementById(`${dupla}-vitorias`).textContent = vitorias[dupla];
                 salvarVitorias();
@@ -592,6 +723,7 @@ function carregarNomes() {
                 tentos[dupla] -= (trucoAtivo ? trucoTento : 1);
                 if (tentos[dupla] < 0) tentos[dupla] = 0;
                 document.getElementById(`${dupla}-tentos`).textContent = tentos[dupla];
+                adicionarXP(dupla, 5 * pontosRemovidosEfetivo);
                 atualizarHistorico(`${nomesDuplas[dupla]} desceu 1 tento.`);
             }
         }
@@ -683,6 +815,7 @@ function carregarNomes() {
             carregarVitorias();
             carregarHistorico();
             carregarNomes();
+            carregarXPData();
             document.getElementById('historico-container').style.display = 'none';
         };
     </script>

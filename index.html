@@ -826,10 +826,14 @@ let xpData = {
 
 function editarNome(dupla) {
     const novoNome = prompt(`Digite o novo nome para ${nomesDuplas[dupla]}:`, nomesDuplas[dupla]);
-    if (novoNome && novoNome.trim() !== "") {
-        nomesDuplas[dupla] = novoNome.trim().substring(0, 15);
-        document.getElementById(`${dupla}-nome`).textContent = nomesDuplas[dupla];
-        salvarNomes();
+    if (novoNome) {
+        const nomeFormatado = novoNome.trim().substring(0, 5);
+        
+        if (nomeFormatado !== "") {
+            nomesDuplas[dupla] = nomeFormatado;
+            document.getElementById(`${dupla}-nome`).textContent = nomesDuplas[dupla];
+            salvarNomes();
+        }
     }
 }
 

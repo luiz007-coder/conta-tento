@@ -692,7 +692,8 @@ let xpData = {
             return 100 * Math.pow(level, 2);
         }
 
-        function mostrarTooltip(dupla) {
+        function mostrarTooltip(dupla, event) {
+            event.stopPropagation();
     const vitoriasDupla = vitorias[dupla];
     let rankAtual = ranks[0];
     

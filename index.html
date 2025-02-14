@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Trucadas</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Monomaniac+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="icon" href="https://i.imgur.com/40z3ABN.png" type="image/png">
     <style>
@@ -31,7 +32,7 @@
         }
 
         h1 {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Monomaniac One', sans-serif;
             font-size: 30px;
             color: #ffffff;
             text-shadow: 3px 3px 5px #000;
@@ -52,7 +53,7 @@
             transparent 20px,
             transparent 40px
         );
-    padding: 30px;
+    padding: 25px;
     border-radius: 12px;
     width: 400px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
@@ -119,7 +120,7 @@
         }
 
         .truco-btn {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Monomaniac One', sans-serif;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
             padding: 15px 55px;
             background-color: #828282;
@@ -150,8 +151,13 @@
         }
 
         .vitorias span {
-            font-size: 20px;
+            font-size: 18px;
         }
+
+        .vitorias i {
+    font-size: 15px; 
+    color: #FFD700;
+}
 
         .mensagem-vitoria {
     display: none;
@@ -211,6 +217,7 @@
 .mensagem-vitoria button {
     background: 
         linear-gradient(145deg, #9e9e9e, #bcbcbc);
+        font-family: 'Monomaniac One', sans-serif;
     border: 2px solid #ffffff;
     border-radius: 12px;
     padding: 15px 40px;
@@ -271,7 +278,7 @@
     padding: 17px;
     border-radius: 8px;
     margin-top: 8px;
-    max-height: 100px;
+    max-height: 90px;
     overflow-y: auto;
     border: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
@@ -298,7 +305,7 @@
     color: rgba(255, 255, 255, 0.6);
     font-size: 12px;
     padding: 6px 12px;
-    margin-top: 12px;
+    margin-top: 15px;
     cursor: pointer;
     transition: all 0.2s ease;
 }
@@ -337,7 +344,28 @@
 }
 
 .editar-nome:hover {
-    color: #009c12;
+    color: transparent;
+    background: linear-gradient(90deg, rgb(255, 0, 0), rgb(0, 255, 0), rgb(0, 0, 255));
+    background-clip: text;
+    animation: rgbTextAnimation 5s infinite alternate; 
+}
+
+@keyframes rgbTextAnimation {
+    0% {
+        color: rgb(255, 0, 0);
+    }
+    25% {
+        color: rgb(255, 165, 0);
+    }
+    50% {
+        color: rgb(0, 255, 0);
+    }
+    75% {
+        color: rgb(0, 0, 255);
+    }
+    100% {
+        color: rgb(75, 0, 130);
+    }
 }
 
 .nome-dupla {
@@ -355,7 +383,6 @@
     color: white;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 15px rgba(255, 68, 68, 0.3);
     display: flex;
     align-items: center;
     gap: 10px;
@@ -392,7 +419,6 @@
     color: white;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
     display: flex;
     align-items: center;
     gap: 10px;
@@ -450,7 +476,7 @@
     overflow: hidden;
     margin: 0 auto; 
     margin-bottom: 5px;
-    margin-top: -50px;
+    margin-top: -35px;
     width: 50%;
 }
 
@@ -484,32 +510,32 @@
 
 #dupla1-level {
     font-size: 14px;
-    background-color: #bad700;
+    background-color: #747474;
     color: #fff;
     padding: 2px 6px;
     border-radius: 3px;
     display: inline-block;
     top: 30px;
-    transform: translateY(-210%);
+    transform: translateY(-155%);
 }
 
 #dupla2-level {
     font-size: 14px;
-    background-color: #005ec9;
+    background-color: #a2a2a2;
     color: #fff;
     padding: 2px 6px;
     border-radius: 3px;
     display: inline-block;
     top: 30px;
-    transform: translateY(-210%);
+    transform: translateY(-155%);
 }
 
 #dupla1-nome {
-    color: #bad700;
+    color: #fff;
 }
 
 #dupla2-nome {
-    color: #005ec9;
+    color: #fff;
 }
 
     </style>
@@ -568,11 +594,11 @@
         </div>
 
         <div class="vitorias">
-            <span>Vitórias: <span id="dupla1-vitorias">0</span></span>
-            <span>Vitórias: <span id="dupla2-vitorias">0</span></span>
+            <span><i class="fas fa-trophy"></i> <span id="dupla1-vitorias">0</span></span>
+            <span><span id="dupla2-vitorias">0</span> <i class="fas fa-trophy"></i></span>
         </div>
 
-        <button class="truco-btn" onclick="ativarTruco()">TRUCO (<span id="truco-pontos">0</span> Tentos)</button>
+        <button class="truco-btn" onclick="ativarTruco()">TRUCO (<span id="truco-pontos">0</span> tentos)</button>
 
         <button class="historico-btn" onclick="toggleHistorico()">Histórico</button>
         

@@ -526,7 +526,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 10px;
+    font-size: 9px;
     color: #fff;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     white-space: nowrap;
@@ -872,7 +872,7 @@ function carregarNomes() {
             tentos[dupla] += pontosAdicionados;
             document.getElementById(`${dupla}-tentos`).textContent = tentos[dupla];
 
-            adicionarXP(dupla, 30 * pontosAdicionados);
+            adicionarXP(dupla, 150 * pontosAdicionados);
 
             atualizarHistorico(`${nomesDuplas[dupla]} marcou ${pontosAdicionados} tento${pontosAdicionados > 1 ? 's' : ''}.`);
 
@@ -882,7 +882,7 @@ function carregarNomes() {
 
             if (tentos[dupla] >= 12) {
                 exibirMensagemVitoria(dupla);
-                adicionarXP(dupla, 300);
+                adicionarXP(dupla, 1500);
                 vitorias[dupla]++;
                 document.getElementById(`${dupla}-vitorias`).textContent = vitorias[dupla];
                 salvarVitorias();

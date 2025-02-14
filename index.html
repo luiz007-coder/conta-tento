@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Contador de Tento - Truco</title>
+    <title>Trucadas</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="https://i.imgur.com/40z3ABN.png" type="image/png">
     <style>
         * {
             margin: 0;
@@ -22,16 +23,11 @@
             justify-content: flex-start;
             align-items: center;
             height: 100vh;
-            background-image: url('https://cdn.pixabay.com/photo/2020/09/24/16/45/card-suit-5599226_960_720.png');
             background-size: cover;
             background-repeat: no-repeat;
             touch-action: manipulation;
             padding: 60px;
             overflow-y: hidden;
-        }
-
-        body.claro {
-            background-color: #F8F8FF;
         }
 
         h1 {
@@ -44,15 +40,36 @@
         }
 
         .container {
-            text-shadow: 3px 3px 5px #000;
-            font-family: 'Poppins', sans-serif;
-            text-align: center;
-            background-color: #1e1e1e;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            width: 400px;
-        }
+    position: relative;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    background: linear-gradient(135deg, #1e1e1e, #2c2c2c);
+    padding: 30px;
+    border-radius: 12px;
+    width: 400px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    border: 2px solid #ff4747;
+    text-shadow: 3px 3px 5px #000;
+}
+
+.container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05), transparent 70%);
+    animation: pulse 6s ease-in-out infinite;
+    z-index: -1;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
 
         .scoreboard {
             display: flex;
@@ -141,151 +158,329 @@
         }
 
         .mensagem-vitoria {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7));
-            color: #ff4747;
-            padding: 30px;
-            border-radius: 16px; /* Bordas mais suaves */
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8); /* Sombra mais forte */
-            text-align: center;
-            z-index: 10;
-            animation: fadeIn 0.5s ease;
-            transition: transform 0.3s ease; /* Efeito de suavização ao abrir */
-        }
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: 
+        linear-gradient(160deg, #2b0a0a 0%, #1a0404 100%),
+        repeating-linear-gradient(
+            45deg,
+            rgba(255, 71, 71, 0.1) 0px,
+            rgba(255, 71, 71, 0.1) 20px,
+            transparent 20px,
+            transparent 40px
+        );
+    color: #fff;
+    padding: 40px 60px;
+    border-radius: 20px;
+    border: 3px solid #ff4747;
+    text-align: center;
+    z-index: 1000;
+    animation: aparecer 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    max-width: 90%;
+    font-family: 'Poppins', sans-serif;
+}
 
-        .mensagem-vitoria h1 {
-            margin: 0;
-            font-size: 32px; /* Aumenta o tamanho do título */
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Sombra para destacar */
-        }
+.mensagem-vitoria::before {
+    position: absolute;
+    font-size: 120px;
+    opacity: 0.15;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
 
-        .mensagem-vitoria p {
-            margin: 10px 0;
-            font-size: 20px;
-        }
+.mensagem-vitoria h2 {
+    margin: 0;
+    font-size: 42px;
+    color: #ffd700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 
+        2px 2px 0 #c40d0d,
+        4px 4px 0 rgba(0, 0, 0, 0.5);
+    margin-bottom: 15px;
+}
 
-        .mensagem-vitoria button {
-            font-family: 'Poppins', sans-serif;
-            margin-top: 15px;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            background-color: #ff4747;
-            color: #fff;
-            font-size: 18px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
+.mensagem-vitoria p {
+    font-size: 24px;
+    margin: 20px 0;
+    color: #ffb4b4;
+}
 
-        .mensagem-vitoria button:hover {
-            background-color: #ff1f1f;
-        }
+.mensagem-vitoria button {
+    background: 
+        linear-gradient(145deg, #c40d0d, #ff4747);
+    border: 2px solid #ffd700;
+    border-radius: 12px;
+    padding: 15px 40px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 25px;
+}
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translate(-50%, -60%);
-            }
-            to {
-                opacity: 1;
-                transform: translate(-50%, -50%);
-            }
-        }
+.mensagem-vitoria button::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transform: rotate(45deg);
+    animation: brilho 3s infinite;
+}
 
-        .historico-container {
-            display: none;
-            background: linear-gradient(135deg, rgba(46, 46, 46, 0.9), rgba(30, 30, 30, 0.9));
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 10px;
-            max-height: 200px;
-            overflow-y: auto;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-        }
+.mensagem-vitoria button:active {
+    transform: scale(0.95);
+}
 
-        .historico-container::-webkit-scrollbar {
-            display: none;
-        }
+@keyframes aparecer {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -60%) scale(0.8);
+        filter: blur(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+        filter: blur(0);
+    }
+}
 
-        .historico-container p {
-            margin: 8px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            padding-bottom: 5px;
-            color: #fff;
-            font-size: 16px;
-        }
+@keyframes brilho {
+    0% { left: -150%; }
+    100% { left: 150%; }
+}
 
-        .historico-btn {
-            font-family: 'Poppins', sans-serif;
-            background-color: #3a3a3a;
-            border: none;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 20px;
-            padding: 11px 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            margin-top: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
+.historico-container {
+    display: none;
+    background: rgba(30, 30, 30, 0.95);
+    padding: 17px;
+    border-radius: 8px;
+    margin-top: 10px;
+    max-height: 130px;
+    overflow-y: auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    font-size: 13px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
 
-        .historico-btn:hover {
-            background-color: #1c1c1c;
-        }
+.historico-container::-webkit-scrollbar {
+    display: none;
+}
 
-        .historico-btn:active {
-            transform: scale(0.95);
-        }
+.historico-container p {
+    margin: 6px 0;
+    padding: 4px 0;
+    color: rgba(255, 255, 255, 0.7);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
 
-        .limpar-historico-btn {
-            background-color: transparent;
-            border: none;
-            color: #ff4747;
-            font-size: 24px;
-            cursor: pointer;
-            margin-bottom: 10px;
-            transition: color 0.3s ease;
-            float: right;
-        }
+.historico-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    padding: 6px 12px;
+    margin-top: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
 
-        .limpar-historico-btn:hover {
-            color: #ff1f1f;
-        }
+.historico-btn:hover {
+    background: rgba(255, 71, 71, 0.1);
+    color: rgba(255, 71, 71, 0.8);
+}
 
-        .limpar-historico-btn:active {
-            transform: scale(0.95);
-        }
+.limpar-historico-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: none;
+    border: none;
+    color: rgba(255, 71, 71, 0.4);
+    font-size: 14px;
+    cursor: pointer;
+    padding: 2px;
+    transition: all 0.2s ease;
+}
+
+.limpar-historico-btn:hover {
+    color: rgba(255, 71, 71, 0.8);
+}
+
+.limpar-historico-btn:active {
+    transform: scale(0.9);
+}
+
+        .editar-nome {
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.editar-nome:hover {
+    color: #ff4747;
+}
+
+.nome-dupla {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-decrementar {
+    background: linear-gradient(145deg, #ff4444, #cc0000);
+    border: 2px solid #ff6666;
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(255, 68, 68, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-decrementar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.btn-decrementar:hover::before {
+    left: 100%;
+}
+
+.btn-incrementar {
+    background: linear-gradient(145deg, #00e676, #00c853);
+    border: 2px solid #69f0ae;
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-incrementar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.btn-incrementar:hover::before {
+    left: 100%;
+}
+
+.btn-decrementar:hover, .btn-incrementar:hover {
+    filter: brightness(110%);
+}
+
+.btn-decrementar:active, .btn-incrementar:active {
+    transform: translateY(1px) scale(0.98);
+}
+
+.btn-texto {
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.fa-plus, .fa-minus {
+    font-size: 20px;
+    transition: transform 0.2s ease;
+}
+
     </style>
 </head>
 <body>
     <h1 style="display: flex; align-items: center;">
         CONTADOR DE TENTO
-        <button id="theme-toggle" style="margin-left: 20px; padding: 10px; border: none; border-radius: 8px; background-color: transparent; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); color: #fff; cursor: pointer;">
-            <i id="theme-icon" class="fas fa-sun"></i>
-        </button>
     </h1>
 
     <div class="container">
         <div class="scoreboard">
             <div class="dupla">
-                <h2>NÓS</h2>
+                <div class="nome-dupla">
+                    <h2 id="dupla1-nome">NÓS</h2>
+                    <i class="fas fa-edit editar-nome" onclick="editarNome('dupla1')"></i>
+                </div>
                 <div id="dupla1-tentos">0</div>
                 <div class="controls">
-                    <button onclick="decrementarPontos('dupla1')">-</button>
-                    <button onclick="incrementarPontos('dupla1')">+</button>
+                    <button class="btn-decrementar" onclick="decrementarPontos('dupla1')">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button class="btn-incrementar" onclick="incrementarPontos('dupla1')">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    </button>
                 </div>
             </div>
-
+            
             <div class="dupla">
-                <h2>ELES</h2>
+                <div class="nome-dupla">
+                    <h2 id="dupla2-nome">ELES</h2>
+                    <i class="fas fa-edit editar-nome" onclick="editarNome('dupla2')"></i>
+                </div>
                 <div id="dupla2-tentos">0</div>
                 <div class="controls">
-                    <button onclick="decrementarPontos('dupla2')">-</button>
-                    <button onclick="incrementarPontos('dupla2')">+</button>
+                    <button class="btn-decrementar" onclick="decrementarPontos('dupla2')">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button class="btn-incrementar" onclick="incrementarPontos('dupla2')">
+                        <i class="fas fa-plus"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -300,7 +495,9 @@
         <button class="historico-btn" onclick="toggleHistorico()">Histórico</button>
         
         <div class="historico-container" id="historico-container">
-            <button class="limpar-historico-btn" onclick="limparHistorico()">✖</button> 
+            <button class="limpar-historico-btn" onclick="limparHistorico()">
+                <i class="fas fa-trash-alt"></i>
+            </button>
         </div>
     </div>
 
@@ -320,26 +517,36 @@
             dupla2: 0
         };
 
-        let temaAtual = 'escuro';
-            document.getElementById('theme-toggle').addEventListener('click', function() {
-            const icon = document.getElementById('theme-icon');
-        if (temaAtual === 'escuro') {
-            temaAtual = 'claro';
-            document.body.classList.add('claro');
-            icon.classList.remove('fas', 'fa-sun');
-            icon.classList.add('fas', 'fa-moon');
-        } else {
-            temaAtual = 'escuro';
-            document.body.classList.remove('claro');
-            icon.classList.remove('fas', 'fa-moon');
-            icon.classList.add('fas', 'fa-sun');
-        }
-            localStorage.setItem('temaAtual', temaAtual);
-    });
-
         let trucoTento = 0;
         let trucoAtivo = false;
         let historico = [];
+
+        let nomesDuplas = {
+    dupla1: "NÓS",
+    dupla2: "ELES"
+};
+
+function editarNome(dupla) {
+    const novoNome = prompt(`Digite o novo nome para ${nomesDuplas[dupla]}:`, nomesDuplas[dupla]);
+    if (novoNome && novoNome.trim() !== "") {
+        nomesDuplas[dupla] = novoNome.trim().substring(0, 15);
+        document.getElementById(`${dupla}-nome`).textContent = nomesDuplas[dupla];
+        salvarNomes();
+    }
+}
+
+function salvarNomes() {
+    localStorage.setItem('nomesDuplas', JSON.stringify(nomesDuplas));
+}
+
+function carregarNomes() {
+    const nomesSalvos = JSON.parse(localStorage.getItem('nomesDuplas'));
+    if (nomesSalvos) {
+        nomesDuplas = nomesSalvos;
+        document.getElementById('dupla1-nome').textContent = nomesDuplas.dupla1;
+        document.getElementById('dupla2-nome').textContent = nomesDuplas.dupla2;
+    }
+}
 
         function carregarVitorias() {
             const vitoriasSalvas = JSON.parse(localStorage.getItem('vitorias')) || {dupla1: 0, dupla2: 0};
@@ -367,10 +574,10 @@
             tentos[dupla] += pontosAdicionados;
             document.getElementById(`${dupla}-tentos`).textContent = tentos[dupla];
 
-            atualizarHistorico(`${dupla === 'dupla1' ? 'NÓS' : 'ELES'} marcou ${pontosAdicionados} tento${pontosAdicionados > 1 ? 's' : ''}.`);
+            atualizarHistorico(`${nomesDuplas[dupla]} marcou ${pontosAdicionados} tento${pontosAdicionados > 1 ? 's' : ''}.`);
 
             if (tentos[dupla] === 11) {
-                atualizarHistorico(`${dupla === 'dupla1' ? 'NÓS' : 'ELES'} está na mão de onze.`);
+                atualizarHistorico(`${nomesDuplas[dupla]} está na mão de onze.`);
             }
 
             if (tentos[dupla] >= 12) {
@@ -378,7 +585,7 @@
                 vitorias[dupla]++;
                 document.getElementById(`${dupla}-vitorias`).textContent = vitorias[dupla];
                 salvarVitorias();
-                atualizarHistorico(`${dupla === 'dupla1' ? 'NÓS' : 'ELES'} venceu a partida!`);
+                atualizarHistorico(`${nomesDuplas[dupla]} venceu a partida!`);
                 resetarTentos();
             }
             resetarTruco();
@@ -389,7 +596,7 @@
                 tentos[dupla] -= (trucoAtivo ? trucoTento : 1);
                 if (tentos[dupla] < 0) tentos[dupla] = 0;
                 document.getElementById(`${dupla}-tentos`).textContent = tentos[dupla];
-                atualizarHistorico(`${dupla === 'dupla1' ? 'NÓS' : 'ELES'} desceu 1 tento.`);
+                atualizarHistorico(`${nomesDuplas[dupla]} desceu 1 tento.`);
             }
         }
 
@@ -418,7 +625,7 @@
         function exibirMensagemVitoria(dupla) {
             const mensagem = document.getElementById('mensagem-vitoria');
             const ganhador = document.getElementById('ganhador');
-            ganhador.textContent = `${dupla === 'dupla1' ? 'NÓS' : 'ELES'} ganhou!`;
+            ganhador.textContent = `${nomesDuplas[dupla]} ganhou!`;
             mensagem.style.display = 'block';
         }
 
@@ -436,7 +643,7 @@
         function mostrarHistorico() {
             const historicoContainer = document.getElementById('historico-container');
             historicoContainer.innerHTML = `
-            <button class="limpar-historico-btn" onclick="limparHistorico()">✖</button>
+            <button class="limpar-historico-btn" onclick="limparHistorico()"><i class="fas fa-trash-alt"></i></button>
             ${historico.map(entry => `<p>${entry}</p>`).join('')}
         `;
         historicoContainer.style.display = 'block'; 
@@ -477,17 +684,9 @@
         }
 
         window.onload = function() {
-            const temaSalvo = localStorage.getItem('temaAtual');
-        if (temaSalvo) {
-            temaAtual = temaSalvo;
-        if (temaAtual === 'claro') {
-            document.body.classList.add('claro');
-            document.getElementById('theme-icon').classList.remove('fas', 'fa-sun');
-            document.getElementById('theme-icon').classList.add('fas', 'fa-moon');
-            }
-        }
             carregarVitorias();
             carregarHistorico();
+            carregarNomes();
             document.getElementById('historico-container').style.display = 'none';
         };
     </script>

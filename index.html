@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Trucadas</title>
+    <title>Conta tento</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Monomaniac+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -470,9 +470,10 @@
 }
 
 .xp-container {
+    position: relative;
     background: rgba(255, 255, 255, 0.1);
-    height: 6px;
-    border-radius: 3px;
+    height: 13px;
+    border-radius: 5px;
     overflow: hidden;
     margin: 0 auto; 
     margin-bottom: 5px;
@@ -482,7 +483,7 @@
 
 .xp-bar {
     height: 100%;
-    border-radius: 3px;
+    border-radius: 5px;
     transition: width 0.3s ease;
     background-size: 400% 400%;
     background: rgb(255, 0, 0);
@@ -508,6 +509,17 @@
     }
 }
 
+.xp-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 10px;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    white-space: nowrap;
+}
+
 #dupla1-level {
     font-size: 14px;
     background-color: #747474;
@@ -521,7 +533,7 @@
 
 #dupla2-level {
     font-size: 14px;
-    background-color: #a2a2a2;
+    background-color: #747474;
     color: #fff;
     padding: 2px 6px;
     border-radius: 3px;
@@ -542,7 +554,7 @@
 </head>
 <body>
     <h1 style="display: flex; align-items: center;">
-        CONTADOR DE TENTO
+        TRUCADAS
     </h1>
 
     <div class="container">
@@ -552,6 +564,7 @@
                     <span id="dupla1-level">Nível 1</span>
                     <div class="xp-container">
                         <div class="xp-bar" id="dupla1-xp-bar"></div>
+                        <span class="xp-text" id="dupla1-xp-text"></span>
                     </div>
                 </div>
                 <div class="nome-dupla">
@@ -575,6 +588,7 @@
                     <span id="dupla2-level">Nível 1</span>
                     <div class="xp-container">
                         <div class="xp-bar" id="dupla2-xp-bar"></div>
+                        <span class="xp-text" id="dupla2-xp-text"></span>
                     </div>
                 </div>
                 <div class="nome-dupla">
@@ -660,6 +674,8 @@ let xpData = {
             const porcentagem = (currentXP / requiredXP) * 100;
 
             document.getElementById(`${dupla}-xp-bar`).style.width = `${porcentagem}%`;
+            const xpTextElement = document.getElementById(`${dupla}-xp-text`);
+    xpTextElement.textContent = `${currentXP} / ${requiredXP} XP`;
             document.getElementById(`${dupla}-level`).textContent = `Nível ${currentLevel}`;
         }
 
@@ -724,7 +740,7 @@ function carregarNomes() {
             tentos[dupla] += pontosAdicionados;
             document.getElementById(`${dupla}-tentos`).textContent = tentos[dupla];
 
-            adicionarXP(dupla, 10 * pontosAdicionados);
+            adicionarXP(dupla, 30 * pontosAdicionados);
 
             atualizarHistorico(`${nomesDuplas[dupla]} marcou ${pontosAdicionados} tento${pontosAdicionados > 1 ? 's' : ''}.`);
 
@@ -734,7 +750,7 @@ function carregarNomes() {
 
             if (tentos[dupla] >= 12) {
                 exibirMensagemVitoria(dupla);
-                adicionarXP(dupla, 100);
+                adicionarXP(dupla, 300);
                 vitorias[dupla]++;
                 document.getElementById(`${dupla}-vitorias`).textContent = vitorias[dupla];
                 salvarVitorias();
@@ -742,6 +758,8 @@ function carregarNomes() {
                 resetarTentos();
             }
             resetarTruco();
+
+            atualizarRank(dupla);
         }
 
         function decrementarPontos(dupla) {
@@ -749,7 +767,6 @@ function carregarNomes() {
                 tentos[dupla] -= (trucoAtivo ? trucoTento : 1);
                 if (tentos[dupla] < 0) tentos[dupla] = 0;
                 document.getElementById(`${dupla}-tentos`).textContent = tentos[dupla];
-                adicionarXP(dupla, 5 * pontosRemovidosEfetivo);
                 atualizarHistorico(`${nomesDuplas[dupla]} desceu 1 tento.`);
             }
         }
@@ -842,8 +859,51 @@ function carregarNomes() {
             carregarHistorico();
             carregarNomes();
             carregarXPData();
+            atualizarRank('dupla1');
+    atualizarRank('dupla2');
             document.getElementById('historico-container').style.display = 'none';
         };
+
+        const ranks = [
+    { name: "Bronze I", min: 0, color: "#cd7f32" },
+    { name: "Bronze II", min: 10, color: "#b87333" },
+    { name: "Bronze III", min: 20, color: "#a65e2e" },
+    { name: "Ferro I", min: 35, color: "#5a5a5a" },
+    { name: "Ferro II", min: 45, color: "#6a6a6a" },
+    { name: "Ferro III", min: 55, color: "#7a7a7a" },
+    { name: "Prata I", min: 65, color: "#c0c0c0" },
+    { name: "Prata II", min: 75, color: "#d3d3d3" },
+    { name: "Prata III", min: 85, color: "#e8e8e8" },
+    { name: "Ouro I", min: 100, color: "#ffd700" },
+    { name: "Ouro II", min: 110, color: "#ffdf00" },
+    { name: "Ouro III", min: 125, color: "#ffec00" },
+    { name: "Platina I", min: 145, color: "#e5e4e2" },
+    { name: "Platina II", min: 160, color: "#f4f3f2" },
+    { name: "Platina III", min: 180, color: "#ffffff" },
+    { name: "Diamante I", min: 195, color: "#b9f2ff" },
+    { name: "Diamante II", min: 210, color: "#a0e6ff" },
+    { name: "Diamante III", min: 225, color: "#7ed4f7" },
+    { name: "Mestre I", min: 300, color: "#ff2020" },
+    { name: "Mestre II", min: 350, color: "#be0000" },
+    { name: "PRO", min: 450, color: "#ccff33" }
+];
+
+function atualizarRank(dupla) {
+    const vitoriasDupla = vitorias[dupla];
+    let rankAtual = ranks[0];
+    
+    for (let i = ranks.length - 1; i >= 0; i--) {
+        if (vitoriasDupla >= ranks[i].min) {
+            rankAtual = ranks[i];
+            break;
+        }
+    }
+    
+    const levelElement = document.getElementById(`${dupla}-level`);
+    levelElement.style.backgroundColor = rankAtual.color;
+    levelElement.title = `Rank: ${rankAtual.name}`;
+    levelElement.style.boxShadow = `0 0 8px ${rankAtual.color}80`;
+}
     </script>
 </body>
 </html>

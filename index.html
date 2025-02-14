@@ -595,6 +595,72 @@
     opacity: 1;
 }
 
+@keyframes pro-gradient {
+    0% {
+        background-color: #b1ff33;
+    }
+    25% {
+        background-color: #00ff00;
+    }
+    50% {
+        background-color: #00dc54;
+    }
+    75% {
+        background-color: #00ff00;
+    }
+    100% {
+        background-color: #b1ff33;
+    }
+}
+
+.pro-rank {
+    animation: pro-gradient 3s ease infinite;
+}
+
+@keyframes fogo-mestre1 {
+    0% {
+        background-color: #ff2020;
+    }
+    25% {
+        background-color: #ff4500;
+    }
+    50% {
+        background-color: #ff2200;
+    }
+    75% {
+        background-color: #ff6b00;
+    }
+    100% {
+        background-color: #ff2020;
+    }
+}
+
+@keyframes fogo-mestre2 {
+    0% {
+        background-color: #850000;
+    }
+    25% {
+        background-color: #890000;
+    }
+    50% {
+        background-color: #a50000;
+    }
+    75% {
+        background-color: #890000;
+    }
+    100% {
+        background-color: #850000;
+    }
+}
+
+.mestre1-rank {
+   animation: fogo-mestre1 3s ease infinite;
+}
+
+.mestre2-rank {
+    animation: fogo-mestre2 3s ease infinite;
+}
+
     </style>
 </head>
 <body>
@@ -936,19 +1002,15 @@ function carregarNomes() {
     { name: "Bronze III", min: 20, color: "#a65e2e" },
     { name: "Ferro I", min: 35, color: "#5a5a5a" },
     { name: "Ferro II", min: 45, color: "#6a6a6a" },
-    { name: "Ferro III", min: 55, color: "#7a7a7a" },
-    { name: "Prata I", min: 65, color: "#c0c0c0" },
-    { name: "Prata II", min: 75, color: "#d3d3d3" },
-    { name: "Prata III", min: 85, color: "#e8e8e8" },
-    { name: "Ouro I", min: 100, color: "#ffd700" },
-    { name: "Ouro II", min: 110, color: "#ffdf00" },
-    { name: "Ouro III", min: 125, color: "#ffec00" },
-    { name: "Platina I", min: 145, color: "#e5e4e2" },
-    { name: "Platina II", min: 160, color: "#f4f3f2" },
-    { name: "Platina III", min: 180, color: "#ffffff" },
-    { name: "Diamante I", min: 195, color: "#b9f2ff" },
-    { name: "Diamante II", min: 210, color: "#a0e6ff" },
-    { name: "Diamante III", min: 225, color: "#7ed4f7" },
+    { name: "Ouro I", min: 60, color: "#ffd700" },
+    { name: "Ouro II", min: 75, color: "#ffdf00" },
+    { name: "Ouro III", min: 85, color: "#ffec00" },
+    { name: "Diamante I", min: 100, color: "#b9f2ff" },
+    { name: "Diamante II", min: 110, color: "#a0e6ff" },
+    { name: "Diamante III", min: 115, color: "#7ed4f7" },
+    { name: "Mítico I", min: 130, color: "#8a2be2" },
+    { name: "Mítico II", min: 145, color: "#a0e6ff" },
+    { name: "Mítico III", min: 160, color: "#7ed4f7" },
     { name: "Mestre I", min: 300, color: "#ff2020" },
     { name: "Mestre II", min: 350, color: "#be0000" },
     { name: "PRO", min: 450, color: "#ccff33" }
@@ -970,8 +1032,20 @@ function atualizarRank(dupla) {
     levelElement.title = `Rank: ${rankAtual.name}`;
     levelElement.style.boxShadow = `0 0 8px ${rankAtual.color}80`;
 
+    if (rankAtual.name === "PRO") {
+        levelElement.classList.add("pro-rank");
+    } else if (rankAtual.name === "Mestre I") {
+        levelElement.classList.add("mestre1-rank");
+    } else if (rankAtual.name === "Mestre II") {
+        levelElement.classList.add("mestre2-rank");
+    } else {
+        levelElement.style.backgroundColor = rankAtual.color;
+        levelElement.style.boxShadow = `0 0 8px ${rankAtual.color}80`;
+    }
+
     const tooltipElement = document.getElementById(`${dupla}-tooltip`);
     tooltipElement.textContent = `Rank: ${rankAtual.name}`;
+
 }
     </script>
 </body>

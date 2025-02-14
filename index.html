@@ -540,7 +540,7 @@
     border-radius: 3px;
     display: inline-block;
     top: 30px;
-    transform: translateY(-155%);
+    transform: translateY(-135%);
 }
 
 #dupla2-level {
@@ -551,7 +551,7 @@
     border-radius: 3px;
     display: inline-block;
     top: 30px;
-    transform: translateY(-155%);
+    transform: translateY(-135%);
 }
 
 #dupla1-nome {
@@ -580,7 +580,7 @@
     padding: 2px 9px;
     position: absolute;
     z-index: 1;
-    bottom: 108%;
+    bottom: 103%;
     left: 50%;
     transform: translateX(-50%);
     opacity: 0;
@@ -876,7 +876,9 @@ function carregarNomes() {
             tentos[dupla] += pontosAdicionados;
             document.getElementById(`${dupla}-tentos`).textContent = tentos[dupla];
 
-            adicionarXP(dupla, 150 * pontosAdicionados);
+            vitoriaXP = Math.floor(Math.random() * (3000 - 1500 + 1)) + 1500;
+            pontosAdicionados = Math.floor(Math.random() * (700 - 150 + 1)) + 150;
+            adicionarXP(dupla, pontosAdicionados);
 
             atualizarHistorico(`${nomesDuplas[dupla]} marcou ${pontosAdicionados} tento${pontosAdicionados > 1 ? 's' : ''}.`);
 
@@ -886,7 +888,7 @@ function carregarNomes() {
 
             if (tentos[dupla] >= 12) {
                 exibirMensagemVitoria(dupla);
-                adicionarXP(dupla, 1500);
+                adicionarXP(dupla, vitoriaXP);
                 vitorias[dupla]++;
                 document.getElementById(`${dupla}-vitorias`).textContent = vitorias[dupla];
                 salvarVitorias();
@@ -996,7 +998,7 @@ function carregarNomes() {
             carregarNomes();
             carregarXPData();
             atualizarRank('dupla1');
-    atualizarRank('dupla2');
+            atualizarRank('dupla2');
             document.getElementById('historico-container').style.display = 'none';
         };
 
@@ -1035,7 +1037,8 @@ function atualizarRank(dupla) {
     const levelElement = document.getElementById(`${dupla}-level`);
     levelElement.style.backgroundColor = rankAtual.color;
     levelElement.title = `Rank: ${rankAtual.name}`;
-    levelElement.style.boxShadow = `0 0 8px ${rankAtual.color}80`;
+
+    levelElement.classList.remove("pro-rank", "mestre1-rank", "mestre2-rank");
 
     if (rankAtual.name === "PRO") {
         levelElement.classList.add("pro-rank");

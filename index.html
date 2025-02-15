@@ -181,26 +181,75 @@
         }
 
         .vitorias i {
-    font-size: 15px; 
+    font-size: 15px;
+    background: none !important;
 }
 
 .fa-trophy.bronze { color: #cd7f32; }
-.fa-trophy.ferro { color: #7b7b7b; }
+.fa-trophy.ferro { color: #8a8a8a; }
 .fa-trophy.ouro { color: #FFD700; }
-.fa-trophy.diamante { color: #7be5fd; }
+.fa-trophy.diamante { color: #5ae1ff; }
 .fa-trophy.mitico { color: #8a2be2; }
 
-.fa-trophy.pro-rank {
-    animation: pro-gradient 3s ease infinite;
-    color: #ccff33;
+
+.fa-trophy.pro-rank { animation: pro-gradient-cor 3s ease infinite; }
+
+@keyframes pro-gradient-cor {
+    0% {
+        color: #b1ff33;
+    }
+    25% {
+        color: #00ff00;
+    }
+    50% {
+        color: #00dc54;
+    }
+    75% {
+        color: #00ff00;
+    }
+    100% {
+        color: #b1ff33;
+    }
 }
 
-.fa-trophy.mestre1-rank {
-    animation: fogo-mestre1 3s ease infinite;
+.fa-trophy.mestre1-rank { animation: fogo-mestre-cor 3s ease infinite; }
+
+@keyframes fogo-mestre-cor {
+    0% {
+        color: #ff2020;
+    }
+    25% {
+        color: #ff4500;
+    }
+    50% {
+        color: #ff2200;
+    }
+    75% {
+        color: #ff6b00;
+    }
+    100% {
+        color: #ff2020;
+    }
 }
 
-.fa-trophy.mestre2-rank {
-    animation: fogo-mestre2 3s ease infinite;
+.fa-trophy.mestre2-rank { animation: fogo-mestre-cor2 3s ease infinite; }
+
+@keyframes fogo-mestre-cor2 {
+    0% {
+        background-color: #850000;
+    }
+    25% {
+        background-color: #890000;
+    }
+    50% {
+        background-color: #a50000;
+    }
+    75% {
+        background-color: #890000;
+    }
+    100% {
+        background-color: #850000;
+    }
 }
 
         .mensagem-vitoria {
@@ -695,7 +744,7 @@
             <div class="dupla">
                 <div class="level-bar">
                     <div class="rank-tooltip">
-                        <span id="dupla1-level" onclick="mostrarTooltip('dupla1')">Lvl 1</span>
+                        <span id="dupla1-level" onclick="mostrarTooltip('dupla1')">Lvl 0</span>
                         <span class="tooltip-text" id="dupla1-tooltip"></span>
                     </div>
                     <div class="xp-container">
@@ -722,7 +771,7 @@
             <div class="dupla">
                 <div class="level-bar">
                     <div class="rank-tooltip">
-                        <span id="dupla2-level" onclick="mostrarTooltip('dupla2')">Lvl 1</span>
+                        <span id="dupla2-level" onclick="mostrarTooltip('dupla2')">Lvl 0</span>
                         <span class="tooltip-text" id="dupla2-tooltip"></span>
                     </div>
                     <div class="xp-container">
@@ -788,12 +837,12 @@
 };
 
 let xpData = {
-            dupla1: { xp: 0, level: 1 },
-            dupla2: { xp: 0, level: 1 }
+            dupla1: { xp: 0, level: 0 },
+            dupla2: { xp: 0, level: 0 }
         };
 
         function calcularXPNecessario(level) {
-            return 100 * Math.pow(level, 2);
+            return Math.floor(100 * Math.pow(level, 2) + 500 + level * 50);
         }
 
         function mostrarTooltip(dupla) {
@@ -898,8 +947,8 @@ function carregarNomes() {
             tentos[dupla] += pontosAdicionados;
             document.getElementById(`${dupla}-tentos`).textContent = tentos[dupla];
 
-            vitoriaXP = Math.floor(Math.random() * (3000 - 1500 + 1)) + 1500;
-            pontosAdicionados = Math.floor(Math.random() * (700 - 150 + 1)) + 150;
+            vitoriaXP = Math.floor(Math.random() * (2800 - 1500 + 1)) + 1500;
+            pontosAdicionados = Math.floor(Math.random() * (650 - 150 + 1)) + 150;
             adicionarXP(dupla, pontosAdicionados);
 
             atualizarHistorico(`${nomesDuplas[dupla]} marcou ${pontosAdicionados} tento${pontosAdicionados > 1 ? 's' : ''}.`);
@@ -1098,6 +1147,7 @@ function atualizarRank(dupla) {
     tooltipElement.textContent = `Rank: ${rankAtual.name}`;
 
 }
+localStorage.clear();
     </script>
 </body>
 </html>

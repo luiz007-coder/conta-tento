@@ -948,8 +948,8 @@ function carregarNomes() {
             document.getElementById(`${dupla}-tentos`).textContent = tentos[dupla];
 
             vitoriaXP = Math.floor(Math.random() * (2800 - 1500 + 1)) + 1500;
-            pontosAdicionados = Math.floor(Math.random() * (650 - 150 + 1)) + 150;
-            adicionarXP(dupla, pontosAdicionados);
+            pontosAdc = Math.floor(Math.random() * (650 - 150 + 1)) + 150;
+            adicionarXP(dupla, pontosAdc);
 
             atualizarHistorico(`${nomesDuplas[dupla]} marcou ${pontosAdicionados} tento${pontosAdicionados > 1 ? 's' : ''}.`);
 

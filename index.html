@@ -732,56 +732,9 @@
     font-family: 'Monomaniac One', sans-serif;
 }
 
-#xp-dobrado-popup {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #2c3e50;
-    color: white;
-    padding: 30px 40px;
-    border-radius: 15px;
-    font-size: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    max-width: 400px;
-    width: 100%;
-    transition: opacity 0.3s ease-in-out;
-    position: relative;
-}
-
-#xp-dobrado-popup p {
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-#xp-dobrado-popup button {
-    font-family: 'Monomaniac One', sans-serif;
-    font-size: 24px;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: transparent;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 50%;
-    transition: background-color 0.3s ease;
-}
-
-#xp-dobrado-popup button:hover {
-    background-color: #e74c3c;
-}
-
     </style>
 </head>
 <body>
-    <div id="xp-dobrado-popup">
-        <button id="close-btn" onclick="fecharPopup()">X</button>
-        <p>XP dobrado ativo!</p>
-    </div>
     <h1 style="display: flex; align-items: center;">
         TRUCADAS
     </h1>
@@ -866,8 +819,6 @@
     <script>
         let tentosAleatorios = Math.floor(Math.random() * (7 - 3 + 1)) + 3;
 
-        let eventoXPdobradoAtivo = false;
-
         let pontosUltimasPartidas = {
     dupla1: [],
     dupla2: []
@@ -899,32 +850,6 @@ let xpData = {
             dupla2: { xp: 0, level: 0 }
         };
 
-        setInterval(ativarEventoXPdobrado, 24 * 60 * 60 * 1000);
-
-        function mostrarPopupXPdobrado() {
-    const popup = document.getElementById("xp-dobrado-popup");
-    popup.style.display = "block";
-
-    setTimeout(fecharPopup, 5000);
-}
-
-function fecharPopup() {
-    const popup = document.getElementById("xp-dobrado-popup");
-    popup.style.display = "none";
-}
-
-        function ativarEventoXPdobrado() {
-    const hoje = new Date();
-    const diaDaSemana = hoje.getDay();
-
-    if (diaDaSemana === 1 || diaDaSemana === 3 || diaDaSemana === 5) {
-        eventoXPdobradoAtivo = true;
-        mostrarPopupXPdobrado();
-    } else {
-        eventoXPdobradoAtivo = false;
-    }
-}
-
         function calcularXPNecessario(level) {
             return Math.floor(100 * Math.pow(level, 2) + 500 + level * 50);
         }
@@ -950,12 +875,6 @@ function fecharPopup() {
                 xpData[dupla].xp -= calcularXPNecessario(xpData[dupla].level);
                 xpData[dupla].level++;
             }
-
-            if (eventoXPdobradoAtivo) {
-                xpGanho *= 2;
-        }
-
-        xpData[dupla].xp += xpGanho;
 
             if (vitoriasConsecutivas > 0) {
         const bonus = Math.floor(xpGanho * (vitoriasConsecutivas * 0.1));
@@ -1148,10 +1067,6 @@ function carregarNomes() {
         function atualizarHistorico(acao, salvarPlacar = false) {
             const now = new Date();
             const dataHora = now.toLocaleString('pt-BR');
-
-            if (eventoXPdobradoAtivo) {
-        acao += ` (Evento XP dobrado: ${xp} XP)`;
-    }
 
             if (acao.includes('marcou')) {
         acao = `<span style="color: #66b266;">${acao}</span>`;

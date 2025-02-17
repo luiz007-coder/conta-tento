@@ -1060,7 +1060,7 @@ function atualizarUIDesafios() {
     });
 }
 
-        let tentosAleatorios = Math.floor(Math.random() * (7 - 3 + 1)) + 3;
+        let tentosAleatorios;
 
         let desafioTentosConcedido = {
             dupla1: false,
@@ -1392,6 +1392,7 @@ function carregarNomes() {
         }
 
         function resetarTentos() {
+            tentosAleatorios = Math.floor(Math.random() * 5) + 3;
             tentos.dupla1 = 0;
             tentos.dupla2 = 0;
             document.getElementById('dupla1-tentos').textContent = 0;

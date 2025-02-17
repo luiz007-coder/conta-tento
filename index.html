@@ -742,10 +742,11 @@
 
 .desafio-info {
     display: grid;
-    grid-template-columns: 30px 1fr auto;
+    grid-template-columns: 25px 1fr auto;
     align-items: center;
     gap: 10px;
     margin-bottom: 8px;
+    font-size: 13px;
 }
 
 .desafio-info i {
@@ -758,7 +759,7 @@
 }
 
 .progresso-bar {
-    height: 15px;
+    height: 14px;
     background: rgba(255,255,255,0.1);
     border-radius: 10px;
     overflow: hidden;
@@ -781,7 +782,7 @@
     top: 50%;
     transform: translateY(-50%);
     color: white;
-    font-size: 0.8em;
+    font-size: 9px;
     text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
 
@@ -836,7 +837,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px;
+    padding: 13px;
     border-bottom: 1px solid #8c8c8c;
 }
 
@@ -847,12 +848,31 @@
     font-size: 24px;
     cursor: pointer;
     padding: 0 8px;
+    margin-right: -4px;
+}
+
+.fechar-popup:hover {
+    color: red;
 }
 
 .desafios-content {
     max-height: 400px;
     overflow-y: auto;
     padding: 10px;
+}
+
+.timer-atualizacao {
+    padding: 13px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    margin-top: 15px;
+    text-align: center;
+    font-size: 10px;
+}
+
+.timer-atualizacao i {
+    margin-right: 8px;
+    color: #4CAF50;
 }
 
     </style>
@@ -949,6 +969,10 @@
             <button class="fechar-popup" onclick="toggleDesafios()">&times;</button>
         </div>
         <div id="desafios-list" class="desafios-content"></div>
+        <div class="timer-atualizacao">
+            <i class="fas fa-sync-alt"></i>
+            Novos desafios em: <span id="timer-desafios">00h00m00s</span>
+        </div>
     </div>
 
     <script>
@@ -975,13 +999,23 @@
 
 const possiveisDesafios = [
     { tipo: 'tentos', desc: 'Marque 10 tentos em uma partida', meta: 10, xp: 2500 },
+    { tipo: 'tentos', desc: 'Marque 9 tentos em uma partida', meta: 9, xp: 2200 },
+    { tipo: 'tentos', desc: 'Marque 7 tentos em uma partida', meta: 7, xp: 1800 },
     { tipo: 'vitorias', desc: 'Vença 3 partidas', meta: 3, xp: 3000 },
+    { tipo: 'vitorias', desc: 'Vença 10 partidas', meta: 10, xp: 10000 },
     { tipo: 'truco', desc: 'Ative o truco 2 vezes', meta: 2, xp: 1500 },
-    { tipo: 'consecutivas', desc: '2 vitórias consecutivas', meta: 2, xp: 2000 },
+    { tipo: 'truco', desc: 'Ative o truco 1 vez', meta: 1, xp: 750 },
+    { tipo: 'truco', desc: 'Ative o truco 3 vezes', meta: 3, xp: 2250 },
+    { tipo: 'truco', desc: 'Ative o truco 4 vezes', meta: 4, xp: 3000 },
+    { tipo: 'consecutivas', desc: '2 vitórias consecutivas', meta: 2, xp: 4000 },
+    { tipo: 'consecutivas', desc: '4 vitórias consecutivas', meta: 4, xp: 8000 },
+    { tipo: 'consecutivas', desc: '6 vitórias consecutivas', meta: 6, xp: 12000 },
     { tipo: 'pontuacao', desc: 'Alcance média de 4 tentos por partida', meta: 4, xp: 1800 },
     { tipo: 'tentos12', desc: 'Vença com 12 tentos', meta: 1, xp: 3500 },
     { tipo: 'primeiro', desc: 'Marque o primeiro tento da partida', meta: 1, xp: 1000 },
-    { tipo: 'reiniciar', desc: 'Reinicie o jogo 2 vezes', meta: 2, xp: 1000 }
+    { tipo: 'reiniciar', desc: 'Reinicie o jogo 2 vezes', meta: 2, xp: 1000 },
+    { tipo: 'reiniciar', desc: 'Reinicie o jogo 4 vezes', meta: 4, xp: 2000 },
+    { tipo: 'reiniciar', desc: 'Reinicie o jogo 6 vezes', meta: 6, xp: 3000 }
 ];
 
         function gerarDesafiosDiarios() {
@@ -1137,6 +1171,9 @@ let xpData = {
             salvarXPData();
             atualizarBarraXP(dupla);
         }
+
+        setInterval(updateChallengeTimer, 1000);
+        updateChallengeTimer();
 
         function calcularMediaPontos(dupla) {
     const pontos = pontosUltimasPartidas[dupla];
@@ -1354,6 +1391,8 @@ function carregarNomes() {
         acao = `<span style="color: #e1c66c;">${acao}</span>`;
     } else if (acao.includes('recebeu')) {
         acao = `<span style="color: cyan;">${acao}</span>`;
+    } else if (acao.includes('diário')) {
+        acao = `<span style="color: purple;">${acao}</span>`;
     }
 
             if (salvarPlacar) {
@@ -1515,6 +1554,24 @@ function atualizarRank(dupla) {
     const tooltipElement = document.getElementById(`${dupla}-tooltip`);
     tooltipElement.textContent = `Rank: ${rankAtual.name}`;
 
+}
+
+function updateChallengeTimer() {
+    const now = new Date();
+    const target = new Date();
+    
+    if(now.getHours() >= 21) {
+        target.setDate(target.getDate() + 1);
+    }
+    target.setHours(21, 0, 0, 0);
+
+    const diff = target - now;
+    const hours = Math.floor(diff / 3600000);
+    const minutes = Math.floor((diff % 3600000) / 60000);
+    const seconds = Math.floor((diff % 60000) / 1000);
+
+    document.getElementById('timer-desafios').textContent = 
+        `${String(hours).padStart(2, '0')}h${String(minutes).padStart(2, '0')}m${String(seconds).padStart(2, '0')}s`;
 }
 
     </script>

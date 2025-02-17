@@ -732,6 +732,129 @@
     font-family: 'Monomaniac One', sans-serif;
 }
 
+.desafio-item {
+    margin: 10px 0;
+    padding: 10px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    transition: transform 0.2s ease;
+}
+
+.desafio-info {
+    display: grid;
+    grid-template-columns: 30px 1fr auto;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.desafio-info i {
+    font-size: 1.2em;
+    color: #2196F3;
+}
+
+.completo .desafio-info i {
+    color: #4CAF50;
+}
+
+.progresso-bar {
+    height: 15px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progresso {
+    height: 100%;
+    background: linear-gradient(90deg, #2196F3, #0d47a1);
+    transition: width 0.5s ease-in-out;
+}
+
+.completo .progresso {
+    background: linear-gradient(90deg, #4CAF50, #2E7D32);
+}
+
+.progresso-texto {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    font-size: 0.8em;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.btn-desafios {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    color: white;
+    border: none;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+    font-family: 'Monomaniac One', sans-serif;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            padding: 10px 35px;
+            background-color: #828282;
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+}
+
+.btn-desafios:hover {
+    background-color: #a8a8a8;
+}
+
+.desafios-popup {
+    display: none;
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 350px;
+    background: rgba(0, 0, 0, 0.9);
+    border-radius: 15px;
+    z-index: 1001;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border: 1px solid #8c8c8c;
+}
+
+.desafios-popup.active {
+    display: block;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(100px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.desafios-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #8c8c8c;
+}
+
+.fechar-popup {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0 8px;
+}
+
+.desafios-content {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
     </style>
 </head>
 <body>
@@ -816,13 +939,143 @@
         <button onclick="reiniciarJogo()">Recomeçar</button>
     </div>
 
+    <button class="btn-desafios" onclick="toggleDesafios()">
+        <i class="fas fa-tasks"></i>
+    </button>
+    
+    <div id="desafios-popup" class="desafios-popup">
+        <div class="desafios-header">
+            <h3><i class="fas fa-calendar-day"></i> Desafios diários</h3>
+            <button class="fechar-popup" onclick="toggleDesafios()">&times;</button>
+        </div>
+        <div id="desafios-list" class="desafios-content"></div>
+    </div>
+
     <script>
+        let desafiosDiarios = [];
+        let ultimoDia = null;
+
+        function toggleDesafios() {
+    const popup = document.getElementById('desafios-popup');
+    popup.classList.toggle('active');
+
+    if (popup.classList.contains('active')) {
+        const agora = new Date();
+        const horaAtual = agora.getHours();
+        const minutoAtual = agora.getMinutes();
+
+        const horarioLimite = 21;
+        const passouDoHorarioLimite = horaAtual > horarioLimite || (horaAtual === horarioLimite && minutoAtual >= 0);
+
+        if (passouDoHorarioLimite) {
+            gerarDesafiosDiarios();
+        }
+    }
+}
+
+const possiveisDesafios = [
+    { tipo: 'tentos', desc: 'Marque 10 tentos em uma partida', meta: 10, xp: 2500 },
+    { tipo: 'vitorias', desc: 'Vença 3 partidas', meta: 3, xp: 3000 },
+    { tipo: 'truco', desc: 'Ative o truco 2 vezes', meta: 2, xp: 1500 },
+    { tipo: 'consecutivas', desc: '2 vitórias consecutivas', meta: 2, xp: 2000 },
+    { tipo: 'pontuacao', desc: 'Alcance média de 4 tentos por partida', meta: 4, xp: 1800 },
+    { tipo: 'tentos12', desc: 'Vença com 12 tentos', meta: 1, xp: 3500 },
+    { tipo: 'primeiro', desc: 'Marque o primeiro tento da partida', meta: 1, xp: 1000 },
+    { tipo: 'reiniciar', desc: 'Reinicie o jogo 2 vezes', meta: 2, xp: 1000 }
+];
+
+        function gerarDesafiosDiarios() {
+    const agora = new Date();
+    const horaAtual = agora.getHours();
+    const minutoAtual = agora.getMinutes();
+    const diaAtual = agora.getDate();
+
+    const horarioLimite = 21;
+    const passouDoHorarioLimite = horaAtual > horarioLimite || (horaAtual === horarioLimite && minutoAtual >= 0);
+
+    if (passouDoHorarioLimite && (ultimoDia === null || diaAtual !== ultimoDia)) {
+        desafiosDiarios = [];
+        const desafiosSelecionados = new Set();
+
+        while (desafiosDiarios.length < 3) {
+            const randomIndex = Math.floor(Math.random() * possiveisDesafios.length);
+            const desafio = { ...possiveisDesafios[randomIndex] };
+
+            if (!desafiosSelecionados.has(desafio.tipo)) {
+                desafio.progresso = 0;
+                desafio.completo = false;
+                desafiosDiarios.push(desafio);
+                desafiosSelecionados.add(desafio.tipo);
+            }
+        }
+
+        ultimoDia = diaAtual;
+        localStorage.setItem('desafiosDiarios', JSON.stringify(desafiosDiarios));
+        localStorage.setItem('ultimoDia', ultimoDia);
+    }
+
+    atualizarUIDesafios();
+}
+
+function verificarProgressoDesafios(tipo, quantidade = 1) {
+    desafiosDiarios.forEach(desafio => {
+        if(!desafio.completo && desafio.tipo === tipo) {
+            desafio.progresso += quantidade;
+            
+            if(desafio.progresso >= desafio.meta) {
+                desafio.completo = true;
+                const xpGanho = desafio.xp;
+                adicionarXP('dupla1', xpGanho);
+                atualizarHistorico(`Desafio diário completo: ${desafio.desc} +${xpGanho}XP!`);
+            }
+        }
+    });
+    
+    localStorage.setItem('desafiosDiarios', JSON.stringify(desafiosDiarios));
+    atualizarUIDesafios();
+}
+
+function atualizarUIDesafios() {
+    const container = document.getElementById('desafios-list');
+    container.innerHTML = '';
+    
+    desafiosDiarios.forEach((desafio, index) => {
+        const progresso = Math.min(desafio.progresso, desafio.meta);
+        const porcentagem = (progresso / desafio.meta) * 100;
+        const icone = desafio.completo ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-running"></i>';
+
+        container.innerHTML += `
+            <div class="desafio-item ${desafio.completo ? 'completo' : ''}">
+                <div class="desafio-info">
+                    ${icone}
+                    <span class="desafio-desc">${desafio.desc}</span>
+                    <span class="desafio-xp">+${desafio.xp}XP</span>
+                </div>
+                <div class="progresso-bar">
+                    <div class="progresso" style="width: ${porcentagem}%"></div>
+                    <span class="progresso-texto">${progresso}/${desafio.meta}</span>
+                </div>
+            </div>
+        `;
+    });
+}
+
         let tentosAleatorios = Math.floor(Math.random() * (7 - 3 + 1)) + 3;
 
+        let desafioTentosConcedido = {
+            dupla1: false,
+            dupla2: false
+        };
+
+        let desafioPrimeiroConcedido = {
+            dupla1: false,
+            dupla2: false
+        };
+
         let pontosUltimasPartidas = {
-    dupla1: [],
-    dupla2: []
-};
+            dupla1: [],
+            dupla2: []
+        };
 
         let vitoriasConsecutivas = 0;
 
@@ -966,11 +1219,12 @@ function carregarNomes() {
         function verificarDesafio(dupla) {
     let xpDesafio = 0;
     
-    if (tentos[dupla] > tentosAleatorios) {
-        xpDesafio += Math.floor(Math.random() * (2500 - 1000 + 1)) + 1000;
-    }
+    if (!desafioTentosConcedido[dupla] && tentos[dupla] > tentosAleatorios) {
+    xpDesafio += Math.floor(Math.random() * (2500 - 1000 + 1)) + 1000;
+    desafioTentosConcedido[dupla] = true;
+}
     
-    if (trucoAtivo && tentos[dupla] === 12) {
+    if (trucoAtivo && tentos[dupla] === 11) {
         xpDesafio += Math.floor(Math.random() * (3500 - 2000 + 1)) + 2000;
     }
 
@@ -985,12 +1239,22 @@ function carregarNomes() {
             tentos[dupla] += pontosAdicionados;
             document.getElementById(`${dupla}-tentos`).textContent = tentos[dupla];
 
+            if (!desafioPrimeiroConcedido[dupla] && tentos[dupla] >= 1) {
+        verificarProgressoDesafios('primeiro', 1);
+        desafioPrimeiroConcedido[dupla] = true;
+    }
+
             vitoriaXP = Math.floor(Math.random() * (2800 - 1500 + 1)) + 1500;
             pontosAdc = Math.floor(Math.random() * (650 - 150 + 1)) + 150;
 
             verificarDesafio(dupla);
 
-            pontosUltimasPartidas[dupla].push(pontosAdicionados);
+            if (!desafioTentosConcedido[dupla] && tentos[dupla] > tentosAleatorios) {
+        pontosAdc += Math.floor(Math.random() * (2500 - 1000 + 1)) + 1000;
+        desafioTentosConcedido[dupla] = true;
+    }
+
+    pontosUltimasPartidas[dupla].push(pontosAdicionados);
     if (pontosUltimasPartidas[dupla].length > 5) {
         pontosUltimasPartidas[dupla].shift();
     }
@@ -1009,7 +1273,9 @@ function carregarNomes() {
                 atualizarHistorico(`${nomesDuplas[dupla]} está na mão de onze.`);
             }
 
+            verificarProgressoDesafios('tentos', pontosAdicionados);
             if (tentos[dupla] >= 12) {
+                verificarProgressoDesafios('tentos12');
                 exibirMensagemVitoria(dupla);
                 adicionarXP(dupla, vitoriaXP);
                 vitoriasConsecutivas++;
@@ -1017,10 +1283,20 @@ function carregarNomes() {
                 document.getElementById(`${dupla}-vitorias`).textContent = vitorias[dupla];
                 salvarVitorias();
                 atualizarHistorico(`${nomesDuplas[dupla]} venceu a partida!`, true);
+                verificarProgressoDesafios('vitorias', 1);
+
+                if (calcularMediaPontos(dupla) >= 4) {
+            verificarProgressoDesafios('pontuacao', 1);
+        }
+
                 resetarTentos();
             } else {
                 vitoriasConsecutivas = 0;
             }
+
+            if(vitoriasConsecutivas > 0) {
+    verificarProgressoDesafios('consecutivas', vitoriasConsecutivas);
+}
             resetarTruco();
 
             atualizarRank(dupla);
@@ -1055,6 +1331,8 @@ function carregarNomes() {
                 atualizarHistorico(`Truco off.`);
             }
             document.getElementById('truco-pontos').textContent = trucoTento;
+
+            verificarProgressoDesafios('truco', 1);
         }
 
         function exibirMensagemVitoria(dupla) {
@@ -1119,11 +1397,18 @@ function carregarNomes() {
             document.getElementById('dupla1-tentos').textContent = 0;
             document.getElementById('dupla2-tentos').textContent = 0;
             resetarTruco();
+
+            desafioTentosConcedido.dupla1 = false;
+            desafioTentosConcedido.dupla2 = false;
+            desafioPrimeiroConcedido.dupla1 = false;
+            desafioPrimeiroConcedido.dupla2 = false;
         }
 
         function reiniciarJogo() {
             resetarTentos();
             document.getElementById('mensagem-vitoria').style.display = 'none';
+
+            verificarProgressoDesafios('reiniciar', 1);
         }
 
         function resetarTruco() {
@@ -1139,6 +1424,20 @@ function carregarNomes() {
             carregarXPData();
             atualizarRank('dupla1');
             atualizarRank('dupla2');
+            const agora = new Date();
+    const horaAtual = agora.getHours();
+    const minutoAtual = agora.getMinutes();
+
+    const horarioLimite = 21;
+    const passouDoHorarioLimite = horaAtual > horarioLimite || (horaAtual === horarioLimite && minutoAtual >= 0);
+
+    if (passouDoHorarioLimite) {
+        gerarDesafiosDiarios();
+    }
+
+    ultimoDia = parseInt(localStorage.getItem('ultimoDia')) || new Date().getDate();
+    desafiosDiarios = JSON.parse(localStorage.getItem('desafiosDiarios')) || [];
+    atualizarUIDesafios();
             document.getElementById('historico-container').style.display = 'none';
         };
 

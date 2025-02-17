@@ -732,9 +732,56 @@
     font-family: 'Monomaniac One', sans-serif;
 }
 
+#xp-dobrado-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #2c3e50;
+    color: white;
+    padding: 30px 40px;
+    border-radius: 15px;
+    font-size: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    transition: opacity 0.3s ease-in-out;
+    position: relative;
+}
+
+#xp-dobrado-popup p {
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+#xp-dobrado-popup button {
+    font-family: 'Monomaniac One', sans-serif;
+    font-size: 24px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+#xp-dobrado-popup button:hover {
+    background-color: #e74c3c;
+}
+
     </style>
 </head>
 <body>
+    <div id="xp-dobrado-popup">
+        <button id="close-btn" onclick="fecharPopup()">X</button>
+        <p>XP dobrado ativo!</p>
+    </div>
     <h1 style="display: flex; align-items: center;">
         TRUCADAS
     </h1>
@@ -817,6 +864,17 @@
     </div>
 
     <script>
+        let tentosAleatorios = Math.floor(Math.random() * (7 - 3 + 1)) + 3;
+
+        let eventoXPdobradoAtivo = false;
+
+        let pontosUltimasPartidas = {
+    dupla1: [],
+    dupla2: []
+};
+
+        let vitoriasConsecutivas = 0;
+
         let tentos = {
             dupla1: 0,
             dupla2: 0
@@ -840,6 +898,32 @@ let xpData = {
             dupla1: { xp: 0, level: 0 },
             dupla2: { xp: 0, level: 0 }
         };
+
+        setInterval(ativarEventoXPdobrado, 24 * 60 * 60 * 1000);
+
+        function mostrarPopupXPdobrado() {
+    const popup = document.getElementById("xp-dobrado-popup");
+    popup.style.display = "block";
+
+    setTimeout(fecharPopup, 5000);
+}
+
+function fecharPopup() {
+    const popup = document.getElementById("xp-dobrado-popup");
+    popup.style.display = "none";
+}
+
+        function ativarEventoXPdobrado() {
+    const hoje = new Date();
+    const diaDaSemana = hoje.getDay();
+
+    if (diaDaSemana === 1 || diaDaSemana === 3 || diaDaSemana === 5) {
+        eventoXPdobradoAtivo = true;
+        mostrarPopupXPdobrado();
+    } else {
+        eventoXPdobradoAtivo = false;
+    }
+}
 
         function calcularXPNecessario(level) {
             return Math.floor(100 * Math.pow(level, 2) + 500 + level * 50);
@@ -866,9 +950,27 @@ let xpData = {
                 xpData[dupla].xp -= calcularXPNecessario(xpData[dupla].level);
                 xpData[dupla].level++;
             }
+
+            if (eventoXPdobradoAtivo) {
+                xpGanho *= 2;
+        }
+
+        xpData[dupla].xp += xpGanho;
+
+            if (vitoriasConsecutivas > 0) {
+        const bonus = Math.floor(xpGanho * (vitoriasConsecutivas * 0.1));
+        xpData[dupla].xp += bonus;
+    }
+
             salvarXPData();
             atualizarBarraXP(dupla);
         }
+
+        function calcularMediaPontos(dupla) {
+    const pontos = pontosUltimasPartidas[dupla];
+    const soma = pontos.reduce((a, b) => a + b, 0);
+    return soma / pontos.length;
+}
 
         function atualizarBarraXP(dupla) {
             const currentLevel = xpData[dupla].level;
@@ -942,6 +1044,23 @@ function carregarNomes() {
             mostrarHistorico();
         }
 
+        function verificarDesafio(dupla) {
+    let xpDesafio = 0;
+    
+    if (tentos[dupla] > tentosAleatorios) {
+        xpDesafio += Math.floor(Math.random() * (2500 - 1000 + 1)) + 1000;
+    }
+    
+    if (trucoAtivo && tentos[dupla] === 12) {
+        xpDesafio += Math.floor(Math.random() * (3500 - 2000 + 1)) + 2000;
+    }
+
+    if (xpDesafio > 0) {
+        adicionarXP(dupla, xpDesafio);
+        atualizarHistorico(`A dupla ${nomesDuplas[dupla]} completou um desafio e recebeu ${xpDesafio} XP!`);
+    }
+}
+
         function incrementarPontos(dupla) {
             let pontosAdicionados = trucoAtivo ? trucoTento : 1;
             tentos[dupla] += pontosAdicionados;
@@ -949,6 +1068,20 @@ function carregarNomes() {
 
             vitoriaXP = Math.floor(Math.random() * (2800 - 1500 + 1)) + 1500;
             pontosAdc = Math.floor(Math.random() * (650 - 150 + 1)) + 150;
+
+            verificarDesafio(dupla);
+
+            pontosUltimasPartidas[dupla].push(pontosAdicionados);
+    if (pontosUltimasPartidas[dupla].length > 5) {
+        pontosUltimasPartidas[dupla].shift();
+    }
+
+    const mediaPontos = calcularMediaPontos(dupla);
+
+    if (pontosAdicionados > mediaPontos) {
+        pontosAdc += 1000;
+    }
+
             adicionarXP(dupla, pontosAdc);
 
             atualizarHistorico(`${nomesDuplas[dupla]} marcou ${pontosAdicionados} tento${pontosAdicionados > 1 ? 's' : ''}.`);
@@ -960,11 +1093,14 @@ function carregarNomes() {
             if (tentos[dupla] >= 12) {
                 exibirMensagemVitoria(dupla);
                 adicionarXP(dupla, vitoriaXP);
+                vitoriasConsecutivas++;
                 vitorias[dupla]++;
                 document.getElementById(`${dupla}-vitorias`).textContent = vitorias[dupla];
                 salvarVitorias();
-                atualizarHistorico(`${nomesDuplas[dupla]} venceu a partida!`);
+                atualizarHistorico(`${nomesDuplas[dupla]} venceu a partida!`, true);
                 resetarTentos();
+            } else {
+                vitoriasConsecutivas = 0;
             }
             resetarTruco();
 
@@ -1009,9 +1145,27 @@ function carregarNomes() {
             mensagem.style.display = 'block';
         }
 
-        function atualizarHistorico(acao) {
+        function atualizarHistorico(acao, salvarPlacar = false) {
             const now = new Date();
             const dataHora = now.toLocaleString('pt-BR');
+
+            if (eventoXPdobradoAtivo) {
+        acao += ` (Evento XP dobrado: ${xp} XP)`;
+    }
+
+            if (acao.includes('marcou')) {
+        acao = `<span style="color: #66b266;">${acao}</span>`;
+    } else if (acao.includes('desceu')) {
+        acao = `<span style="color: #e06666;">${acao}</span>`;
+    } else if (acao.includes('venceu')) {
+        acao = `<span style="color: #e1c66c;">${acao}</span>`;
+    } else if (acao.includes('recebeu')) {
+        acao = `<span style="color: cyan;">${acao}</span>`;
+    }
+
+            if (salvarPlacar) {
+        acao += ` | Placar final: ${nomesDuplas.dupla1} ${tentos.dupla1} x ${tentos.dupla2} ${nomesDuplas.dupla2}`;
+    }
             historico.push(`${dataHora}: ${acao}`);
             salvarHistorico();
     

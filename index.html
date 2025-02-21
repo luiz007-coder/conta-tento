@@ -65,9 +65,9 @@
             transparent 40px
         );
     padding: 25px;
-    border-radius: 20px;
+    border-radius: 24px;
     width: 400px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     overflow: hidden;
     text-shadow: 3px 3px 5px #000;
 }
@@ -273,37 +273,30 @@
     }
 }
 
-        .mensagem-vitoria {
+.mensagem-vitoria {
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: 
-    linear-gradient(160deg, #2a2a2a 0%, #202020 100%),
-        repeating-linear-gradient(
-            45deg,
-            rgba(255, 71, 71, 0.1) 0px,
-            rgba(255, 71, 71, 0.1) 20px,
-            transparent 20px,
-            transparent 40px
-        );
+    background: linear-gradient(160deg, #292929 0%, #1e1e1e 100%);
     color: #fff;
-    padding: 40px 60px;
-    border-radius: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    padding: 45px 65px;
+    border-radius: 24px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.6);
     text-align: center;
     z-index: 1000;
-    animation: aparecer 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
     max-width: 90%;
     font-family: 'Poppins', sans-serif;
+    backdrop-filter: blur(10px);
 }
 
 .mensagem-vitoria::before {
+    content: "🏆";
     position: absolute;
-    font-size: 120px;
-    opacity: 0.15;
+    font-size: 130px;
+    opacity: 0.1;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -313,21 +306,23 @@
 .mensagem-vitoria h2 {
     margin: 0;
     line-height: 1.4;
-    font-size: 42px;
-    color: #fff;
+    font-size: 22px;
+    color: #ffd700;
     text-transform: uppercase;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     text-shadow: 
-        2px 2px 0 #000000,
-        4px 4px 0 rgba(0, 0, 0, 0.5);
+        2px 2px 4px rgba(0, 0, 0, 0.6),
+        0 0 10px rgba(84, 84, 84, 0.164);
     margin-bottom: 15px;
 }
 
 .mensagem-vitoria p {
-    font-size: 24px;
+    font-size: 18px;
     margin: 20px 0;
-    color: #ffb4b4;
+    color: #fcd163;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
 }
+
 
 .mensagem-vitoria button {
     background: 
@@ -474,8 +469,8 @@
     justify-content: center;
 }
 
-.btn-decrementar {
-    background: linear-gradient(145deg, #d32f2f, #b71c1c);
+.btn-decrementar, .btn-incrementar {
+    background: linear-gradient(145deg, #afafaf, #808080);
     border: none;
     border-radius: 10px;
     padding: 14px 22px;
@@ -488,52 +483,28 @@
     justify-content: center;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.3);
+    box-shadow: 0 1px 3px rgba(255, 255, 255, 0.1);
 }
 
-.btn-decrementar:hover {
-    background: linear-gradient(145deg, #b71c1c, #8e0000);
-    box-shadow: 0 6px 15px rgba(255, 0, 0, 0.5);
+.btn-decrementar:hover, .btn-incrementar:hover {
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2);
 }
 
-.btn-decrementar:active {
-    transform: scale(0.95);
-}
-
-.btn-incrementar {
-    background: linear-gradient(145deg, #1976d2, #0d47a1);
-    border: none;
-    border-radius: 10px;
-    padding: 14px 22px;
-    font-size: 18px;
-    color: white;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 102, 255, 0.3);
-}
-
-.btn-incrementar:hover {
-    background: linear-gradient(145deg, #0d47a1, #002171);
-    box-shadow: 0 6px 15px rgba(0, 102, 255, 0.5);
-}
-
-.btn-incrementar:active {
+.btn-decrementar:active, .btn-incrementar:active {
     transform: scale(0.95);
 }
 
 .btn-icon {
-    font-size: 22px;
-    transition: transform 0.2s ease;
+    font-size: 24px;
+    transition: transform 0.2s ease, color 0.2s ease;
 }
 
-.fa-arrow-up,
-.fa-arrow-down {
-    font-size: 24px;
+.btn-decrementar .fa-arrow-down {
+    color: #ffffff;
+}
+
+.btn-incrementar .fa-arrow-up {
+    color: #ffffff;
 }
 
 
@@ -744,25 +715,32 @@
 }
 
 .desafio-item {
-    margin: 10px 0;
-    padding: 10px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 8px;
-    transition: transform 0.2s ease;
+    margin: 8px 0;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    transition: transform 0.2s ease, background 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.desafio-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
 }
 
 .desafio-info {
     display: grid;
-    grid-template-columns: 25px 1fr auto;
+    grid-template-columns: 22px 1fr auto;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 8px;
-    font-size: 13px;
+    gap: 8px;
+    font-size: 12px;
+    color: #ddd;
 }
 
 .desafio-info i {
-    font-size: 1.2em;
+    font-size: 1.1em;
     color: #2196F3;
+    transition: color 0.3s ease;
 }
 
 .completo .desafio-info i {
@@ -770,17 +748,19 @@
 }
 
 .progresso-bar {
-    height: 14px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 10px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 8px;
     overflow: hidden;
     position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .progresso {
     height: 100%;
     background: linear-gradient(90deg, #2196F3, #0d47a1);
-    transition: width 0.5s ease-in-out;
+    transition: width 0.4s ease-in-out;
+    border-radius: 8px;
 }
 
 .completo .progresso {
@@ -789,57 +769,64 @@
 
 .progresso-texto {
     position: absolute;
-    right: 5px;
+    right: 6px;
     top: 50%;
     transform: translateY(-50%);
-    color: white;
-    font-size: 9px;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    color: #f5f5f5;
+    font-size: 10px;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
 .btn-desafios {
     position: fixed;
     bottom: 20px;
     right: 20px;
+    background: #6f6f6f;
     color: white;
-    border: none;
-    z-index: 1000;
-    transition: transform 0.3s ease;
     font-family: 'Monomaniac One', sans-serif;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            padding: 8px 20px;
-            background-color: #828282;
-            border: none;
-            border-radius: 10px;
-            color: #fff;
-            font-size: 15px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+    font-size: 14px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+    transition: background 0.3s ease, transform 0.2s ease;
+    z-index: 1000;
 }
 
 .btn-desafios:hover {
-    background-color: #a8a8a8;
+    background: #8a8a8a;
 }
+
+.btn-desafios:active {
+    background: #5a5a5a;
+    transform: scale(0.98);
+}
+
 
 .desafios-popup {
     display: none;
     position: fixed;
-    bottom: 80px;
-    right: 20px;
-    width: 350px;
-    background-color: #202020;
+    bottom: 90px;
+    right: 25px;
+    width: 360px;
+    background: linear-gradient(145deg, #252525, #1a1a1a);
     border-radius: 15px;
     z-index: 1001;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.41);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    overflow: hidden;
 }
 
 .desafios-popup.active {
     display: block;
-    animation: slideIn 0.3s ease-out;
+    animation: fadeSlideIn 0.4s ease-out;
 }
 
-@keyframes slideIn {
-    from { transform: translateY(100px); opacity: 0; }
+@keyframes fadeSlideIn {
+    from { transform: translateY(20px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
 }
 
@@ -847,31 +834,47 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 13px;
-    border-bottom: 2px solid #272727;
-    font-size: 13px;
+    padding: 14px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .desafios-header i {
     margin-right: 10px;
+    color: #ffcc00;
+    font-size: 16px;
+    transition: color 0.3s;
 }
 
+.desafios-header i:hover {
+    color: #ff9900;
+    cursor: pointer;
+}
 
 .fechar-popup {
-    background: #343434;
-    border: 1px solid transparent;;
+    background: #3a3a3a;
+    border: 1px solid transparent;
     color: #fff;
-    font-size: 24px;
-    border-radius: 8px;
+    font-size: 20px;
+    border-radius: 10px;
     cursor: pointer;
-    padding: 0 8px;
+    padding: 3px 8px;
     margin-right: -4px;
-    transition: background-color 0.3s ease;
+    transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .fechar-popup:hover {
-    background-color: red;
+    background: #d32f2f;
 }
+
+.fechar-popup:active {
+    background: #b71c1c;
+    transform: scale(0.95);
+}
+
 
 .desafios-content {
     max-height: 400px;
@@ -1449,7 +1452,7 @@ function carregarNomes() {
     const placar = `${nomesDuplas.dupla1} ${tentos.dupla1} x ${tentos.dupla2} ${nomesDuplas.dupla2}`;
     ganhador.innerHTML = `
         ${placar}<br>
-        <span style="font-size: 40px; color: #4CAF50;">${nomesDuplas[dupla]} Venceu!</span>
+        <span style="font-size: 19px; color: #bc0000;">${nomesDuplas[dupla]} Venceu!</span>
     `;
     
     mensagem.style.display = 'block';

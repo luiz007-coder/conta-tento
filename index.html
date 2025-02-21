@@ -188,6 +188,8 @@
     position: absolute;
     top: 50%;
     transform: translateY(-80%);
+    filter: none !important;
+    text-shadow: none !important;
 }
 
 .rank-icon.left {
@@ -1035,7 +1037,11 @@
     border: 2px solid rgba(255, 255, 255, 0.1);
 }
 
-.tema-preview.classico {
+.tema-preview.old {
+    background: linear-gradient(160deg, #404040, #7e0000);
+}
+
+.tema-preview.new {
     background: linear-gradient(160deg, #2a2a2a 0%, #202020 100%);
 }
 
@@ -1159,6 +1165,25 @@
         background-position: 0% 50%;
         filter: hue-rotate(0deg);
     }
+}
+
+
+[data-theme="old"] .container {
+    background: linear-gradient(160deg, #404040, #303030) !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+[data-theme="old"] .btn-decrementar,
+[data-theme="old"] .btn-incrementar {
+    background: linear-gradient(145deg, #ff4444, #cc0000) !important;
+}
+
+[data-theme="old"] .truco-btn {
+    background-color: #cc0000 !important;
+}
+
+[data-theme="old"] .truco-btn:hover {
+    background-color: #ff4444 !important;
 }
 
 .checkbox-micro {
@@ -1533,9 +1558,13 @@
                     <i class="fas fa-chevron-down arrow-icon"></i>
                 </div>
                 <div class="theme-options">
-                    <div class="tema-item" onclick="selectTheme('classico')">
-                        <div class="tema-preview classico"></div>
-                        <span>Clássico</span>
+                    <div class="tema-item" onclick="selectTheme('old')">
+                        <div class="tema-preview old"></div>
+                        <span>Old</span>
+                    </div>
+                    <div class="tema-item" onclick="selectTheme('new')">
+                        <div class="tema-preview new"></div>
+                        <span>New</span>
                     </div>
                     <div class="tema-item" onclick="selectTheme('pro')">
                         <div class="tema-preview pro"></div>
@@ -1623,12 +1652,13 @@ const possiveisDesafios = [
 
         function gerarDesafiosDiarios() {
             const agora = new Date();
+            const horaAtual = agora.getHours();
+    const minutoAtual = agora.getMinutes();
     const diaAtual = agora.getDate();
     const ultimoDiaSalvo = parseInt(localStorage.getItem('ultimoDia')) || 0;
 
-    const passouHorario = agora.getHours() >= 21;
-    const novoDia = diaAtual !== ultimoDiaSalvo;
-    const passouDoHorarioLimite = horaAtual > horarioLimite || (horaAtual === horarioLimite && minutoAtual >= 0);
+    const horarioLimite = 21;
+const passouDoHorarioLimite = horaAtual > horarioLimite || (horaAtual === horarioLimite && minutoAtual >= 0);
 
     if (passouDoHorarioLimite && (ultimoDia === null || diaAtual !== ultimoDia)) {
         desafiosDiarios = [];
@@ -1665,13 +1695,13 @@ const possiveisDesafios = [
 function verificarProgressoDesafios(tipo, quantidade = 1) {
     desafiosDiarios.forEach(desafio => {
         if(!desafio.completo && desafio.tipo === tipo) {
-            desafio.progresso += quantidade;
+            const pontosReais = trucoAtivo ? quantidade * trucoTento : quantidade;
+            desafio.progresso += pontosReais;
             
             if(desafio.progresso >= desafio.meta) {
                 desafio.completo = true;
-                const xpGanho = desafio.xp;
-                adicionarXP('dupla1', xpGanho);
-                atualizarHistorico(`Desafio diário completo: ${desafio.desc} +${xpGanho}XP!`);
+                adicionarXP('dupla1', desafio.xp);
+                atualizarHistorico(`Desafio completo: ${desafio.desc} (+${desafio.xp} XP)!`);
             }
         }
     });
@@ -1900,8 +1930,18 @@ function carregarNomes() {
         desafioPrimeiroConcedido[dupla] = true;
     }
 
-            vitoriaXP = Math.floor(Math.random() * (7200 - 3500 + 1)) + 3500;
-            pontosAdc = Math.floor(Math.random() * (2500 - 1500 + 1)) + 1500;
+    const baseAleatoria = Math.floor(Math.random() * (6000 - 4000 + 1)) + 4000;
+const baseVitoriaXP = baseAleatoria * 12;
+const bonusConsecutivo = vitoriasConsecutivas * 1000;
+const multiplicadorTruco = trucoAtivo ? (trucoTento === 3 ? 1 : trucoTento / 3) : 1;
+
+vitoriaXP = Math.round((baseVitoriaXP + bonusConsecutivo) * multiplicadorTruco);
+
+            const baseXPporTento = 1000;
+    const bonusXP = Math.floor(Math.random() * 500);
+    const xpPorTento = baseXPporTento + bonusXP;
+    
+    pontosAdc = xpPorTento * pontosAdicionados;
 
             verificarDesafio(dupla);
 
@@ -1923,7 +1963,7 @@ function carregarNomes() {
 
             adicionarXP(dupla, pontosAdc);
 
-            atualizarHistorico(`${nomesDuplas[dupla]} marcou ${pontosAdicionados} tento${pontosAdicionados > 1 ? 's' : ''}.`);
+            atualizarHistorico(`${nomesDuplas[dupla]} marcou ${pontosAdicionados} tento${pontosAdicionados > 1 ? 's' : ''} (+${pontosAdc} XP).`);
 
             if (tentos[dupla] === 11) {
                 atualizarHistorico(`${nomesDuplas[dupla]} está na mão de onze.`);
@@ -1938,7 +1978,7 @@ function carregarNomes() {
                 vitorias[dupla]++;
                 document.getElementById(`${dupla}-vitorias`).textContent = vitorias[dupla];
                 salvarVitorias();
-                atualizarHistorico(`${nomesDuplas[dupla]} venceu a partida!`, true);
+                atualizarHistorico(`${nomesDuplas[dupla]} venceu a partida! (+${vitoriaXP} XP)`, true);
                 verificarProgressoDesafios('vitorias', 1);
 
                 if (calcularMediaPontos(dupla) >= 4) {
@@ -2091,6 +2131,7 @@ function carregarNomes() {
             atualizarRank('dupla2');
             loadTheme();
             loadCheckboxState();
+            tentosAleatorios = Math.floor(Math.random() * 5) + 3; 
     document.getElementById('historico-container').style.display = 'none';
             const agora = new Date();
     const horaAtual = agora.getHours();
@@ -2140,6 +2181,10 @@ function atualizarRank(dupla) {
             break;
         }
     }
+
+    const medalIcon = document.querySelector(`.rank-icon.${dupla === 'dupla1' ? 'left' : 'right'} i`);
+    medalIcon.className = `fa-solid fa-medal ${rankAtual.name.toLowerCase().replace(/\s/g, '-')}`;
+    medalIcon.style.color = rankAtual.color;
     
     const levelElement = document.getElementById(`${dupla}-level`);
     levelElement.style.backgroundColor = rankAtual.color;
@@ -2189,11 +2234,10 @@ function atualizarRank(dupla) {
 function updateChallengeTimer() {
     const now = new Date();
     const target = new Date();
-    
-    if(now.getHours() >= 21) {
-        target.setDate(target.getDate() + 1);
-    }
-    target.setHours(21, 0, 0, 0);
+if (now.getHours() >= 21) {
+    target.setDate(target.getDate() + 1);
+}
+target.setHours(21, 0, 0, 0);
 
     const diff = target - now;
     const hours = Math.floor(diff / 3600000);
@@ -2301,6 +2345,8 @@ function handleAtualizacao() {
     notification.classList.remove('show');
     localStorage.setItem('ultimoDiaNotificacao', new Date().getDate());
     location.reload();
+    localStorage.removeItem('ultimoDia');
+    gerarDesafiosDiarios(); 
 }
 
     </script>

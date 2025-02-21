@@ -6,7 +6,7 @@
     <title>Trucadas</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Monomaniac+One&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
     <link rel="icon" href="https://i.imgur.com/40z3ABN.png" type="image/png">
     <style>
         * {
@@ -69,7 +69,6 @@
     width: 400px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     overflow: hidden;
-    border: 2px solid #000000;
     text-shadow: 3px 3px 5px #000;
 }
 
@@ -185,14 +184,36 @@
     background: none !important;
 }
 
-.fa-trophy.bronze { color: #cd7f32; }
-.fa-trophy.ferro { color: #8a8a8a; }
-.fa-trophy.ouro { color: #FFD700; }
-.fa-trophy.diamante { color: #5ae1ff; }
-.fa-trophy.mitico { color: #8a2be2; }
+.rank-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-80%);
+}
+
+.rank-icon.left {
+    right: 100%;
+    margin-right: -55px;
+}
+
+.rank-icon.right {
+    left: 100%;
+    margin-left: -55px;
+}
+
+.rank-icon i.fa-medal {
+    font-size: 12px;
+    transition: color 0.3s ease;
+    opacity: 0.9;
+}
+
+.rank-icon i.fa-medal.bronze { color: #cd7f32; }
+.rank-icon i.fa-medal.prata { color: #C0C0C0; }
+.rank-icon i.fa-medal.ouro { color: #FFD700; }
+.rank-icon i.fa-medal.diamante { color: #5ae1ff; }
+.rank-icon i.fa-medal.mitico { color: #8a2be2; }
 
 
-.fa-trophy.pro-rank { animation: pro-gradient-cor 3s ease infinite; }
+.rank-icon i.fa-medal.pro-rank { animation: pro-gradient-cor 3s ease infinite; }
 
 @keyframes pro-gradient-cor {
     0% {
@@ -212,7 +233,7 @@
     }
 }
 
-.fa-trophy.mestre1-rank { animation: fogo-mestre-cor 3s ease infinite; }
+.rank-icon i.fa-medal.mestre1-rank { animation: fogo-mestre-cor 3s ease infinite; }
 
 @keyframes fogo-mestre-cor {
     0% {
@@ -232,7 +253,7 @@
     }
 }
 
-.fa-trophy.mestre2-rank { animation: fogo-mestre-cor2 3s ease infinite; }
+.rank-icon i.fa-medal.mestre2-rank { animation: fogo-mestre-cor2 3s ease infinite; }
 
 @keyframes fogo-mestre-cor2 {
     0% {
@@ -270,7 +291,7 @@
     color: #fff;
     padding: 40px 60px;
     border-radius: 20px;
-    border: 3px solid #000000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     text-align: center;
     z-index: 1000;
     animation: aparecer 0.6s cubic-bezier(0.4, 0, 0.2, 1);
@@ -291,6 +312,7 @@
 
 .mensagem-vitoria h2 {
     margin: 0;
+    line-height: 1.4;
     font-size: 42px;
     color: #fff;
     text-transform: uppercase;
@@ -311,7 +333,7 @@
     background: 
         linear-gradient(145deg, #9e9e9e, #bcbcbc);
         font-family: 'Monomaniac One', sans-serif;
-    border: 2px solid #ffffff;
+    border: 1px solid transparent;
     border-radius: 12px;
     padding: 15px 40px;
     font-size: 20px;
@@ -322,6 +344,7 @@
     position: relative;
     overflow: hidden;
     text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     letter-spacing: 1.5px;
     margin-top: 25px;
 }
@@ -373,9 +396,8 @@
     margin-top: 8px;
     max-height: 90px;
     overflow-y: auto;
-    border: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
-    font-size: 13px;
+    font-size: 12px;
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
@@ -388,7 +410,7 @@
     margin: 6px 0;
     padding: 4px 0;
     color: rgba(255, 255, 255, 0.7);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 2px dashed rgba(37, 37, 37, 0.95);
 }
 
 .historico-btn {
@@ -453,96 +475,70 @@
 }
 
 .btn-decrementar {
-    background: linear-gradient(145deg, #ff4444, #cc0000);
-    border: 2px solid #ff6666;
-    border-radius: 8px;
-    padding: 12px 20px;
+    background: linear-gradient(145deg, #d32f2f, #b71c1c);
+    border: none;
+    border-radius: 10px;
+    padding: 14px 22px;
     font-size: 18px;
     color: white;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s ease-in-out;
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.3);
 }
 
-.btn-decrementar::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        120deg,
-        transparent,
-        rgba(255, 255, 255, 0.2),
-        transparent
-    );
-    transition: 0.5s;
+.btn-decrementar:hover {
+    background: linear-gradient(145deg, #b71c1c, #8e0000);
+    box-shadow: 0 6px 15px rgba(255, 0, 0, 0.5);
 }
 
-.btn-decrementar:hover::before {
-    left: 100%;
+.btn-decrementar:active {
+    transform: scale(0.95);
 }
 
 .btn-incrementar {
-    background: linear-gradient(145deg, #01429d, #263170);
-    border: 2px solid transparent;
-    border-radius: 8px;
-    padding: 12px 20px;
+    background: linear-gradient(145deg, #1976d2, #0d47a1);
+    border: none;
+    border-radius: 10px;
+    padding: 14px 22px;
     font-size: 18px;
     color: white;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s ease-in-out;
     display: flex;
     align-items: center;
-    gap: 11px;
+    justify-content: center;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 102, 255, 0.3);
 }
 
-.btn-incrementar::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        120deg,
-        transparent,
-        rgba(255, 255, 255, 0.3),
-        transparent
-    );
-    transition: 0.5s;
+.btn-incrementar:hover {
+    background: linear-gradient(145deg, #0d47a1, #002171);
+    box-shadow: 0 6px 15px rgba(0, 102, 255, 0.5);
 }
 
-.btn-incrementar:hover::before {
-    left: 100%;
+.btn-incrementar:active {
+    transform: scale(0.95);
 }
 
-.btn-decrementar:hover, .btn-incrementar:hover {
-    filter: brightness(110%);
-}
-
-.btn-decrementar:active, .btn-incrementar:active {
-    transform: translateY(1px) scale(0.98);
-}
-
-.btn-texto {
-    font-weight: 600;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-.fa-plus, .fa-minus {
-    font-size: 21px;
+.btn-icon {
+    font-size: 22px;
     transition: transform 0.2s ease;
 }
 
+.fa-arrow-up,
+.fa-arrow-down {
+    font-size: 24px;
+}
+
+
 .level-bar {
+    position: relative;
     font-size: 8px;
     color: #fff;
     gap: 5px;
@@ -612,7 +608,7 @@
 
 #dupla1-level {
     font-size: 14px;
-    background-color: #747474;
+    background-color: #2196F3;
     color: #fff;
     padding: 2px 8px;
     border-radius: 5px;
@@ -623,7 +619,7 @@
 
 #dupla2-level {
     font-size: 14px;
-    background-color: #747474;
+    background-color: #f44336;
     color: #fff;
     padding: 2px 8px;
     border-radius: 5px;
@@ -835,7 +831,6 @@
     border-radius: 15px;
     z-index: 1001;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    border: 2px solid #000000;
 }
 
 .desafios-popup.active {
@@ -853,7 +848,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 13px;
-    border-bottom: 2px solid #000000;
+    border-bottom: 2px solid #272727;
     font-size: 13px;
 }
 
@@ -928,6 +923,11 @@
     color: #4CAF50;
 }
 
+.fa-trophy {
+    color: #ffd700;
+    transition: color 0.3s ease;
+}
+
     </style>
 </head>
 <body>
@@ -938,8 +938,11 @@
 
     <div class="container">
         <div class="scoreboard">
-            <div class="dupla">
+            <div class="dupla">              
                 <div class="level-bar">
+                    <div class="rank-icon left">
+                        <i class="fa-solid fa-medal"></i>
+                      </div>
                     <div class="rank-tooltip">
                         <span id="dupla1-level" onclick="mostrarTooltip('dupla1')">Lvl 0</span>
                         <span class="tooltip-text" id="dupla1-tooltip"></span>
@@ -956,17 +959,20 @@
                 <div id="dupla1-tentos">0</div>
                 <div class="controls">
                     <button class="btn-decrementar" onclick="decrementarPontos('dupla1')">
-                        <i class="fas fa-minus"></i>
+                        <i class="fas fa-arrow-down"></i>
                     </button>
                     <button class="btn-incrementar" onclick="incrementarPontos('dupla1')">
-                        <i class="fas fa-plus"></i>
+                        <i class="fas fa-arrow-up"></i>
                     </button>
                     </button>
                 </div>
             </div>
             
-            <div class="dupla">
+            <div class="dupla">              
                 <div class="level-bar">
+                    <div class="rank-icon right">
+                        <i class="fa-solid fa-medal"></i>
+                      </div>
                     <div class="rank-tooltip">
                         <span id="dupla2-level" onclick="mostrarTooltip('dupla2')">Lvl 0</span>
                         <span class="tooltip-text" id="dupla2-tooltip"></span>
@@ -983,10 +989,10 @@
                 <div id="dupla2-tentos">0</div>
                 <div class="controls">
                     <button class="btn-decrementar" onclick="decrementarPontos('dupla2')">
-                        <i class="fas fa-minus"></i>
+                        <i class="fas fa-arrow-down"></i>
                     </button>
                     <button class="btn-incrementar" onclick="incrementarPontos('dupla2')">
-                        <i class="fas fa-plus"></i>
+                        <i class="fas fa-arrow-up"></i>
                     </button>
                 </div>
             </div>
@@ -1052,38 +1058,39 @@
 }
 
 const possiveisDesafios = [
-    { tipo: 'tentos', desc: 'Marque 10 tentos em uma partida', meta: 10, xp: 2500 },
-    { tipo: 'tentos', desc: 'Marque 9 tentos em uma partida', meta: 9, xp: 2200 },
-    { tipo: 'tentos', desc: 'Marque 7 tentos em uma partida', meta: 7, xp: 1800 },
-    { tipo: 'vitorias', desc: 'Vença 3 partidas', meta: 3, xp: 3000 },
-    { tipo: 'vitorias', desc: 'Vença 10 partidas', meta: 10, xp: 10000 },
-    { tipo: 'truco', desc: 'Ative o truco 2 vezes', meta: 2, xp: 1500 },
-    { tipo: 'truco', desc: 'Ative o truco 1 vez', meta: 1, xp: 750 },
-    { tipo: 'truco', desc: 'Ative o truco 3 vezes', meta: 3, xp: 2250 },
-    { tipo: 'truco', desc: 'Ative o truco 4 vezes', meta: 4, xp: 3000 },
-    { tipo: 'consecutivas', desc: '2 vitórias consecutivas', meta: 2, xp: 4000 },
-    { tipo: 'consecutivas', desc: '4 vitórias consecutivas', meta: 4, xp: 8000 },
-    { tipo: 'consecutivas', desc: '6 vitórias consecutivas', meta: 6, xp: 12000 },
-    { tipo: 'pontuacao', desc: 'Alcance média de 4 tentos por partida', meta: 4, xp: 1800 },
-    { tipo: 'tentos12', desc: 'Vença com 12 tentos', meta: 1, xp: 3500 },
-    { tipo: 'primeiro', desc: 'Marque o primeiro tento da partida', meta: 1, xp: 1000 },
-    { tipo: 'reiniciar', desc: 'Reinicie o jogo 2 vezes', meta: 2, xp: 1000 },
-    { tipo: 'reiniciar', desc: 'Reinicie o jogo 4 vezes', meta: 4, xp: 2000 },
-    { tipo: 'reiniciar', desc: 'Reinicie o jogo 6 vezes', meta: 6, xp: 3000 }
+    { tipo: 'tentos', desc: 'Marque 10 tentos em uma partida', meta: 10, xp: 6500 },
+    { tipo: 'tentos', desc: 'Marque 9 tentos em uma partida', meta: 9, xp: 5200 },
+    { tipo: 'tentos', desc: 'Marque 7 tentos em uma partida', meta: 7, xp: 4800 },
+    { tipo: 'vitorias', desc: 'Vença 3 partidas', meta: 3, xp: 10000 },
+    { tipo: 'vitorias', desc: 'Vença 10 partidas', meta: 10, xp: 100000 },
+    { tipo: 'truco', desc: 'Ative o truco 2 vezes', meta: 2, xp: 5500 },
+    { tipo: 'truco', desc: 'Ative o truco 1 vez', meta: 1, xp: 2750 },
+    { tipo: 'truco', desc: 'Ative o truco 3 vezes', meta: 3, xp: 8250 },
+    { tipo: 'truco', desc: 'Ative o truco 4 vezes', meta: 4, xp: 10000 },
+    { tipo: 'consecutivas', desc: '2 vitórias consecutivas', meta: 2, xp: 8000 },
+    { tipo: 'consecutivas', desc: '4 vitórias consecutivas', meta: 4, xp: 16000 },
+    { tipo: 'consecutivas', desc: '6 vitórias consecutivas', meta: 6, xp: 64000 },
+    { tipo: 'pontuacao', desc: 'Alcance média de 4 tentos por partida', meta: 4, xp: 4500 },
+    { tipo: 'tentos12', desc: 'Vença com 12 tentos', meta: 1, xp: 12500 },
+    { tipo: 'primeiro', desc: 'Marque o primeiro tento da partida', meta: 1, xp: 3500 },
+    { tipo: 'reiniciar', desc: 'Reinicie o jogo 2 vezes', meta: 2, xp: 4000 },
+    { tipo: 'reiniciar', desc: 'Reinicie o jogo 4 vezes', meta: 4, xp: 6000 },
+    { tipo: 'reiniciar', desc: 'Reinicie o jogo 6 vezes', meta: 6, xp: 8000 }
 ];
 
         function gerarDesafiosDiarios() {
-    const agora = new Date();
-    const horaAtual = agora.getHours();
-    const minutoAtual = agora.getMinutes();
+            const agora = new Date();
     const diaAtual = agora.getDate();
+    const ultimoDiaSalvo = parseInt(localStorage.getItem('ultimoDia')) || 0;
 
-    const horarioLimite = 21;
+    const passouHorario = agora.getHours() >= 21;
+    const novoDia = diaAtual !== ultimoDiaSalvo;
     const passouDoHorarioLimite = horaAtual > horarioLimite || (horaAtual === horarioLimite && minutoAtual >= 0);
 
     if (passouDoHorarioLimite && (ultimoDia === null || diaAtual !== ultimoDia)) {
         desafiosDiarios = [];
         const desafiosSelecionados = new Set();
+        localStorage.setItem('ultimoDia', diaAtual);
 
         while (desafiosDiarios.length < 3) {
             const randomIndex = Math.floor(Math.random() * possiveisDesafios.length);
@@ -1102,6 +1109,7 @@ const possiveisDesafios = [
         localStorage.setItem('ultimoDia', ultimoDia);
     }
 
+    desafiosDiarios = JSON.parse(localStorage.getItem('desafiosDiarios')) || [];
     atualizarUIDesafios();
 }
 
@@ -1192,7 +1200,7 @@ let xpData = {
         };
 
         function calcularXPNecessario(level) {
-            return Math.floor(100 * Math.pow(level, 2) + 500 + level * 50);
+            return Math.floor(50 * Math.pow(level, 2) + 300 + level * 10);
         }
 
         function mostrarTooltip(dupla) {
@@ -1319,12 +1327,12 @@ function carregarNomes() {
     let xpDesafio = 0;
     
     if (!desafioTentosConcedido[dupla] && tentos[dupla] > tentosAleatorios) {
-    xpDesafio += Math.floor(Math.random() * (2500 - 1000 + 1)) + 1000;
+    xpDesafio += Math.floor(Math.random() * (6000 - 3000 + 1)) + 3000;
     desafioTentosConcedido[dupla] = true;
 }
     
     if (trucoAtivo && tentos[dupla] === 11) {
-        xpDesafio += Math.floor(Math.random() * (3500 - 2000 + 1)) + 2000;
+        xpDesafio += Math.floor(Math.random() * (12000 - 6000 + 1)) + 6000;
     }
 
     if (xpDesafio > 0) {
@@ -1343,13 +1351,13 @@ function carregarNomes() {
         desafioPrimeiroConcedido[dupla] = true;
     }
 
-            vitoriaXP = Math.floor(Math.random() * (2800 - 1500 + 1)) + 1500;
-            pontosAdc = Math.floor(Math.random() * (650 - 150 + 1)) + 150;
+            vitoriaXP = Math.floor(Math.random() * (7200 - 3500 + 1)) + 3500;
+            pontosAdc = Math.floor(Math.random() * (2500 - 1500 + 1)) + 1500;
 
             verificarDesafio(dupla);
 
             if (!desafioTentosConcedido[dupla] && tentos[dupla] > tentosAleatorios) {
-        pontosAdc += Math.floor(Math.random() * (2500 - 1000 + 1)) + 1000;
+        pontosAdc += Math.floor(Math.random() * (5500 - 2000 + 1)) + 2000;
         desafioTentosConcedido[dupla] = true;
     }
 
@@ -1435,11 +1443,17 @@ function carregarNomes() {
         }
 
         function exibirMensagemVitoria(dupla) {
-            const mensagem = document.getElementById('mensagem-vitoria');
-            const ganhador = document.getElementById('ganhador');
-            ganhador.textContent = `${nomesDuplas[dupla]} ganhou!`;
-            mensagem.style.display = 'block';
-        }
+    const mensagem = document.getElementById('mensagem-vitoria');
+    const ganhador = document.getElementById('ganhador');
+    
+    const placar = `${nomesDuplas.dupla1} ${tentos.dupla1} x ${tentos.dupla2} ${nomesDuplas.dupla2}`;
+    ganhador.innerHTML = `
+        ${placar}<br>
+        <span style="font-size: 40px; color: #4CAF50;">${nomesDuplas[dupla]} Venceu!</span>
+    `;
+    
+    mensagem.style.display = 'block';
+}
 
         function atualizarHistorico(acao, salvarPlacar = false) {
             const now = new Date();
@@ -1545,23 +1559,23 @@ function carregarNomes() {
 
         const ranks = [
     { name: "Bronze I", min: 0, color: "#cd7f32" },
-    { name: "Bronze II", min: 10, color: "#b87333" },
-    { name: "Bronze III", min: 20, color: "#a65e2e" },
-    { name: "Ferro I", min: 35, color: "#5a5a5a" },
-    { name: "Ferro II", min: 45, color: "#6a6a6a" },
-    { name: "Ferro III", min: 55, color: "#7a7a7a" },
-    { name: "Ouro I", min: 60, color: "#ffd700" },
-    { name: "Ouro II", min: 75, color: "#ffdf00" },
-    { name: "Ouro III", min: 85, color: "#ffec00" },
-    { name: "Diamante I", min: 100, color: "#b9f2ff" },
-    { name: "Diamante II", min: 110, color: "#a0e6ff" },
-    { name: "Diamante III", min: 115, color: "#7ed4f7" },
-    { name: "Mítico I", min: 130, color: "#8a2be2" },
-    { name: "Mítico II", min: 145, color: "#6c1db6" },
-    { name: "Mítico III", min: 160, color: "#560b9d" },
-    { name: "Mestre I", min: 300, color: "#ff2020" },
-    { name: "Mestre II", min: 350, color: "#be0000" },
-    { name: "PRO", min: 450, color: "#ccff33" }
+    { name: "Bronze II", min: 5, color: "#b87333" },
+    { name: "Bronze III", min: 10, color: "#a65e2e" },
+    { name: "Prata I", min: 20, color: "#C0C0C0" }, 
+    { name: "Prata II", min: 30, color: "#A9A9A9" },
+    { name: "Prata III", min: 40, color: "#808080" },
+    { name: "Ouro I", min: 50, color: "#ffd700" },
+    { name: "Ouro II", min: 60, color: "#ffdf00" },
+    { name: "Ouro III", min: 70, color: "#ffec00" },
+    { name: "Diamante I", min: 90, color: "#b9f2ff" },
+    { name: "Diamante II", min: 100, color: "#a0e6ff" },
+    { name: "Diamante III", min: 110, color: "#7ed4f7" },
+    { name: "Mítico I", min: 120, color: "#8a2be2" },
+    { name: "Mítico II", min: 135, color: "#6c1db6" },
+    { name: "Mítico III", min: 150, color: "#560b9d" },
+    { name: "Mestre I", min: 225, color: "#ff2020" },
+    { name: "Mestre II", min: 335, color: "#be0000" },
+    { name: "PRO", min: 400, color: "#ccff33" }
 ];
 
 function atualizarRank(dupla) {
@@ -1578,9 +1592,9 @@ function atualizarRank(dupla) {
     const levelElement = document.getElementById(`${dupla}-level`);
     levelElement.style.backgroundColor = rankAtual.color;
     levelElement.title = `Rank: ${rankAtual.name}`;
-
+    
     levelElement.classList.remove("pro-rank", "mestre1-rank", "mestre2-rank");
-
+    
     if (rankAtual.name === "PRO") {
         levelElement.classList.add("pro-rank");
     } else if (rankAtual.name === "Mestre I") {
@@ -1591,32 +1605,34 @@ function atualizarRank(dupla) {
         levelElement.style.backgroundColor = rankAtual.color;
         levelElement.style.boxShadow = `0 0 5px ${rankAtual.color}50`;
     }
-
-    const trophyIcon = document.querySelector(`#${dupla}-vitorias`)[dupla === 'dupla1' ? 'previousElementSibling' : 'nextElementSibling'];
-    trophyIcon.className = 'fas fa-trophy';
-
+    
+    const duplaContainer = levelElement.closest('.dupla');
+    const rankingIcon = levelElement.closest('.level-bar').querySelector('.rank-icon i.fa-medal');
+    
+    rankingIcon.classList.remove("pro-rank", "mestre1-rank", "mestre2-rank", "ouro", "diamante", "mitico", "prata", "bronze");
+    
     if (rankAtual.name.includes("PRO")) {
-        trophyIcon.classList.add("pro-rank");
+        rankingIcon.classList.add("pro-rank");
     } else if (rankAtual.name.includes("Mestre I")) {
-        trophyIcon.classList.add("mestre1-rank");
+        rankingIcon.classList.add("mestre1-rank");
     } else if (rankAtual.name.includes("Mestre II")) {
-        trophyIcon.classList.add("mestre2-rank");
+        rankingIcon.classList.add("mestre2-rank");
     } else if (rankAtual.name.includes("Ouro")) {
-        trophyIcon.classList.add("ouro");
+        rankingIcon.classList.add("ouro");
     } else if (rankAtual.name.includes("Diamante")) {
-        trophyIcon.classList.add("diamante");
+        rankingIcon.classList.add("diamante");
     } else if (rankAtual.name.includes("Mítico")) {
-        trophyIcon.classList.add("mitico");
-    } else if (rankAtual.name.includes("Ferro")) {
-        trophyIcon.classList.add("ferro");
+        rankingIcon.classList.add("mitico");
+    } else if (rankAtual.name.includes("Prata")) {
+        rankingIcon.classList.add("prata");
     } else {
-        trophyIcon.classList.add("bronze");
+        rankingIcon.classList.add("bronze");
     }
-
+    
     const tooltipElement = document.getElementById(`${dupla}-tooltip`);
-    tooltipElement.textContent = `Rank: ${rankAtual.name}`;
-
+    tooltipElement.textContent = `${rankAtual.name}`;
 }
+
 
 function updateChallengeTimer() {
     const now = new Date();

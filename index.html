@@ -2090,6 +2090,8 @@ function carregarNomes() {
             atualizarRank('dupla1');
             atualizarRank('dupla2');
             loadTheme();
+            loadCheckboxState();
+    document.getElementById('historico-container').style.display = 'none';
             const agora = new Date();
     const horaAtual = agora.getHours();
     const minutoAtual = agora.getMinutes();
@@ -2264,8 +2266,8 @@ function confirmReset() {
     location.reload();
 }
 
-notificacoesCheck.addEventListener('change', function() {
-    localStorage.setItem('notificacoesAtivas', this.checked);
+document.getElementById('notificacoes-check').addEventListener('change', function() {
+    saveCheckboxState();
     if(!this.checked) {
         const notification = document.getElementById('newChallengeNotification');
         notification.classList.remove('show');

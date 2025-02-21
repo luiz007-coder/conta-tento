@@ -781,26 +781,21 @@
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background: #6f6f6f;
     color: white;
-    font-family: 'Monomaniac One', sans-serif;
-    font-size: 14px;
-    padding: 10px 15px;
+    font-size: 20px;
     border: none;
-    border-radius: 14px;
+    background: none;
     cursor: pointer;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
-    transition: background 0.3s ease, transform 0.2s ease;
+    transition: transform 0.2s ease;
     z-index: 1000;
 }
 
 .btn-desafios:hover {
-    background: #8a8a8a;
+    transform: scale(1.1);
 }
 
 .btn-desafios:active {
-    background: #5a5a5a;
-    transform: scale(0.98);
+    transform: scale(1);
 }
 
 
@@ -890,17 +885,27 @@
 }
 
 .timer-atualizacao {
-    padding: 13px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 10px;
-    margin-top: 15px;
-    text-align: center;
-    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0;
+    font-size: 12px;
+    color: #cecece;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease;
 }
 
 .timer-atualizacao i {
-    margin-right: 8px;
-    color: #4CAF50;
+    margin-right: 6px;
+    font-size: 14px;
+    color: #0070c0;
+    transition: transform 0.2s ease;
+}
+
+.timer-atualizacao:hover i {
+    transform: rotate(180deg);
 }
 
 .msgac {
@@ -942,26 +947,21 @@
     position: fixed;
     bottom: 20px;
     left: 20px;
-    background: #6f6f6f;
     color: white;
-    font-family: 'Monomaniac One', sans-serif;
-    font-size: 14px;
-    padding: 10px 15px;
+    font-size: 20px;
     border: none;
-    border-radius: 14px;
+    background: none;
     cursor: pointer;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
-    transition: background 0.3s ease, transform 0.2s ease;
+    transition: transform 0.2s ease;
     z-index: 1000;
 }
 
 .btn-config:hover {
-    background: #8a8a8a;
+    transform: scale(1.1);
 }
 
 .btn-config:active {
-    background: #5a5a5a;
-    transform: scale(0.98);
+    transform: scale(1);
 }
 
 .config-popup {
@@ -985,12 +985,27 @@
 }
 
 .config-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 14px 16px;
     font-size: 14px;
     font-weight: 600;
     color: #fff;
     background: rgba(255, 255, 255, 0.05);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.config-header i {
+    margin-right: 10px;
+    color: #ffffff;
+    font-size: 16px;
+    transition: transform 1s ease;
+}
+
+.config-header i:hover {
+    cursor: pointer;
+    transform: rotate(180deg);
 }
 
 .config-content {
@@ -1030,7 +1045,7 @@
 }
 
 .tema-preview.lite {
-    background: linear-gradient(160deg, #f0f0f0 0%, #e0e0e0 100%);
+    background: linear-gradient(160deg, #2a2a2a, #1e1e1e);
 }
 
 [data-theme="pro"] .container {
@@ -1044,35 +1059,33 @@
 }
 
 [data-theme="lite"] body {
-    background-color: #d9d2c4;
-    color: #2c2c2c;
+    background-color: #1e1e1e;
+    color: #e0e0e0;
 }
 
 [data-theme="lite"] .container {
-    background: linear-gradient(160deg, #e5dfd5, #d9d2c4) !important;
-    color: #2c2c2c;
-    border: 1px solid #b8b2a8;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.07);
+    background: linear-gradient(160deg, #2a2a2a, #1e1e1e) !important;
+    color: #e0e0e0;
+    border: 1px solid #444;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 [data-theme="lite"] .btn-decrementar,
 [data-theme="lite"] .btn-incrementar {
-    background: linear-gradient(145deg, #c8c2b6, #ece6db);
-    color: #2c2c2c;
+    background: linear-gradient(145deg, #3c3c3c, #4f4f4f);
+    color: #e0e0e0;
 }
 
 [data-theme="lite"] .truco-btn {
-    background-color: #a89f95;
-    color: #2c2c2c;
+    background-color: #333;
+    color: #e0e0e0;
 }
 
 [data-theme="lite"] .historico-container,
 [data-theme="lite"] .desafios-popup {
-    background: rgba(230, 224, 215, 0.95);
-    color: #2c2c2c;
+    background: rgba(50, 50, 50, 0.9);
+    color: #e0e0e0;
 }
-
-
     </style>
 </head>
 <body>
@@ -1181,7 +1194,7 @@
     </div>
 
     <button class="btn-config" onclick="toggleSettings()">
-        <i class="fas fa-palette"></i>
+        <i class="fas fa-cog"></i>
     </button>
     
     <div id="config-popup" class="config-popup">

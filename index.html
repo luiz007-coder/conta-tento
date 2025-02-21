@@ -534,25 +534,25 @@
     position: absolute;
     background-size: 400% 400%;
     pointer-events: none;
-    background: linear-gradient(90deg, #315f00, #3e7700, #4d8b00, #6abf00, #87db00); 
+    background: linear-gradient(90deg, #00619d, #008197, #00a690, #00a2bf, #0087db); 
     animation: xpAnimation 5s infinite alternate, slimePulse 2s infinite alternate;;
 }
 
 @keyframes xpAnimation {
     0% {
-        background: #315f00;
+        background: #00619d;
     }
     25% {
-        background: #3e7700;
+        background: #008197;
     }
     50% {
-        background: #4d8b00;
+        background: #00a690;
     }
     75% {
-        background: #6abf00;
+        background: #00a2bf;
     }
     100% {
-        background: #87db00;
+        background: #0087db;
     }
 }
 
@@ -1040,22 +1040,22 @@
 }
 
 .tema-preview.pro {
-    background: #1a3a27;
-    border: 3px solid #6b4b2b;
+    background: linear-gradient(160deg, #1c1c1c, #0f0f0f);
+    border: 3px solid #b1ff33;
 }
 
 .tema-preview.lite {
     background: linear-gradient(160deg, #2a2a2a, #1e1e1e);
+    border: 3px solid #161616;
 }
 
 [data-theme="pro"] .container {
-    background: linear-gradient(160deg, #2d4a38, #1a3a27) !important;
-    border: 3px solid #6b4b2b;
+    background: linear-gradient(160deg, #1c1c1c, #0f0f0f) !important;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
 }
 
 [data-theme="pro"] .container::before {
-    background: radial-gradient(circle at center, rgba(107, 75, 43, 0.1), transparent 70%);
+    background: radial-gradient(circle at center, rgba(178, 34, 34, 0.1), transparent 70%);
 }
 
 [data-theme="lite"] body {
@@ -1066,7 +1066,6 @@
 [data-theme="lite"] .container {
     background: linear-gradient(160deg, #2a2a2a, #1e1e1e) !important;
     color: #e0e0e0;
-    border: 1px solid #444;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -1081,15 +1080,328 @@
     color: #e0e0e0;
 }
 
+[data-theme="lite"] .truco-btn:hover {
+    background-color: #414141;
+}
+
 [data-theme="lite"] .historico-container,
 [data-theme="lite"] .desafios-popup {
     background: rgba(50, 50, 50, 0.9);
     color: #e0e0e0;
 }
+
+[data-theme="lite"] .xp-bar {
+    background: linear-gradient(90deg, 
+        #d3d3d3, 
+        #b8b8b8, 
+        #9e9e9e, 
+        #858585, 
+        #6b6b6b);
+    background-size: 200% 200%;
+    animation: xpSlide 4s linear infinite alternate;
+}
+
+@keyframes xpSlide {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+[data-theme="pro"] .btn-decrementar,
+[data-theme="pro"] .btn-incrementar {
+    background: linear-gradient(145deg, #00ff00, #b1ff33);
+    color: #ffffff;
+}
+
+[data-theme="pro"] .truco-btn {
+    animation: pro-gradient 3s ease infinite;
+    color: #ffffff;
+}
+
+[data-theme="pro"] .truco-btn:hover {
+    background-color: #8e0000;
+}
+
+[data-theme="pro"] .historico-container,
+[data-theme="pro"] .desafios-popup {
+    background: rgba(20, 20, 20, 0.9);
+    color: #d4d4d4;
+}
+
+[data-theme="pro"] .xp-bar {
+    background: linear-gradient(90deg,
+        #1a2f1d,
+        #2d5a31,
+        #3d8b40,
+        #4caf50,
+        #6eff73);
+    background-size: 200% 200%;
+    animation: xpSlidePro 3s linear infinite alternate;
+    box-shadow: 0 0 10px rgba(110, 255, 115, 0.3);
+}
+
+@keyframes xpSlidePro {
+    0% {
+        background-position: 0% 50%;
+        filter: hue-rotate(0deg);
+    }
+    50% {
+        background-position: 100% 50%;
+        filter: hue-rotate(20deg);
+    }
+    100% {
+        background-position: 0% 50%;
+        filter: hue-rotate(0deg);
+    }
+}
+
+.checkbox-micro {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.checkbox-micro input {
+    opacity: 0;
+    position: absolute;
+}
+
+.checkbox-micro .checkmark {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.checkbox-micro input:checked ~ .checkmark {
+    background: #4CAF50;
+    border-color: #4CAF50;
+}
+
+.checkbox-micro .checkmark:after {
+    content: "";
+    display: none;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    margin-left: 6px;
+    margin-top: 3px;
+}
+
+.checkbox-micro input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.btn-reset-danger {
+    background: none;
+    border: none;
+    color: #ff4c4c;
+    font-size: 1.4em;
+    cursor: pointer;
+    padding: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-reset-danger:hover {
+    color: #ff0000;
+}
+
+.btn-reset-danger:active {
+    transform: scale(0.9);
+}
+
+.config-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.reset-dialog {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 9999;
+        }
+
+        .reset-content {
+            position: relative;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #1a1a1a;
+            padding: 25px;
+            border-radius: 12px;
+            border: 2px solid #ff0000;
+            box-shadow: 0 0 25px rgba(255,0,0,0.3);
+            width: 320px;
+            text-align: center;
+            animation: pulse-alert 1s infinite;
+        }
+
+        @keyframes pulse-alert {
+            0% { border-color: #ff0000; }
+            50% { border-color: #ff4444; }
+            100% { border-color: #ff0000; }
+        }
+
+        .reset-header {
+            color: #ff0000;
+            margin-bottom: 15px;
+        }
+
+        .challenge-notification {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: -300px;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.challenge-notification.show {
+    right: 20px;
+    opacity: 1;
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.notification-content i {
+    font-size: 1.1em;
+    color: #4CAF50;
+}
+
+.notification-text {
+    flex-grow: 1;
+}
+
+.notification-text h4 {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+    color: #fff;
+}
+
+.notification-text p {
+    margin: 0;
+    font-size: 12px;
+    color: #b0b0b0;
+}
+
+.notification-content button {
+    background: rgba(255, 255, 255, 0.08);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    color: #fff;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.notification-content button:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.theme-accordion {
+    margin-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    cursor: pointer;
+    user-select: none;
+}
+
+.arrow-icon {
+    transition: transform 0.3s ease;
+    font-size: 0.9em;
+}
+
+.theme-options {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.theme-options.open {
+    max-height: 300px;
+}
+
+.arrow-icon.rotated {
+    transform: rotate(180deg);
+}
+
+.reset-dialog {
+    background: rgba(0,0,0,0.85);
+}
+
+.reset-content {
+    background: #2a2a2a;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    border-radius: 16px;
+    padding: 25px;
+    animation: none;
+}
+
+.reset-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.reset-buttons button {
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    background: rgba(255,255,255,0.05);
+    color: #fff;
+}
+
+.reset-buttons button.confirm-btn {
+    background: #e53935;
+}
+
+.reset-buttons button:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.reset-buttons button:active {
+    transform: translateY(0);
+}
+
     </style>
 </head>
 <body>
-    <div id="msgac" class="msgac"><i class="fas fa-check-circle"></i></div>
+    <div id="msgac" class="msgac"><i class="fas fa-check-circle"></i>  Nome alterado</div>
     <h1 style="display: flex; align-items: center;">
         TRUCADAS
     </h1>
@@ -1203,22 +1515,70 @@
             <button class="fechar-popup" onclick="toggleSettings()"></button>
         </div>
         <div class="config-content">
-            <div class="tema-item" onclick="selectTheme('classico')">
-                <div class="tema-preview classico"></div>
-                <span>Clássico</span>
+            <div class="config-row">
+                <label class="checkbox-micro">
+                    <input type="checkbox" id="notificacoes-check">
+                    <span class="checkmark"></span>
+                    Notificações
+                </label>
+                
+                <button class="btn-reset-danger" onclick="showResetDialog()">
+                    <i class="fas fa-skull"></i>
+                </button>
             </div>
-            <div class="tema-item" onclick="selectTheme('pro')">
-                <div class="tema-preview pro"></div>
-                <span>Truco Pro</span>
-            </div>
-            <div class="tema-item" onclick="selectTheme('lite')">
-                <div class="tema-preview lite"></div>
-                <span>Lite</span>
+    
+            <div class="theme-accordion">
+                <div class="accordion-header" onclick="toggleThemes()">
+                    <span>Temas</span>
+                    <i class="fas fa-chevron-down arrow-icon"></i>
+                </div>
+                <div class="theme-options">
+                    <div class="tema-item" onclick="selectTheme('classico')">
+                        <div class="tema-preview classico"></div>
+                        <span>Clássico</span>
+                    </div>
+                    <div class="tema-item" onclick="selectTheme('pro')">
+                        <div class="tema-preview pro"></div>
+                        <span>Truco Pro</span>
+                    </div>
+                    <div class="tema-item" onclick="selectTheme('lite')">
+                        <div class="tema-preview lite"></div>
+                        <span>Lite</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <div id="resetDialog" class="reset-dialog">
+        <div class="reset-content">
+            <div class="reset-header">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h3>RESET TOTAL</h3>
+            </div>
+            <p>Tem certeza que deseja apagar todos os dados permanentemente?</p>
+            <div class="reset-buttons">
+                <button onclick="cancelReset()">Cancelar</button>
+                <button class="confirm-btn" onclick="confirmReset()">Apagar</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="newChallengeNotification" class="challenge-notification">
+        <div class="notification-content">
+            <i class="fas fa-seedling"></i>
+            <div class="notification-text">
+                <h4>Novos desafios disponíveis!</h4>
+                <p>Atualize para carregar os desafios de hoje.</p>
+            </div>
+            <button onclick="handleAtualizacao()">Atualizar</button>
+        </div>
+    </div>
+
     <script>
+        let resetTimer;
+        let resetTimeout;
+        let notificacoesAtivas = localStorage.getItem('notificacoesAtivas') === 'true';
         let desafiosDiarios = [];
         let ultimoDia = null;
 
@@ -1274,6 +1634,12 @@ const possiveisDesafios = [
         desafiosDiarios = [];
         const desafiosSelecionados = new Set();
         localStorage.setItem('ultimoDia', diaAtual);
+
+        if (!localStorage.getItem('notificacaoMostrada')) {
+            const notification = document.getElementById('newChallengeNotification');
+            notification.classList.add('show');
+            localStorage.setItem('notificacaoMostrada', 'true');
+        }
 
         while (desafiosDiarios.length < 3) {
             const randomIndex = Math.floor(Math.random() * possiveisDesafios.length);
@@ -1462,7 +1828,7 @@ function editarNome(dupla) {
             salvarNomes();
 
             const msgac = document.getElementById("msgac");
-            msgac.innerHTML = `<i class="fas fa-check-circle"></i>`; 
+            msgac.innerHTML = `<i class="fas fa-check-circle"></i>  Nome alterado`; 
             msgac.classList.add("show");
             
             setTimeout(() => {
@@ -1853,6 +2219,87 @@ function toggleSettings() {
 }
 
 loadTheme();
+
+function loadCheckboxState() {
+    const savedState = localStorage.getItem('notificacoesAtivas') === 'true';
+    document.getElementById('notificacoes-check').checked = savedState;
+}
+
+function saveCheckboxState() {
+    const checkbox = document.getElementById('notificacoes-check');
+    localStorage.setItem('notificacoesAtivas', checkbox.checked);
+}
+
+let themesOpen = false;
+
+function toggleThemes() {
+    const options = document.querySelector('.theme-options');
+    const arrow = document.querySelector('.arrow-icon');
+    
+    themesOpen = !themesOpen;
+    options.classList.toggle('open');
+    arrow.classList.toggle('rotated');
+}
+
+function showResetDialog() {
+    const dialog = document.getElementById('resetDialog');
+    const progress = document.getElementById('resetProgress');
+    dialog.style.display = 'block';
+    
+    let seconds = 10;
+    resetTimer = setInterval(() => {
+        seconds--;
+        progress.style.width = `${(10 - seconds) * 10}%`;
+        if(seconds <= 0) confirmReset();
+    }, 1000);
+}
+
+function cancelReset() {
+    clearInterval(resetTimer);
+    document.getElementById('resetDialog').style.display = 'none';
+}
+
+function confirmReset() {
+    localStorage.clear();
+    location.reload();
+}
+
+notificacoesCheck.addEventListener('change', function() {
+    localStorage.setItem('notificacoesAtivas', this.checked);
+    if(!this.checked) {
+        const notification = document.getElementById('newChallengeNotification');
+        notification.classList.remove('show');
+        localStorage.removeItem('ultimoDiaNotificacao');
+        localStorage.removeItem('notificacaoMostrada');
+    }
+});
+
+let notificationTimeout;
+
+function verificarHorarioNotificacao() {
+    const agora = new Date();
+    const horaExata = agora.getHours() === 21 && agora.getMinutes() === 0;
+    const ultimoDiaNotif = parseInt(localStorage.getItem('ultimoDiaNotificacao')) || 0;
+    const diaAtual = agora.getDate();
+    const mesAtual = agora.getMonth();
+
+    if (horaExata && (diaAtual !== ultimoDiaNotif || mesAtual !== new Date(ultimoDiaNotif).getMonth())) {
+        const notification = document.getElementById('newChallengeNotification');
+        notification.classList.add('show');
+        localStorage.setItem('ultimoDiaNotificacao', new Date().getTime());
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 7200000);
+    }
+}
+
+function handleAtualizacao() {
+    const notification = document.getElementById('newChallengeNotification');
+    notification.classList.remove('show');
+    localStorage.setItem('ultimoDiaNotificacao', new Date().getDate());
+    location.reload();
+}
 
     </script>
 </body>

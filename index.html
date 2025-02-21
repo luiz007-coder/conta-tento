@@ -725,7 +725,6 @@
 
 .desafio-item:hover {
     background: rgba(255, 255, 255, 0.08);
-    transform: translateY(-2px);
 }
 
 .desafio-info {
@@ -855,26 +854,34 @@
 }
 
 .fechar-popup {
-    background: #3a3a3a;
-    border: 1px solid transparent;
-    color: #fff;
-    font-size: 20px;
-    border-radius: 10px;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.5);
+    font-size: 14px;
     cursor: pointer;
-    padding: 3px 8px;
-    margin-right: -4px;
-    transition: background 0.3s ease, transform 0.2s ease;
+    padding: 4px;
+    line-height: 1;
+    transition: all 0.2s ease;
 }
 
 .fechar-popup:hover {
-    background: #d32f2f;
+    color: rgba(255, 0, 0, 0.9);
+    transform: rotate(90deg) scale(1.05);
 }
 
 .fechar-popup:active {
-    background: #b71c1c;
-    transform: scale(0.95);
+    transform: rotate(90deg) scale(0.9);
 }
 
+.fechar-popup::after {
+    content: '×';
+    font-family: Arial, sans-serif;
+    font-weight: 200;
+    font-size: 1.4em;
+}
 
 .desafios-content {
     max-height: 400px;
@@ -930,6 +937,141 @@
     color: #ffd700;
     transition: color 0.3s ease;
 }
+
+.btn-config {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: #6f6f6f;
+    color: white;
+    font-family: 'Monomaniac One', sans-serif;
+    font-size: 14px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+    transition: background 0.3s ease, transform 0.2s ease;
+    z-index: 1000;
+}
+
+.btn-config:hover {
+    background: #8a8a8a;
+}
+
+.btn-config:active {
+    background: #5a5a5a;
+    transform: scale(0.98);
+}
+
+.config-popup {
+    display: none;
+    position: fixed;
+    bottom: 90px;
+    left: 25px;
+    width: 360px;
+    background: linear-gradient(145deg, #252525, #1a1a1a);
+    border-radius: 15px;
+    z-index: 1001;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.41);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    overflow: hidden;
+}
+
+.config-popup.active {
+    display: block;
+    animation: fadeSlideIn 0.4s ease-out;
+}
+
+.config-header {
+    padding: 14px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.config-content {
+    padding: 15px;
+}
+
+.tema-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    margin: 8px 0;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tema-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.tema-preview {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    margin-right: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.tema-preview.classico {
+    background: linear-gradient(160deg, #2a2a2a 0%, #202020 100%);
+}
+
+.tema-preview.pro {
+    background: #1a3a27;
+    border: 3px solid #6b4b2b;
+}
+
+.tema-preview.lite {
+    background: linear-gradient(160deg, #f0f0f0 0%, #e0e0e0 100%);
+}
+
+[data-theme="pro"] .container {
+    background: linear-gradient(160deg, #2d4a38, #1a3a27) !important;
+    border: 3px solid #6b4b2b;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="pro"] .container::before {
+    background: radial-gradient(circle at center, rgba(107, 75, 43, 0.1), transparent 70%);
+}
+
+[data-theme="lite"] body {
+    background-color: #d9d2c4;
+    color: #2c2c2c;
+}
+
+[data-theme="lite"] .container {
+    background: linear-gradient(160deg, #e5dfd5, #d9d2c4) !important;
+    color: #2c2c2c;
+    border: 1px solid #b8b2a8;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="lite"] .btn-decrementar,
+[data-theme="lite"] .btn-incrementar {
+    background: linear-gradient(145deg, #c8c2b6, #ece6db);
+    color: #2c2c2c;
+}
+
+[data-theme="lite"] .truco-btn {
+    background-color: #a89f95;
+    color: #2c2c2c;
+}
+
+[data-theme="lite"] .historico-container,
+[data-theme="lite"] .desafios-popup {
+    background: rgba(230, 224, 215, 0.95);
+    color: #2c2c2c;
+}
+
 
     </style>
 </head>
@@ -1029,12 +1171,37 @@
     <div id="desafios-popup" class="desafios-popup">
         <div class="desafios-header">
             <h3><i class="fas fa-calendar-day"></i> Desafios diários</h3>
-            <button class="fechar-popup" onclick="toggleDesafios()">&times;</button>
+            <button class="fechar-popup" onclick="toggleDesafios()"></button>
         </div>
         <div id="desafios-list" class="desafios-content"></div>
         <div class="timer-atualizacao">
             <i class="fas fa-sync-alt"></i>
             Novos desafios em: <span id="timer-desafios">00h00m00s</span>
+        </div>
+    </div>
+
+    <button class="btn-config" onclick="toggleSettings()">
+        <i class="fas fa-palette"></i>
+    </button>
+    
+    <div id="config-popup" class="config-popup">
+        <div class="config-header">
+            <h3><i class="fas fa-cog"></i> Configurações</h3>
+            <button class="fechar-popup" onclick="toggleSettings()"></button>
+        </div>
+        <div class="config-content">
+            <div class="tema-item" onclick="selectTheme('classico')">
+                <div class="tema-preview classico"></div>
+                <span>Clássico</span>
+            </div>
+            <div class="tema-item" onclick="selectTheme('pro')">
+                <div class="tema-preview pro"></div>
+                <span>Truco Pro</span>
+            </div>
+            <div class="tema-item" onclick="selectTheme('lite')">
+                <div class="tema-preview lite"></div>
+                <span>Lite</span>
+            </div>
         </div>
     </div>
 
@@ -1218,7 +1385,7 @@ let xpData = {
     }
 
     const tooltipElement = document.getElementById(`${dupla}-tooltip`);
-    tooltipElement.textContent = `Rank: ${rankAtual.name}`;
+    tooltipElement.textContent = `${rankAtual.name}`;
 }
 
         function adicionarXP(dupla, xpGanho) {
@@ -1543,6 +1710,7 @@ function carregarNomes() {
             carregarXPData();
             atualizarRank('dupla1');
             atualizarRank('dupla2');
+            loadTheme();
             const agora = new Date();
     const horaAtual = agora.getHours();
     const minutoAtual = agora.getMinutes();
@@ -1654,6 +1822,24 @@ function updateChallengeTimer() {
     document.getElementById('timer-desafios').textContent = 
         `${String(hours).padStart(2, '0')}h${String(minutes).padStart(2, '0')}m${String(seconds).padStart(2, '0')}s`;
 }
+
+function loadTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'classico';
+    document.body.setAttribute('data-theme', savedTheme);
+}
+
+function selectTheme(theme) {
+    document.body.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    toggleSettings();
+}
+
+function toggleSettings() {
+    const popup = document.getElementById('config-popup');
+    popup.classList.toggle('active');
+}
+
+loadTheme();
 
     </script>
 </body>

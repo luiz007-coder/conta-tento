@@ -510,7 +510,7 @@
 
 .level-bar {
     position: relative;
-    font-size: 5px;
+    font-size: 8px;
     color: #fff;
     gap: 5px;
 }
@@ -1841,7 +1841,7 @@ let xpData = {
         };
 
         function calcularXPNecessario(level) {
-            return Math.floor(50 * Math.pow(level, 2) + 300 + level * 10);
+            return Math.floor(150 * Math.pow(level, 2) + 500 + level * 50);
         }
 
         function mostrarTooltip(dupla) {
@@ -1992,7 +1992,7 @@ function carregarNomes() {
         desafioPrimeiroConcedido[dupla] = true;
     }
 
-    const baseAleatoria = Math.floor(Math.random() * (6000 - 4000 + 1)) + 4000;
+    const baseAleatoria = Math.floor(Math.random() * (5000 - 3000 + 1)) + 3000;
 const baseVitoriaXP = baseAleatoria * 12;
 const bonusConsecutivo = vitoriasConsecutivas * 1000;
 const multiplicadorTruco = trucoAtivo ? (trucoTento === 3 ? 1 : trucoTento / 3) : 1;

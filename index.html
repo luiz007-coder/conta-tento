@@ -1188,7 +1188,6 @@
 }
 
 .tema-item {
-    position: relative;
     display: flex;
     align-items: center;
     padding: 12px;
@@ -1201,29 +1200,6 @@
 
 .tema-item:hover {
     background: rgba(255, 255, 255, 0.1);
-}
-
-.tema-checkmark {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background: #00e636;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    color: white;
-}
-
-.tema-item.selecionado .tema-checkmark {
-    display: flex;
-}
-
-.tema-checkmark i {
-    font-size: 9px;
 }
 
 .tema-preview {
@@ -1808,22 +1784,18 @@
                     <div class="tema-item" onclick="selectTheme('classico')">
                         <div class="tema-preview classico"></div>
                         <span>Clássico</span>
-                        <span class="tema-checkmark"><i class="fas fa-check"></i></span>
                     </div>
                     <div class="tema-item" onclick="selectTheme('new')">
                         <div class="tema-preview new"></div>
                         <span>New</span>
-                        <span class="tema-checkmark"><i class="fas fa-check"></i></span>
                     </div>
                     <div class="tema-item" onclick="selectTheme('dark')">
                         <div class="tema-preview dark"></div>
                         <span>Dark</span>
-                        <span class="tema-checkmark"><i class="fas fa-check"></i></span>
                     </div>
                     <div class="tema-item" onclick="selectTheme('blue')">
                         <div class="tema-preview blue"></div>
                         <span>Blue</span>
-                        <span class="tema-checkmark"><i class="fas fa-check"></i></span>
                     </div>
                 </div>
             </div>
@@ -1870,11 +1842,10 @@
                 <div class="patch-date">22/02/2025</div>
                 <ul>
                     <li>Habilitar/desabilitar o histórico nas configs;</li>
-                    <li>Agora o tema selecionado é mostrado;</li>
                     <li>Reajuste no sistema de XP;</li>
                     <li>Novo tema azul;</li>
                     <li>Removido tema pro;</li>
-                    <li>Melhorias visuais.</li>
+                    <li>Melhorias visuais;</li>
                     <span style="font-size: 9px;">+ novidades em breve!</span>
                 </ul>
             </div>
@@ -2639,22 +2610,11 @@ target.setHours(21, 0, 0, 0);
 function loadTheme() {
     const savedTheme = localStorage.getItem('theme') || 'classico';
     document.body.setAttribute('data-theme', savedTheme);
-
-    document.querySelector(`.tema-item[onclick="selectTheme('${savedTheme}')"]`)
-        .classList.add('selecionado');
 }
 
 function selectTheme(theme) {
     document.body.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
-    
-    document.querySelectorAll('.tema-item').forEach(item => {
-        item.classList.remove('selecionado');
-    });
-    
-    document.querySelector(`.tema-item[onclick="selectTheme('${theme}')"]`)
-        .classList.add('selecionado');
-    
     toggleSettings();
 }
 

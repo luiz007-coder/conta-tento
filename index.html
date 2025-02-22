@@ -106,9 +106,9 @@
     width: 2px;
     background: linear-gradient(
         180deg,
-        rgba(255,255,255,0.3),
+        rgba(164, 164, 164, 0.178),
     );
-    box-shadow: 0 0 10px rgba(111, 111, 111, 0.2);
+    box-shadow: 0 0 10px rgba(87, 87, 87, 0.2);
     border-radius: 2px;
 }
 
@@ -851,21 +851,40 @@
 
 .fechar-popup {
     position: absolute;
-    top: 8px;
-    right: 8px;
-    background: none;
+    top: 12px;
+    right: 12px;
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(145deg, #ff4757, #ff6b6b);
     border: none;
-    color: rgba(255,255,255,0.5);
-    font-size: 14px;
+    border-radius: 50%;
     cursor: pointer;
-    padding: 4px;
-    line-height: 1;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.fechar-popup::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(145deg, #ff6b6b, #ff4757);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .fechar-popup:hover {
-    color: rgba(255, 0, 0, 0.9);
-    transform: rotate(90deg) scale(1.05);
+    transform: rotate(90deg) scale(1.1);
+}
+
+.fechar-popup:hover::before {
+    opacity: 1;
 }
 
 .fechar-popup:active {
@@ -874,9 +893,16 @@
 
 .fechar-popup::after {
     content: '×';
-    font-family: Arial, sans-serif;
-    font-weight: 200;
-    font-size: 1.4em;
+    font-family: 'Arial', sans-serif;
+    font-weight: 300;
+    font-size: 1.6em;
+    color: white;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.fechar-popup:hover::after {
+    transform: scale(1.1);
 }
 
 .desafios-content {
@@ -958,16 +984,16 @@
     border: none;
     background: none;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    transition: transform 2s ease;
     z-index: 1000;
 }
 
 .btn-config:hover {
-    transform: scale(1.1);
+    transform: rotate(180deg);
 }
 
 .btn-config:active {
-    transform: scale(1);
+    transform: rotate(-180deg);
 }
 
 .config-popup {
@@ -1061,6 +1087,25 @@
     overflow-y: auto;
     font-size: 12px;
     line-height: 1.4;
+}
+
+.patch-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.patch-header i {
+    margin-right: 10px;
+    color: #f7f7f7;
+    font-size: 16px;
+    transition: color 0.3s;
 }
 
 .patch-item {
@@ -1174,7 +1219,7 @@
     border: 3px solid #b1ff33;
 }
 
-.tema-preview.lite {
+.tema-preview.dark {
     background: linear-gradient(160deg, #2a2a2a, #1e1e1e);
     border: 3px solid #161616;
 }
@@ -1188,37 +1233,37 @@
     background: radial-gradient(circle at center, rgba(178, 34, 34, 0.1), transparent 70%);
 }
 
-[data-theme="lite"] body {
+[data-theme="dark"] body {
     background-color: #1e1e1e;
     color: #e0e0e0;
 }
 
-[data-theme="lite"] .container {
-    background: linear-gradient(160deg, #202020, #1a1a1a) !important;
+[data-theme="dark"] .container {
+    background: linear-gradient(160deg, #161616, #1a1a1a) !important;
     color: #e0e0e0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-[data-theme="lite"] .btn-decrementar,
-[data-theme="lite"] .btn-incrementar {
+[data-theme="dark"] .btn-decrementar,
+[data-theme="dark"] .btn-incrementar {
     background: linear-gradient(145deg, #3c3c3c, #4f4f4f);
     color: #e0e0e0;
 }
 
-[data-theme="lite"] .truco-btn {
+[data-theme="dark"] .truco-btn {
     background-color: #333;
     color: #e0e0e0;
 }
 
-[data-theme="lite"] .truco-btn:hover {
+[data-theme="dark"] .truco-btn:hover {
     background-color: #414141;
 }
 
-[data-theme="lite"] .xp-bar {
+[data-theme="dark"] .xp-bar {
     background: linear-gradient(90deg, 
-        #d3d3d3, 
-        #b8b8b8, 
-        #9e9e9e, 
+        #848484, 
+        #696969, 
+        #898989, 
         #858585, 
         #6b6b6b);
     background-size: 200% 200%;
@@ -1287,7 +1332,7 @@
 
 
 [data-theme="old"] .container {
-    background: linear-gradient(160deg, #404040, #303030) !important;
+    background: linear-gradient(160deg, #303030, #252525) !important;
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
@@ -1301,7 +1346,7 @@
 }
 
 [data-theme="old"] .truco-btn:hover {
-    background-color: #ff4444 !important;
+    background-color: #980000 !important;
 }
 
 .checkbox-micro {
@@ -1703,13 +1748,13 @@
                         <div class="tema-preview new"></div>
                         <span>New</span>
                     </div>
+                    <div class="tema-item" onclick="selectTheme('dark')">
+                        <div class="tema-preview dark"></div>
+                        <span>Dark</span>
+                    </div>
                     <div class="tema-item" onclick="selectTheme('pro')">
                         <div class="tema-preview pro"></div>
                         <span>Truco Pro</span>
-                    </div>
-                    <div class="tema-item" onclick="selectTheme('lite')">
-                        <div class="tema-preview lite"></div>
-                        <span>Lite</span>
                     </div>
                 </div>
             </div>
@@ -1746,11 +1791,21 @@
     </button>
     
     <div id="patch-popup" class="patch-popup">
-        <div class="desafios-header">
+        <div class="patch-header">
             <h3><i class="fas fa-code-branch"></i> Patch Notes</h3>
             <button class="fechar-popup" onclick="togglePatches()"></button>
         </div>
         <div class="patch-content">
+            <div class="patch-item">
+                <div class="patch-version">v2.4.1</div>
+                <div class="patch-date">22/02/2025</div>
+                <ul>
+                    <li>Tema Dark(antigo Lite);</li>
+                    <li>Melhorias visuais;</li>
+                    <li>Correção de bugs.</li>
+                    <span style="font-size: 9px;">A próxima atualização envolverá o histórico.</span>
+                </ul>
+            </div>
             <div class="patch-item">
                 <div class="patch-version">v2.4.0</div>
                 <div class="patch-date">22/02/2025</div>
@@ -1772,7 +1827,7 @@
         </div>
     </div>
     
-    <div class="versao-programa">v2.4.0</div>
+    <div class="versao-programa">v2.4.1</div>
 
     <script>
         let dailyCheckInterval;

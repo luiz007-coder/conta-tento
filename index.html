@@ -844,14 +844,9 @@
 
 .desafios-header i {
     margin-right: 10px;
-    color: #ffcc00;
+    color: #f7f7f7;
     font-size: 16px;
     transition: color 0.3s;
-}
-
-.desafios-header i:hover {
-    color: #ff9900;
-    cursor: pointer;
 }
 
 .fechar-popup {
@@ -907,11 +902,16 @@
     margin-right: 6px;
     font-size: 14px;
     color: #0070c0;
-    transition: transform 0.2s ease;
+    animation: girar 1.5s linear infinite;
 }
 
-.timer-atualizacao:hover i {
-    transform: rotate(180deg);
+@keyframes girar {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .msgac {
@@ -1006,12 +1006,12 @@
     margin-right: 10px;
     color: #ffffff;
     font-size: 16px;
-    transition: transform 1s ease;
+    transition: transform 2s ease;
 }
 
 .config-header i:hover {
     cursor: pointer;
-    transform: rotate(180deg);
+    transform: rotate(360deg);
 }
 
 .config-content {
@@ -1072,10 +1072,6 @@
     transition: all 0.2s ease;
 }
 
-.patch-item:hover {
-    background: rgba(255,255,255,0.05);
-}
-
 .patch-version {
     color: #4CAF50;
     font-weight: 700;
@@ -1103,7 +1099,7 @@
 }
 
 .patch-item li:before {
-    content: '▪';
+    content: '';
     color: #2196F3;
     font-size: 0.8em;
     position: absolute;
@@ -1165,7 +1161,8 @@
 }
 
 .tema-preview.old {
-    background: linear-gradient(160deg, #404040, #7e0000);
+    background: linear-gradient(160deg, #404040, #303030);
+    border: 3px solid #ff3333;
 }
 
 .tema-preview.new {
@@ -1197,7 +1194,7 @@
 }
 
 [data-theme="lite"] .container {
-    background: linear-gradient(160deg, #2a2a2a, #1e1e1e) !important;
+    background: linear-gradient(160deg, #202020, #1a1a1a) !important;
     color: #e0e0e0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -1367,8 +1364,8 @@
     font-weight: bold;
     background: none;
     border: none;
-    color: #ff4c4c;
-    font-size: 1.4em;
+    color: #f9f6f6;
+    font-size: 1.2em;
     cursor: pointer;
     padding: 8px;
     transition: all 0.3s ease;
@@ -1537,13 +1534,15 @@
 }
 
 .reset-buttons button {
+    font-family: 'Monomaniac One', sans-serif;
+    text-transform: uppercase;
     border: none;
     padding: 12px 30px;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 500;
-    background: rgba(255,255,255,0.05);
+    background: rgba(255, 255, 255, 0.05);
     color: #fff;
 }
 
@@ -1753,6 +1752,14 @@
         </div>
         <div class="patch-content">
             <div class="patch-item">
+                <div class="patch-version">v2.4.0</div>
+                <div class="patch-date">22/02/2025</div>
+                <ul>
+                    <li>Melhorias visuais;</li>
+                    <li>Sistema de XP reajustado.</li>
+                </ul>
+            </div>
+            <div class="patch-item">
                 <div class="patch-version">v2.3.9</div>
                 <div class="patch-date">21/02/2025</div>
                 <ul>
@@ -1765,7 +1772,7 @@
         </div>
     </div>
     
-    <div class="versao-programa">v2.3.9</div>
+    <div class="versao-programa">v2.4.0</div>
 
     <script>
         let dailyCheckInterval;
@@ -1831,21 +1838,43 @@ const possiveisDesafios = [
     { tipo: 'tentos', desc: 'Marque 10 tentos em uma partida', meta: 10, xp: 6500 },
     { tipo: 'tentos', desc: 'Marque 9 tentos em uma partida', meta: 9, xp: 5200 },
     { tipo: 'tentos', desc: 'Marque 7 tentos em uma partida', meta: 7, xp: 4800 },
+    { tipo: 'tentos', desc: 'Marque 5 tentos em uma partida', meta: 5, xp: 3500 },
+    { tipo: 'tentos', desc: 'Marque 12 tentos no total em várias partidas', meta: 12, xp: 7500 },
+
     { tipo: 'vitorias', desc: 'Vença 3 partidas', meta: 3, xp: 10000 },
     { tipo: 'vitorias', desc: 'Vença 10 partidas', meta: 10, xp: 100000 },
+    { tipo: 'vitorias', desc: 'Vença 5 partidas', meta: 5, xp: 25000 },
+    { tipo: 'vitorias', desc: 'Vença 7 partidas', meta: 7, xp: 45000 },
+    { tipo: 'vitorias', desc: 'Vença 15 partidas', meta: 15, xp: 150000 },
+
     { tipo: 'truco', desc: 'Ative o truco 2 vezes', meta: 2, xp: 5500 },
     { tipo: 'truco', desc: 'Ative o truco 1 vez', meta: 1, xp: 2750 },
     { tipo: 'truco', desc: 'Ative o truco 3 vezes', meta: 3, xp: 8250 },
     { tipo: 'truco', desc: 'Ative o truco 4 vezes', meta: 4, xp: 10000 },
+    { tipo: 'truco', desc: 'Ative o truco 5 vezes', meta: 5, xp: 12500 },
+
     { tipo: 'consecutivas', desc: '2 vitórias consecutivas', meta: 2, xp: 8000 },
     { tipo: 'consecutivas', desc: '4 vitórias consecutivas', meta: 4, xp: 16000 },
     { tipo: 'consecutivas', desc: '6 vitórias consecutivas', meta: 6, xp: 64000 },
+    { tipo: 'consecutivas', desc: '8 vitórias consecutivas', meta: 8, xp: 128000 },
+    { tipo: 'consecutivas', desc: '10 vitórias consecutivas', meta: 10, xp: 200000 },
+
     { tipo: 'pontuacao', desc: 'Alcance média de 4 tentos por partida', meta: 4, xp: 4500 },
+    { tipo: 'pontuacao', desc: 'Alcance média de 5 tentos por partida', meta: 5, xp: 6000 },
+    { tipo: 'pontuacao', desc: 'Alcance média de 6 tentos por partida', meta: 6, xp: 7500 },
+    { tipo: 'pontuacao', desc: 'Alcance média de 7 tentos por partida', meta: 7, xp: 9000 },
+
     { tipo: 'tentos12', desc: 'Vença com 12 tentos', meta: 1, xp: 12500 },
+    { tipo: 'tentos12', desc: 'Vença com 12 tentos 2 vezes', meta: 2, xp: 25000 },
+
     { tipo: 'primeiro', desc: 'Marque o primeiro tento da partida', meta: 1, xp: 3500 },
+    { tipo: 'primeiro', desc: 'Marque o primeiro tento em 5 partidas', meta: 5, xp: 15000 },
+    
     { tipo: 'reiniciar', desc: 'Reinicie o jogo 2 vezes', meta: 2, xp: 4000 },
     { tipo: 'reiniciar', desc: 'Reinicie o jogo 4 vezes', meta: 4, xp: 6000 },
-    { tipo: 'reiniciar', desc: 'Reinicie o jogo 6 vezes', meta: 6, xp: 8000 }
+    { tipo: 'reiniciar', desc: 'Reinicie o jogo 6 vezes', meta: 6, xp: 8000 },
+    { tipo: 'reiniciar', desc: 'Reinicie o jogo 8 vezes', meta: 8, xp: 10000 },
+    { tipo: 'reiniciar', desc: 'Reinicie o jogo 10 vezes', meta: 10, xp: 12000 }
 ];
 
 function gerarDesafiosDiarios() {
@@ -2110,12 +2139,12 @@ function carregarNomes() {
     let xpDesafio = 0;
     
     if (!desafioTentosConcedido[dupla] && tentos[dupla] > tentosAleatorios) {
-    xpDesafio += Math.floor(Math.random() * (6000 - 3000 + 1)) + 3000;
+    xpDesafio += Math.floor(Math.random() * (5000 - 2000 + 1)) + 3000;
     desafioTentosConcedido[dupla] = true;
 }
     
     if (trucoAtivo && tentos[dupla] === 11) {
-        xpDesafio += Math.floor(Math.random() * (12000 - 6000 + 1)) + 6000;
+        xpDesafio += Math.floor(Math.random() * (8000 - 3000 + 1)) + 3000;
     }
 
     if (xpDesafio > 0) {
@@ -2142,7 +2171,7 @@ const multiplicadorTruco = trucoAtivo ? (trucoTento === 3 ? 1 : trucoTento / 3) 
 vitoriaXP = Math.round((baseVitoriaXP + bonusConsecutivo) * multiplicadorTruco);
 
             const baseXPporTento = 1000;
-    const bonusXP = Math.floor(Math.random() * 500);
+    const bonusXP = Math.floor(Math.random() * 750);
     const xpPorTento = baseXPporTento + bonusXP;
     
     pontosAdc = xpPorTento * pontosAdicionados;

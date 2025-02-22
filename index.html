@@ -204,7 +204,6 @@
 
 .rank-icon i.fa-medal {
     font-size: 12px;
-    transition: color 0.3s ease;
     opacity: 0.9;
 }
 
@@ -509,10 +508,9 @@
     color: #ffffff;
 }
 
-
 .level-bar {
     position: relative;
-    font-size: 8px;
+    font-size: 5px;
     color: #fff;
     gap: 5px;
 }
@@ -520,7 +518,7 @@
 .xp-container {
     position: relative;
     background: rgba(255, 255, 255, 0.1);
-    height: 13px;
+    height: 14px;
     border-radius: 5px;
     overflow: hidden;
     margin: 0 auto; 
@@ -580,7 +578,7 @@
 }
 
 #dupla1-level {
-    font-size: 14px;
+    font-size: 13px;
     background-color: #2196F3;
     color: #fff;
     padding: 2px 8px;
@@ -588,10 +586,13 @@
     display: inline-block;
     top: 30px;
     transform: translateY(-135%);
+    width: 55px;
+    min-width: 55px;
+    text-align: center;
 }
 
 #dupla2-level {
-    font-size: 14px;
+    font-size: 13px;
     background-color: #f44336;
     color: #fff;
     padding: 2px 8px;
@@ -599,6 +600,9 @@
     display: inline-block;
     top: 30px;
     transform: translateY(-135%);
+    width: 55px;
+    min-width: 55px;
+    text-align: center;
 }
 
 #dupla1-nome {
@@ -1189,8 +1193,15 @@
 .checkbox-micro {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
     cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+}
+
+.checkbox-micro:hover {
+    background: rgba(255,255,255,0.05);
 }
 
 .checkbox-micro input {
@@ -1199,36 +1210,44 @@
 }
 
 .checkbox-micro .checkmark {
-    display: inline-block;
-    width: 18px;
-    height: 18px;
+    position: relative;
+    width: 20px;
+    height: 20px;
     border: 2px solid rgba(255,255,255,0.3);
-    border-radius: 4px;
-    transition: all 0.2s ease;
+    border-radius: 5px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .checkbox-micro input:checked ~ .checkmark {
     background: #4CAF50;
     border-color: #4CAF50;
+    animation: checkPop 0.3s ease;
 }
 
-.checkbox-micro .checkmark:after {
-    content: "";
-    display: none;
-    width: 4px;
-    height: 8px;
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-    margin-left: 6px;
-    margin-top: 3px;
+.checkbox-micro .checkmark i {
+    font-size: 14px;
+    color: white;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
 }
 
-.checkbox-micro input:checked ~ .checkmark:after {
-    display: block;
+.checkbox-micro input:checked ~ .checkmark i {
+    opacity: 1;
+    transform: scale(1);
+}
+
+@keyframes checkPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.9); }
+    100% { transform: scale(1); }
 }
 
 .btn-reset-danger {
+    font-weight: bold;
     background: none;
     border: none;
     color: #ff4c4c;
@@ -1526,7 +1545,7 @@
         <div id="desafios-list" class="desafios-content"></div>
         <div class="timer-atualizacao">
             <i class="fas fa-sync-alt"></i>
-            Novos desafios em: <span id="timer-desafios">00h00m00s</span>
+            <span id="timer-desafios">00h00m00s</span>
         </div>
     </div>
 
@@ -1543,7 +1562,9 @@
             <div class="config-row">
                 <label class="checkbox-micro">
                     <input type="checkbox" id="notificacoes-check">
-                    <span class="checkmark"></span>
+                    <span class="checkmark">
+                        <i class="fas fa-check"></i>
+                    </span>
                     Notificações
                 </label>
                 
@@ -1605,6 +1626,41 @@
     </div>
 
     <script>
+        let dailyCheckInterval;
+
+function iniciarVerificacaoDiaria() {
+    dailyCheckInterval = setInterval(() => {
+        const agora = new Date();
+        const horaAtual = agora.getHours();
+        const minutoAtual = agora.getMinutes();
+
+        if(!localStorage.getItem('ultimoDia')) {
+        localStorage.setItem('ultimoDia', new Date().getDate().toString());
+    }
+        
+        if (horaAtual >= 21) {
+            const ultimoDiaNotif = localStorage.getItem('ultimoDiaNotif');
+            const diaAtual = agora.getDate();
+            
+            if (ultimoDiaNotif !== diaAtual.toString()) {
+                mostrarNotificacaoNovosDesafios();
+                localStorage.setItem('ultimoDiaNotif', diaAtual.toString());
+            }
+        }
+    }, 60000);
+}
+
+function mostrarNotificacaoNovosDesafios() {
+    if (!notificacoesAtivas) return;
+    
+    const notification = document.getElementById('newChallengeNotification');
+    if(notification.classList.contains('show')) return;
+    
+    notification.classList.add('show');
+    setTimeout(() => {
+        notification.classList.remove('show');
+    }, 7000);
+}
         let resetTimer;
         let resetTimeout;
         let notificacoesAtivas = localStorage.getItem('notificacoesAtivas') === 'true';
@@ -1650,46 +1706,52 @@ const possiveisDesafios = [
     { tipo: 'reiniciar', desc: 'Reinicie o jogo 6 vezes', meta: 6, xp: 8000 }
 ];
 
-        function gerarDesafiosDiarios() {
-            const agora = new Date();
-            const horaAtual = agora.getHours();
+function gerarDesafiosDiarios() {
+    const agora = new Date();
+    const horaAtual = agora.getHours();
     const minutoAtual = agora.getMinutes();
     const diaAtual = agora.getDate();
     const ultimoDiaSalvo = parseInt(localStorage.getItem('ultimoDia')) || 0;
-
     const horarioLimite = 21;
-const passouDoHorarioLimite = horaAtual > horarioLimite || (horaAtual === horarioLimite && minutoAtual >= 0);
 
-    if (passouDoHorarioLimite && (ultimoDia === null || diaAtual !== ultimoDia)) {
-        desafiosDiarios = [];
+    const passouDoHorarioLimite = horaAtual > horarioLimite || 
+                                 (horaAtual === horarioLimite && minutoAtual >= 0);
+
+    if (passouDoHorarioLimite && diaAtual !== ultimoDiaSalvo) {
         const desafiosSelecionados = new Set();
-        localStorage.setItem('ultimoDia', diaAtual);
+        const novosDesafios = [];
 
-        if (!localStorage.getItem('notificacaoMostrada')) {
-            const notification = document.getElementById('newChallengeNotification');
-            notification.classList.add('show');
-            localStorage.setItem('notificacaoMostrada', 'true');
-        }
-
-        while (desafiosDiarios.length < 3) {
+        while (novosDesafios.length < 3) {
             const randomIndex = Math.floor(Math.random() * possiveisDesafios.length);
             const desafio = { ...possiveisDesafios[randomIndex] };
 
             if (!desafiosSelecionados.has(desafio.tipo)) {
                 desafio.progresso = 0;
                 desafio.completo = false;
-                desafiosDiarios.push(desafio);
+                novosDesafios.push(desafio);
                 desafiosSelecionados.add(desafio.tipo);
             }
         }
 
-        ultimoDia = diaAtual;
-        localStorage.setItem('desafiosDiarios', JSON.stringify(desafiosDiarios));
-        localStorage.setItem('ultimoDia', ultimoDia);
+        localStorage.setItem('desafiosDiarios', JSON.stringify(novosDesafios));
+        localStorage.setItem('ultimoDia', diaAtual.toString());
+        desafiosDiarios = novosDesafios;
+
+        if (notificacoesAtivas) {
+            const notification = document.getElementById('newChallengeNotification');
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 7000);
+        }
+    }
+    else {
+        desafiosDiarios = JSON.parse(localStorage.getItem('desafiosDiarios')) || [];
     }
 
-    desafiosDiarios = JSON.parse(localStorage.getItem('desafiosDiarios')) || [];
     atualizarUIDesafios();
+    updateChallengeTimer();
 }
 
 function verificarProgressoDesafios(tipo, quantidade = 1) {
@@ -1799,10 +1861,10 @@ let xpData = {
 
         function adicionarXP(dupla, xpGanho) {
             xpData[dupla].xp += xpGanho;
-            while (xpData[dupla].xp >= calcularXPNecessario(xpData[dupla].level)) {
-                xpData[dupla].xp -= calcularXPNecessario(xpData[dupla].level);
-                xpData[dupla].level++;
-            }
+    while (xpData[dupla].xp >= calcularXPNecessario(xpData[dupla].level)) {
+        xpData[dupla].xp -= calcularXPNecessario(xpData[dupla].level);
+        xpData[dupla].level++;
+    }
 
             if (vitoriasConsecutivas > 0) {
         const bonus = Math.floor(xpGanho * (vitoriasConsecutivas * 0.1));
@@ -2131,11 +2193,13 @@ vitoriaXP = Math.round((baseVitoriaXP + bonusConsecutivo) * multiplicadorTruco);
             atualizarRank('dupla2');
             loadTheme();
             loadCheckboxState();
+            iniciarVerificacaoDiaria();
+            gerarDesafiosDiarios();
             tentosAleatorios = Math.floor(Math.random() * 5) + 3; 
-    document.getElementById('historico-container').style.display = 'none';
+            document.getElementById('historico-container').style.display = 'none';
             const agora = new Date();
-    const horaAtual = agora.getHours();
-    const minutoAtual = agora.getMinutes();
+            const horaAtual = agora.getHours();
+            const minutoAtual = agora.getMinutes();
 
     const horarioLimite = 21;
     const passouDoHorarioLimite = horaAtual > horarioLimite || (horaAtual === horarioLimite && minutoAtual >= 0);
@@ -2306,11 +2370,19 @@ function cancelReset() {
 }
 
 function confirmReset() {
+    const desafiosSalvos = localStorage.getItem('desafiosDiarios');
+    const ultimoDiaSalvo = localStorage.getItem('ultimoDia');
+
+    if(ultimoDiaSalvo) {
+        localStorage.setItem('ultimoDia', ultimoDiaSalvo);
+    }
+
     localStorage.clear();
     location.reload();
 }
 
 document.getElementById('notificacoes-check').addEventListener('change', function() {
+    notificacoesAtivas = this.checked;
     saveCheckboxState();
     if(!this.checked) {
         const notification = document.getElementById('newChallengeNotification');
@@ -2320,33 +2392,11 @@ document.getElementById('notificacoes-check').addEventListener('change', functio
     }
 });
 
-let notificationTimeout;
-
-function verificarHorarioNotificacao() {
-    const agora = new Date();
-    const horaExata = agora.getHours() === 21 && agora.getMinutes() === 0;
-    const ultimoDiaNotif = parseInt(localStorage.getItem('ultimoDiaNotificacao')) || 0;
-    const diaAtual = agora.getDate();
-    const mesAtual = agora.getMonth();
-
-    if (horaExata && (diaAtual !== ultimoDiaNotif || mesAtual !== new Date(ultimoDiaNotif).getMonth())) {
-        const notification = document.getElementById('newChallengeNotification');
-        notification.classList.add('show');
-        localStorage.setItem('ultimoDiaNotificacao', new Date().getTime());
-        
-        setTimeout(() => {
-            notification.classList.remove('show');
-        }, 7200000);
-    }
-}
-
 function handleAtualizacao() {
+    localStorage.removeItem('ultimoDia');
+    gerarDesafiosDiarios();
     const notification = document.getElementById('newChallengeNotification');
     notification.classList.remove('show');
-    localStorage.setItem('ultimoDiaNotificacao', new Date().getDate());
-    location.reload();
-    localStorage.removeItem('ultimoDia');
-    gerarDesafiosDiarios(); 
 }
 
     </script>

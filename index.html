@@ -387,7 +387,7 @@
 .historico-container {
     display: none;
     background: rgba(30, 30, 30, 0.95);
-    padding: 17px;
+    padding: 19px;
     border-radius: 15px;
     margin-top: 8px;
     max-height: 90px;
@@ -410,6 +410,7 @@
 }
 
 .historico-btn {
+    display: none;
     background: rgba(255, 255, 255, 0.05);
     border: none;
     border-radius: 7px;
@@ -420,6 +421,9 @@
     cursor: pointer;
     transition: all 0.2s ease;
     font-weight: bold;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .historico-btn:hover {
@@ -434,7 +438,7 @@
 
 .limpar-historico-btn {
     position: absolute;
-    top: 8px;
+    top: 5px;
     right: 8px;
     background: none;
     border: none;
@@ -456,7 +460,7 @@
         .editar-nome {
     cursor: pointer;
     margin-left: 10px;
-    font-size: 15px;
+    font-size: 14px;
     transition: color 0.3s ease;
 }
 
@@ -880,7 +884,7 @@
 }
 
 .fechar-popup:hover {
-    transform: rotate(90deg) scale(1.1);
+    transform: rotate(90deg);
 }
 
 .fechar-popup:hover::before {
@@ -971,7 +975,7 @@
 }
 
 .fa-trophy {
-    color: #ffd700;
+    color: #ffe44d;
     transition: color 0.3s ease;
 }
 
@@ -1074,6 +1078,7 @@
     border: 1px solid rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(10px);
     overflow: hidden;
+    overflow-y: auto;
 }
 
 .patch-popup.active {
@@ -1183,6 +1188,7 @@
 }
 
 .tema-item {
+    position: relative;
     display: flex;
     align-items: center;
     padding: 12px;
@@ -1197,6 +1203,29 @@
     background: rgba(255, 255, 255, 0.1);
 }
 
+.tema-checkmark {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #00e636;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: white;
+}
+
+.tema-item.selecionado .tema-checkmark {
+    display: flex;
+}
+
+.tema-checkmark i {
+    font-size: 9px;
+}
+
 .tema-preview {
     width: 40px;
     height: 40px;
@@ -1205,7 +1234,7 @@
     border: 2px solid rgba(255, 255, 255, 0.1);
 }
 
-.tema-preview.old {
+.tema-preview.classico {
     background: linear-gradient(160deg, #404040, #303030);
     border: 3px solid #ff3333;
 }
@@ -1214,23 +1243,51 @@
     background: linear-gradient(160deg, #2a2a2a 0%, #202020 100%);
 }
 
-.tema-preview.pro {
-    background: linear-gradient(160deg, #1c1c1c, #0f0f0f);
-    border: 3px solid #b1ff33;
-}
-
 .tema-preview.dark {
     background: linear-gradient(160deg, #2a2a2a, #1e1e1e);
     border: 3px solid #161616;
 }
 
-[data-theme="pro"] .container {
-    background: linear-gradient(160deg, #1c1c1c, #0f0f0f) !important;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+.tema-preview.blue {
+    background: linear-gradient(160deg, #2a2a2a, #1e1e1e);
+    border: 3px solid #0049a8;
 }
 
-[data-theme="pro"] .container::before {
-    background: radial-gradient(circle at center, rgba(178, 34, 34, 0.1), transparent 70%);
+[data-theme="blue"] body {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+}
+
+[data-theme="blue"] .container {
+    background: linear-gradient(160deg, #2e2e2e, #272727) !important;
+    color: #e0e0e0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="blue"] .btn-decrementar,
+[data-theme="blue"] .btn-incrementar {
+    background: linear-gradient(145deg, #006bc9, #00599e);
+    color: #e0e0e0;
+}
+
+[data-theme="blue"] .truco-btn {
+    background-color: #005198;
+    color: #e0e0e0;
+}
+
+[data-theme="blue"] .truco-btn:hover {
+    background-color: #00599e;
+}
+
+[data-theme="blue"] .xp-bar {
+    background: linear-gradient(90deg, 
+        #00599e, 
+        #0077d1, 
+        #0080e1, 
+        #0078d3, 
+        #00599e);
+    background-size: 200% 200%;
+    animation: xpSlide 4s linear infinite alternate;
 }
 
 [data-theme="dark"] body {
@@ -1282,70 +1339,21 @@
     }
 }
 
-[data-theme="pro"] .btn-decrementar,
-[data-theme="pro"] .btn-incrementar {
-    background: linear-gradient(145deg, #00ff00, #b1ff33);
-    color: #ffffff;
-}
-
-[data-theme="pro"] .truco-btn {
-    animation: pro-gradient 3s ease infinite;
-    color: #ffffff;
-}
-
-[data-theme="pro"] .truco-btn:hover {
-    background-color: #8e0000;
-}
-
-[data-theme="pro"] .historico-container,
-[data-theme="pro"] .desafios-popup {
-    background: rgba(20, 20, 20, 0.9);
-    color: #d4d4d4;
-}
-
-[data-theme="pro"] .xp-bar {
-    background: linear-gradient(90deg,
-        #1a2f1d,
-        #2d5a31,
-        #3d8b40,
-        #4caf50,
-        #6eff73);
-    background-size: 200% 200%;
-    animation: xpSlidePro 3s linear infinite alternate;
-    box-shadow: 0 0 10px rgba(110, 255, 115, 0.3);
-}
-
-@keyframes xpSlidePro {
-    0% {
-        background-position: 0% 50%;
-        filter: hue-rotate(0deg);
-    }
-    50% {
-        background-position: 100% 50%;
-        filter: hue-rotate(20deg);
-    }
-    100% {
-        background-position: 0% 50%;
-        filter: hue-rotate(0deg);
-    }
-}
-
-
-[data-theme="old"] .container {
+[data-theme="classico"] .container {
     background: linear-gradient(160deg, #303030, #252525) !important;
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
-[data-theme="old"] .btn-decrementar,
-[data-theme="old"] .btn-incrementar {
+[data-theme="classico"] .btn-decrementar,
+[data-theme="classico"] .btn-incrementar {
     background: linear-gradient(145deg, #ff4444, #cc0000) !important;
 }
 
-[data-theme="old"] .truco-btn {
+[data-theme="classico"] .truco-btn {
     background-color: #cc0000 !important;
 }
 
-[data-theme="old"] .truco-btn:hover {
+[data-theme="classico"] .truco-btn:hover {
     background-color: #980000 !important;
 }
 
@@ -1381,8 +1389,8 @@
 }
 
 .checkbox-micro input:checked ~ .checkmark {
-    background: #4CAF50;
-    border-color: #4CAF50;
+    background: #2fcf4c;
+    border-color: #39dc2a;
     animation: checkPop 0.3s ease;
 }
 
@@ -1406,18 +1414,19 @@
 }
 
 .btn-reset-danger {
-    font-weight: bold;
-    background: none;
-    border: none;
+    background: rgba(59, 59, 59, 0.2);
+    border-radius: 8px;
+    border: 2px solid #9f9f9f;
     color: #f9f6f6;
-    font-size: 1.2em;
+    font-size: 17px;
     cursor: pointer;
     padding: 8px;
     transition: all 0.3s ease;
 }
 
 .btn-reset-danger:hover {
-    color: #ff0000;
+    color: #ff3434;
+    border: 2px solid #ff0000;
 }
 
 .btn-reset-danger:active {
@@ -1603,6 +1612,54 @@
     transform: translateY(0);
 }
 
+[data-theme="classico"] .mensagem-vitoria {
+    background: linear-gradient(160deg, #cc0000b2, #990000ad) !important;
+    border: 2px solid #ff4444;
+}
+
+[data-theme="classico"] .mensagem-vitoria h2 {
+    color: #ffffff;
+}
+
+[data-theme="classico"] .mensagem-vitoria button {
+    background: linear-gradient(145deg, #ff4444, #cc0000) !important;
+}
+
+[data-theme="new"] .mensagem-vitoria {
+    background: linear-gradient(160deg, #2a2a2a 0%, #202020 100%) !important;
+    border: 1px solid rgba(255, 71, 71, 0.3);
+}
+
+[data-theme="new"] .mensagem-vitoria h2 {
+    color: #ff3333;
+}
+
+[data-theme="dark"] .mensagem-vitoria {
+    background: linear-gradient(160deg, #1a1a1a, #000000) !important;
+    border: 1px solid #333;
+}
+
+[data-theme="dark"] .mensagem-vitoria h2 {
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .mensagem-vitoria p {
+    color: #b0b0b0;
+}
+
+[data-theme="blue"] .mensagem-vitoria {
+    background: linear-gradient(160deg, #004a8f, #002b54) !important;
+    border: 1px solid #0078d4;
+}
+
+[data-theme="blue"] .mensagem-vitoria h2 {
+    color: #80d4ff;
+}
+
+[data-theme="blue"] .mensagem-vitoria button {
+    background: linear-gradient(145deg, #0078d4, #0063ad) !important;
+}
+
     </style>
 </head>
 <body>
@@ -1619,7 +1676,7 @@
                         <i class="fa-solid fa-medal"></i>
                       </div>
                     <div class="rank-tooltip">
-                        <span id="dupla1-level" onclick="mostrarTooltip('dupla1')">Lvl 0</span>
+                        <span id="dupla1-level" onclick="mostrarTooltip('dupla1')">Lv: 0</span>
                         <span class="tooltip-text" id="dupla1-tooltip"></span>
                     </div>
                     <div class="xp-container">
@@ -1649,7 +1706,7 @@
                         <i class="fa-solid fa-medal"></i>
                       </div>
                     <div class="rank-tooltip">
-                        <span id="dupla2-level" onclick="mostrarTooltip('dupla2')">Lvl 0</span>
+                        <span id="dupla2-level" onclick="mostrarTooltip('dupla2')">Lv: 0</span>
                         <span class="tooltip-text" id="dupla2-tooltip"></span>
                     </div>
                     <div class="xp-container">
@@ -1728,7 +1785,15 @@
                     </span>
                     Notificações
                 </label>
-                
+
+                <label class="checkbox-micro check-hist">
+                    <input type="checkbox" id="historico-check">
+                    <span class="checkmark">
+                        <i class="fas fa-check"></i>
+                    </span>
+                        Histórico
+                </label>
+
                 <button class="btn-reset-danger" onclick="showResetDialog()">
                     <i class="fas fa-skull"></i>
                 </button>
@@ -1740,21 +1805,25 @@
                     <i class="fas fa-chevron-down arrow-icon"></i>
                 </div>
                 <div class="theme-options">
-                    <div class="tema-item" onclick="selectTheme('old')">
-                        <div class="tema-preview old"></div>
-                        <span>Old</span>
+                    <div class="tema-item" onclick="selectTheme('classico')">
+                        <div class="tema-preview classico"></div>
+                        <span>Clássico</span>
+                        <span class="tema-checkmark"><i class="fas fa-check"></i></span>
                     </div>
                     <div class="tema-item" onclick="selectTheme('new')">
                         <div class="tema-preview new"></div>
                         <span>New</span>
+                        <span class="tema-checkmark"><i class="fas fa-check"></i></span>
                     </div>
                     <div class="tema-item" onclick="selectTheme('dark')">
                         <div class="tema-preview dark"></div>
                         <span>Dark</span>
+                        <span class="tema-checkmark"><i class="fas fa-check"></i></span>
                     </div>
-                    <div class="tema-item" onclick="selectTheme('pro')">
-                        <div class="tema-preview pro"></div>
-                        <span>Truco Pro</span>
+                    <div class="tema-item" onclick="selectTheme('blue')">
+                        <div class="tema-preview blue"></div>
+                        <span>Blue</span>
+                        <span class="tema-checkmark"><i class="fas fa-check"></i></span>
                     </div>
                 </div>
             </div>
@@ -1797,13 +1866,25 @@
         </div>
         <div class="patch-content">
             <div class="patch-item">
+                <div class="patch-version">v2.4.2</div>
+                <div class="patch-date">22/02/2025</div>
+                <ul>
+                    <li>Habilitar/desabilitar o histórico nas configs;</li>
+                    <li>Agora o tema selecionado é mostrado;</li>
+                    <li>Reajuste no sistema de XP;</li>
+                    <li>Novo tema azul;</li>
+                    <li>Removido tema pro;</li>
+                    <li>Melhorias visuais.</li>
+                    <span style="font-size: 9px;">+ novidades em breve!</span>
+                </ul>
+            </div>
+            <div class="patch-item">
                 <div class="patch-version">v2.4.1</div>
                 <div class="patch-date">22/02/2025</div>
                 <ul>
                     <li>Tema Dark(antigo Lite);</li>
                     <li>Melhorias visuais;</li>
                     <li>Correção de bugs.</li>
-                    <span style="font-size: 9px;">A próxima atualização envolverá o histórico.</span>
                 </ul>
             </div>
             <div class="patch-item">
@@ -1827,10 +1908,19 @@
         </div>
     </div>
     
-    <div class="versao-programa">v2.4.1</div>
+    <div class="versao-programa">v2.4.2</div>
 
     <script>
         let dailyCheckInterval;
+
+        function formatarNumero(numero) {
+    if (numero >= 1000000) {
+        return (numero / 1000000).toFixed(numero >= 10000000 ? 0 : 1) + 'M';
+    } else if (numero >= 1000) {
+        return (numero / 1000).toFixed(numero >= 10000 ? 0 : 1) + 'k';
+    }
+    return numero.toString();
+}
 
 function iniciarVerificacaoDiaria() {
     dailyCheckInterval = setInterval(() => {
@@ -2067,8 +2157,8 @@ let xpData = {
         };
 
         function calcularXPNecessario(level) {
-            return Math.floor(150 * Math.pow(level, 2) + 500 + level * 50);
-        }
+    return Math.floor(500 * Math.pow(level, 3) + 1000 + level * 100);
+}
 
         function mostrarTooltip(dupla) {
     const vitoriasDupla = vitorias[dupla];
@@ -2118,8 +2208,8 @@ let xpData = {
 
             document.getElementById(`${dupla}-xp-bar`).style.width = `${porcentagem}%`;
             const xpTextElement = document.getElementById(`${dupla}-xp-text`);
-    xpTextElement.textContent = `${currentXP} / ${requiredXP} XP`;
-            document.getElementById(`${dupla}-level`).textContent = `Lvl ${currentLevel}`;
+     xpTextElement.textContent = `${formatarNumero(currentXP)} / ${formatarNumero(requiredXP)} XP`;
+            document.getElementById(`${dupla}-level`).textContent = `Lv: ${currentLevel}`;
         }
 
         function salvarXPData() {
@@ -2381,13 +2471,14 @@ vitoriaXP = Math.round((baseVitoriaXP + bonusConsecutivo) * multiplicadorTruco);
         }
 
         function toggleHistorico() {
-            const historicoContainer = document.getElementById('historico-container');
-        if (historicoContainer.style.display === 'block') {
-            historicoContainer.style.display = 'none';
-        } else {
-         mostrarHistorico();
-            }
-        }
+    const historicoContainer = document.getElementById('historico-container');
+    if (historicoContainer.style.display === 'block') {
+        historicoContainer.style.display = 'none';
+    } else {
+        historicoContainer.style.display = 'block';
+        mostrarHistorico();
+    }
+}
 
         function resetarTentos() {
             tentosAleatorios = Math.floor(Math.random() * 5) + 3;
@@ -2443,7 +2534,8 @@ vitoriaXP = Math.round((baseVitoriaXP + bonusConsecutivo) * multiplicadorTruco);
     ultimoDia = parseInt(localStorage.getItem('ultimoDia')) || new Date().getDate();
     desafiosDiarios = JSON.parse(localStorage.getItem('desafiosDiarios')) || [];
     atualizarUIDesafios();
-            document.getElementById('historico-container').style.display = 'none';
+            document.querySelector('.historico-btn').style.display = 
+            localStorage.getItem('mostrarHistorico') === 'true' ? 'block' : 'none';
         };
 
         const ranks = [
@@ -2547,11 +2639,22 @@ target.setHours(21, 0, 0, 0);
 function loadTheme() {
     const savedTheme = localStorage.getItem('theme') || 'classico';
     document.body.setAttribute('data-theme', savedTheme);
+
+    document.querySelector(`.tema-item[onclick="selectTheme('${savedTheme}')"]`)
+        .classList.add('selecionado');
 }
 
 function selectTheme(theme) {
     document.body.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
+    
+    document.querySelectorAll('.tema-item').forEach(item => {
+        item.classList.remove('selecionado');
+    });
+    
+    document.querySelector(`.tema-item[onclick="selectTheme('${theme}')"]`)
+        .classList.add('selecionado');
+    
     toggleSettings();
 }
 
@@ -2565,7 +2668,23 @@ loadTheme();
 function loadCheckboxState() {
     const savedState = localStorage.getItem('notificacoesAtivas') === 'true';
     document.getElementById('notificacoes-check').checked = savedState;
+    document.getElementById('historico-check').checked = localStorage.getItem('mostrarHistorico') === 'true';
+atualizarVisibilidadeHistorico();
 }
+
+function atualizarVisibilidadeHistorico() {
+    const mostrar = localStorage.getItem('mostrarHistorico') === 'true';
+    const btnHistorico = document.querySelector('.historico-btn');
+    const containerHistorico = document.getElementById('historico-container');
+    
+    btnHistorico.style.display = mostrar ? 'block' : 'none';
+    containerHistorico.style.display = 'none'; 
+}
+
+document.getElementById('historico-check').addEventListener('change', function() {
+    localStorage.setItem('mostrarHistorico', this.checked);
+    atualizarVisibilidadeHistorico();
+});
 
 function saveCheckboxState() {
     const checkbox = document.getElementById('notificacoes-check');

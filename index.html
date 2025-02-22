@@ -518,7 +518,7 @@
 .xp-container {
     position: relative;
     background: rgba(255, 255, 255, 0.1);
-    height: 14px;
+    height: 13px;
     border-radius: 5px;
     overflow: hidden;
     margin: 0 auto; 
@@ -1018,6 +1018,129 @@
     padding: 15px;
 }
 
+.btn-patch {
+    position: fixed;
+    bottom: 20px;
+    left: 70px;
+    color: white;
+    font-size: 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    z-index: 1000;
+}
+
+.btn-patch:hover {
+    transform: scale(1.1);
+}
+
+.patch-popup {
+    display: none;
+    position: fixed;
+    bottom: 80px;
+    left: 20px;
+    width: 340px;
+    background: linear-gradient(145deg, #202020, #1a1a1a);
+    border-radius: 12px;
+    z-index: 1001;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+}
+
+.patch-popup.active {
+    display: block;
+    animation: fadeSlideIn 0.3s ease-out;
+}
+
+.patch-content {
+    padding: 12px;
+    max-height: 50vh;
+    overflow-y: auto;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.patch-item {
+    margin: 8px 0;
+    padding: 12px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 6px;
+    border-left: 2px solid rgba(33, 150, 243, 0.3);
+    transition: all 0.2s ease;
+}
+
+.patch-item:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+.patch-version {
+    color: #4CAF50;
+    font-weight: 700;
+    margin-bottom: 4px;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+}
+
+.patch-date {
+    color: rgba(255,255,255,0.4);
+    font-size: 0.65em;
+    margin-bottom: 8px;
+    font-family: 'Courier New', monospace;
+}
+
+.patch-item ul {
+    padding-left: 16px;
+    margin: 4px 0;
+}
+
+.patch-item li {
+    margin-bottom: 3px;
+    color: rgba(255,255,255,0.8);
+    position: relative;
+}
+
+.patch-item li:before {
+    content: '▪';
+    color: #2196F3;
+    font-size: 0.8em;
+    position: absolute;
+    left: -12px;
+    top: 1px;
+}
+
+.patch-content::-webkit-scrollbar {
+    width: 5px;
+}
+
+.patch-content::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.1);
+}
+
+.patch-content::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.1);
+    border-radius: 3px;
+}
+
+.versao-programa {
+    top: 15px;
+    right: 15px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.25);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.versao-programa {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    color: rgba(255,255,255,0.3);
+    font-size: 12px;
+    font-family: monospace;
+}
+
 .tema-item {
     display: flex;
     align-items: center;
@@ -1092,12 +1215,6 @@
 
 [data-theme="lite"] .truco-btn:hover {
     background-color: #414141;
-}
-
-[data-theme="lite"] .historico-container,
-[data-theme="lite"] .desafios-popup {
-    background: rgba(50, 50, 50, 0.9);
-    color: #e0e0e0;
 }
 
 [data-theme="lite"] .xp-bar {
@@ -1625,6 +1742,31 @@
         </div>
     </div>
 
+    <button class="btn-patch" onclick="togglePatches()">
+        <i class="fas fa-clipboard-list"></i>
+    </button>
+    
+    <div id="patch-popup" class="patch-popup">
+        <div class="desafios-header">
+            <h3><i class="fas fa-code-branch"></i> Patch Notes</h3>
+            <button class="fechar-popup" onclick="togglePatches()"></button>
+        </div>
+        <div class="patch-content">
+            <div class="patch-item">
+                <div class="patch-version">v2.3.9</div>
+                <div class="patch-date">21/02/2025</div>
+                <ul>
+                    <li>Adição do Patch Notes;</li>
+                    <li>Melhorias visuais;</li>
+                    <li>Correção de bugs;</li>
+                    <li>Quantidade de XP por nível aumentada.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="versao-programa">v2.3.9</div>
+
     <script>
         let dailyCheckInterval;
 
@@ -2090,12 +2232,18 @@ vitoriaXP = Math.round((baseVitoriaXP + bonusConsecutivo) * multiplicadorTruco);
             }
             document.getElementById('truco-pontos').textContent = trucoTento;
 
-            verificarProgressoDesafios('truco', 1);
+            verificarProgressoDesafios('truco');
         }
 
         function exibirMensagemVitoria(dupla) {
     const mensagem = document.getElementById('mensagem-vitoria');
     const ganhador = document.getElementById('ganhador');
+    mensagem.style.animation = 'aparecer 0.5s ease-out';
+
+    setTimeout(() => {
+        adicionarXP(dupla, vitoriaXP);
+        atualizarRank(dupla);
+    }, 100);
     
     const placar = `${nomesDuplas.dupla1} ${tentos.dupla1} x ${tentos.dupla2} ${nomesDuplas.dupla2}`;
     ganhador.innerHTML = `
@@ -2118,7 +2266,7 @@ vitoriaXP = Math.round((baseVitoriaXP + bonusConsecutivo) * multiplicadorTruco);
         acao = `<span style="color: #e1c66c;">${acao}</span>`;
     } else if (acao.includes('recebeu')) {
         acao = `<span style="color: cyan;">${acao}</span>`;
-    } else if (acao.includes('diário')) {
+    } else if (acao.includes('completo:')) {
         acao = `<span style="color: purple;">${acao}</span>`;
     }
 
@@ -2397,6 +2545,11 @@ function handleAtualizacao() {
     gerarDesafiosDiarios();
     const notification = document.getElementById('newChallengeNotification');
     notification.classList.remove('show');
+}
+
+function togglePatches() {
+    const popup = document.getElementById('patch-popup');
+    popup.classList.toggle('active');
 }
 
     </script>

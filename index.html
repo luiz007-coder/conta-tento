@@ -159,7 +159,7 @@
         }
 
         .truco-btn:hover {
-            background-color: #9e9e9e;
+            background-color: #5a5a5a;
         }
 
         .truco-btn:active {
@@ -386,15 +386,14 @@
 
 .historico-container {
     display: none;
-    background: rgba(30, 30, 30, 0.95);
-    padding: 19px;
-    border-radius: 15px;
+    background: rgba(25, 25, 25, 0.95);
+    padding: 16px;
+    border-radius: 12px;
     margin-top: 8px;
     max-height: 90px;
     overflow-y: auto;
     position: relative;
-    font-size: 12px;
-    scrollbar-width: none;
+    font-size: 10px;
     -ms-overflow-style: none;
 }
 
@@ -404,37 +403,38 @@
 
 .historico-container p {
     margin: 6px 0;
-    padding: 4px 0;
-    color: rgba(255, 255, 255, 0.7);
-    border-bottom: 2px dashed rgba(37, 37, 37, 0.95);
+    padding: 5px 0;
+    color: rgba(255, 255, 255, 0.75);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-weight: 500;
 }
 
 .historico-btn {
     display: none;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.08);
     border: none;
-    border-radius: 7px;
-    color: rgba(255, 255, 255, 0.6);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.7);
     font-size: 12px;
-    padding: 6px 12px;
-    margin-top: 15px;
+    padding: 7px 14px;
+    margin-top: 12px;
     cursor: pointer;
-    transition: all 0.2s ease;
-    font-weight: bold;
+    transition: background 0.2s ease, transform 0.2s ease;
+    font-weight: 600;
     display: block;
     margin-left: auto;
     margin-right: auto;
 }
 
 .historico-btn:hover {
-    background: rgba(255, 71, 71, 0.1);
-    color: rgba(191, 191, 191, 0.8);
+    background: rgba(84, 84, 84, 0.15);
+    color: rgba(220, 220, 220, 0.9);
 }
 
 .historico-btn:active {
-            transform: translateY(1px) scale(0.98);
-            transition: 0.2s;
-        }
+    transform: scale(0.96);
+}
+
 
 .limpar-historico-btn {
     position: absolute;
@@ -465,7 +465,7 @@
 }
 
 .editar-nome:hover {
-    color: #a2a2a2;
+    color: #b3b3b3;
 }
 
 .nome-dupla {
@@ -475,42 +475,40 @@
 }
 
 .btn-decrementar, .btn-incrementar {
-    background: linear-gradient(145deg, #afafaf, #808080);
+    background: #828282;
     border: none;
-    border-radius: 10px;
-    padding: 14px 22px;
+    border-radius: 8px;
+    padding: 12px 20px;
     font-size: 18px;
     color: white;
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    overflow: hidden;
-    box-shadow: 0 1px 3px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .btn-decrementar:hover, .btn-incrementar:hover {
-    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2);
+    background: #5a5a5a;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 }
 
 .btn-decrementar:active, .btn-incrementar:active {
-    transform: scale(0.95);
+    transform: scale(0.93);
 }
 
 .btn-icon {
-    font-size: 24px;
-    transition: transform 0.2s ease, color 0.2s ease;
+    font-size: 22px;
+    color: white;
+    transition: transform 0.2s ease;
 }
 
-.btn-decrementar .fa-arrow-down {
-    color: #ffffff;
+.btn-decrementar:hover .btn-icon, .btn-incrementar:hover .btn-icon {
+    transform: scale(1.1);
 }
 
-.btn-incrementar .fa-arrow-up {
-    color: #ffffff;
-}
 
 .level-bar {
     position: relative;
@@ -575,46 +573,53 @@
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 9px;
-    color: #fff  !important;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    color: #fff !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
     white-space: nowrap;
-    z-index: 1;
+    z-index: 10;
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
+
 #dupla1-level {
-    font-size: 13px;
+    font-size: 11px;
+    font-weight: 600;
     background-color: #2196F3;
     color: #fff;
     padding: 2px 8px;
     border-radius: 5px;
     display: inline-block;
     top: 30px;
-    transform: translateY(-135%);
-    width: 55px;
-    min-width: 55px;
+    transform: translateY(-165%);
+    width: auto;
+    min-width: 48px;
+    height: 20px;
     text-align: center;
 }
 
 #dupla2-level {
-    font-size: 13px;
-    background-color: #f44336;
+    font-size: 11px;
+    font-weight: 600;
+    background-color: #2196F3;
     color: #fff;
     padding: 2px 8px;
     border-radius: 5px;
     display: inline-block;
     top: 30px;
-    transform: translateY(-135%);
-    width: 55px;
-    min-width: 55px;
+    transform: translateY(-165%);
+    width: auto;
+    min-width: 48px;
+    height: 20px;
     text-align: center;
 }
 
 #dupla1-nome {
-    color: #fff;
+    color: #009af4;
 }
 
 #dupla2-nome {
-    color: #fff;
+    color: #ee0000;
 }
 
 .rank-tooltip {
@@ -635,7 +640,7 @@
     padding: 2px 9px;
     position: absolute;
     z-index: 1;
-    bottom: 103%;
+    bottom: 98%;
     left: 50%;
     transform: translateX(-50%);
     opacity: 0;
@@ -859,55 +864,31 @@
     right: 12px;
     width: 28px;
     height: 28px;
-    background: linear-gradient(145deg, #ff4757, #ff6b6b);
+    background: #333;
     border: none;
-    border-radius: 50%;
+    border-radius: 6px;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: background 0.2s ease, transform 0.2s ease;
     z-index: 2;
 }
 
-.fechar-popup::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(145deg, #ff6b6b, #ff4757);
-    border-radius: 50%;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
 .fechar-popup:hover {
-    transform: rotate(90deg);
-}
-
-.fechar-popup:hover::before {
-    opacity: 1;
+    background: #ff4d4d;
 }
 
 .fechar-popup:active {
-    transform: rotate(90deg) scale(0.9);
+    transform: scale(0.9);
 }
 
 .fechar-popup::after {
     content: '×';
-    font-family: 'Arial', sans-serif;
-    font-weight: 300;
-    font-size: 1.6em;
+    font-size: 1.4em;
     color: white;
-    position: relative;
-    transition: transform 0.3s ease;
 }
 
-.fechar-popup:hover::after {
-    transform: scale(1.1);
-}
 
 .desafios-content {
     max-height: 400px;
@@ -1453,63 +1434,6 @@
             margin-bottom: 15px;
         }
 
-        .challenge-notification {
-    display: none;
-    position: fixed;
-    bottom: 20px;
-    right: -300px;
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.challenge-notification.show {
-    right: 20px;
-    opacity: 1;
-}
-
-.notification-content {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-}
-
-.notification-content i {
-    font-size: 1.1em;
-    color: #4CAF50;
-}
-
-.notification-text {
-    flex-grow: 1;
-}
-
-.notification-text h4 {
-    margin: 0 0 4px 0;
-    font-size: 14px;
-    color: #fff;
-}
-
-.notification-text p {
-    margin: 0;
-    font-size: 12px;
-    color: #b0b0b0;
-}
-
-.notification-content button {
-    background: rgba(255, 255, 255, 0.08);
-    border: none;
-    border-radius: 8px;
-    padding: 8px 16px;
-    color: #fff;
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.notification-content button:hover {
-    background: rgba(255, 255, 255, 0.12);
-}
-
 .theme-accordion {
     margin-top: 10px;
     border-top: 1px solid rgba(255,255,255,0.1);
@@ -1636,6 +1560,80 @@
     background: linear-gradient(145deg, #0078d4, #0063ad) !important;
 }
 
+.modal-editar-nome {
+    font-family: 'Poppins', sans-serif;
+    text-transform: uppercase;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-conteudo {
+    background: #2a2a2a;
+    padding: 25px;
+    border-radius: 12px;
+    width: 280px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.modal-conteudo h3 {
+    color: #fff;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+#novoNomeInput {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    background: #404040;
+    border: 1px solid #555;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+    outline: none;
+}
+
+.modal-botoes {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.modal-botoes button {
+    font-family: 'Monomaniac One', sans-serif;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.modal-botoes button:first-child {
+    background: #138e00;
+    color: white;
+}
+
+.modal-botoes button:last-child {
+    background: #9b0000;
+    color: white;
+}
+
+.modal-botoes button:hover {
+    opacity: 0.9;
+}
+
     </style>
 </head>
 <body>
@@ -1652,7 +1650,7 @@
                         <i class="fa-solid fa-medal"></i>
                       </div>
                     <div class="rank-tooltip">
-                        <span id="dupla1-level" onclick="mostrarTooltip('dupla1')">Lv: 0</span>
+                        <span id="dupla1-level" onclick="mostrarTooltip('dupla1')">Lv 0</span>
                         <span class="tooltip-text" id="dupla1-tooltip"></span>
                     </div>
                     <div class="xp-container">
@@ -1682,7 +1680,7 @@
                         <i class="fa-solid fa-medal"></i>
                       </div>
                     <div class="rank-tooltip">
-                        <span id="dupla2-level" onclick="mostrarTooltip('dupla2')">Lv: 0</span>
+                        <span id="dupla2-level" onclick="mostrarTooltip('dupla2')">Lv 0</span>
                         <span class="tooltip-text" id="dupla2-tooltip"></span>
                     </div>
                     <div class="xp-container">
@@ -1754,14 +1752,6 @@
         </div>
         <div class="config-content">
             <div class="config-row">
-                <label class="checkbox-micro">
-                    <input type="checkbox" id="notificacoes-check">
-                    <span class="checkmark">
-                        <i class="fas fa-check"></i>
-                    </span>
-                    Notificações
-                </label>
-
                 <label class="checkbox-micro check-hist">
                     <input type="checkbox" id="historico-check">
                     <span class="checkmark">
@@ -1815,17 +1805,6 @@
             </div>
         </div>
     </div>
-    
-    <div id="newChallengeNotification" class="challenge-notification">
-        <div class="notification-content">
-            <i class="fas fa-seedling"></i>
-            <div class="notification-text">
-                <h4>Novos desafios disponíveis!</h4>
-                <p>Atualize para carregar os desafios de hoje.</p>
-            </div>
-            <button onclick="handleAtualizacao()">Atualizar</button>
-        </div>
-    </div>
 
     <button class="btn-patch" onclick="togglePatches()">
         <i class="fas fa-clipboard-list"></i>
@@ -1838,6 +1817,18 @@
         </div>
         <div class="patch-content">
             <div class="patch-item">
+                <div class="patch-version">v2.4.3</div>
+                <div class="patch-date">23/02/2025</div>
+                <ul>
+                    <li>Removido o sistema de notificações;</li>
+                    <li>Editor de nome com CSS estilizado;</li>
+                    <li>Mensagem de vitória de acordo com o tema;</li>
+                    <li>Duplas com cores;</li>
+                    <li>Melhorias visuais.</li>
+                    <span style="font-size: 9px;">+ novidades em breve!</span>
+                </ul>
+            </div>
+            <div class="patch-item">
                 <div class="patch-version">v2.4.2</div>
                 <div class="patch-date">22/02/2025</div>
                 <ul>
@@ -1845,7 +1836,7 @@
                     <li>Reajuste no sistema de XP;</li>
                     <li>Novo tema azul;</li>
                     <li>Removido tema pro;</li>
-                    <li>Melhorias visuais;</li>
+                    <li>Melhorias visuais.</li>
                     <span style="font-size: 9px;">+ novidades em breve!</span>
                 </ul>
             </div>
@@ -1878,11 +1869,21 @@
             </div>
         </div>
     </div>
+
+    <div class="modal-editar-nome" id="modalEditarNome">
+        <div class="modal-conteudo">
+            <h3>Editar nome</h3>
+            <input type="text" id="novoNomeInput" maxlength="10">
+            <div class="modal-botoes">
+                <button onclick="confirmarEdicao()">Salvar</button>
+                <button onclick="fecharModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
     
-    <div class="versao-programa">v2.4.2</div>
+    <div class="versao-programa">v2.4.3</div>
 
     <script>
-        let dailyCheckInterval;
 
         function formatarNumero(numero) {
     if (numero >= 1000000) {
@@ -1893,42 +1894,8 @@
     return numero.toString();
 }
 
-function iniciarVerificacaoDiaria() {
-    dailyCheckInterval = setInterval(() => {
-        const agora = new Date();
-        const horaAtual = agora.getHours();
-        const minutoAtual = agora.getMinutes();
-
-        if(!localStorage.getItem('ultimoDia')) {
-        localStorage.setItem('ultimoDia', new Date().getDate().toString());
-    }
-        
-        if (horaAtual >= 21) {
-            const ultimoDiaNotif = localStorage.getItem('ultimoDiaNotif');
-            const diaAtual = agora.getDate();
-            
-            if (ultimoDiaNotif !== diaAtual.toString()) {
-                mostrarNotificacaoNovosDesafios();
-                localStorage.setItem('ultimoDiaNotif', diaAtual.toString());
-            }
-        }
-    }, 60000);
-}
-
-function mostrarNotificacaoNovosDesafios() {
-    if (!notificacoesAtivas) return;
-    
-    const notification = document.getElementById('newChallengeNotification');
-    if(notification.classList.contains('show')) return;
-    
-    notification.classList.add('show');
-    setTimeout(() => {
-        notification.classList.remove('show');
-    }, 7000);
-}
         let resetTimer;
         let resetTimeout;
-        let notificacoesAtivas = localStorage.getItem('notificacoesAtivas') === 'true';
         let desafiosDiarios = [];
         let ultimoDia = null;
 
@@ -1994,52 +1961,36 @@ const possiveisDesafios = [
 ];
 
 function gerarDesafiosDiarios() {
-    const agora = new Date();
-    const horaAtual = agora.getHours();
-    const minutoAtual = agora.getMinutes();
-    const diaAtual = agora.getDate();
-    const ultimoDiaSalvo = parseInt(localStorage.getItem('ultimoDia')) || 0;
-    const horarioLimite = 21;
+            const agora = new Date();
+            const diaAtual = agora.getDate();
+            const ultimoDiaSalvo = parseInt(localStorage.getItem('ultimoDia')) || 0;
 
-    const passouDoHorarioLimite = horaAtual > horarioLimite || 
-                                 (horaAtual === horarioLimite && minutoAtual >= 0);
+            if (diaAtual !== ultimoDiaSalvo) {
+                const desafiosSelecionados = new Set();
+                const novosDesafios = [];
 
-    if (passouDoHorarioLimite && diaAtual !== ultimoDiaSalvo) {
-        const desafiosSelecionados = new Set();
-        const novosDesafios = [];
+                while (novosDesafios.length < 3) {
+                    const randomIndex = Math.floor(Math.random() * possiveisDesafios.length);
+                    const desafio = {...possiveisDesafios[randomIndex]};
 
-        while (novosDesafios.length < 3) {
-            const randomIndex = Math.floor(Math.random() * possiveisDesafios.length);
-            const desafio = { ...possiveisDesafios[randomIndex] };
+                    if (!desafiosSelecionados.has(desafio.tipo)) {
+                        desafio.progresso = 0;
+                        desafio.completo = false;
+                        novosDesafios.push(desafio);
+                        desafiosSelecionados.add(desafio.tipo);
+                    }
+                }
 
-            if (!desafiosSelecionados.has(desafio.tipo)) {
-                desafio.progresso = 0;
-                desafio.completo = false;
-                novosDesafios.push(desafio);
-                desafiosSelecionados.add(desafio.tipo);
+                localStorage.setItem('desafiosDiarios', JSON.stringify(novosDesafios));
+                localStorage.setItem('ultimoDia', diaAtual.toString());
+                desafiosDiarios = novosDesafios;
             }
+            else {
+                desafiosDiarios = JSON.parse(localStorage.getItem('desafiosDiarios')) || [];
+            }
+
+            atualizarUIDesafios();
         }
-
-        localStorage.setItem('desafiosDiarios', JSON.stringify(novosDesafios));
-        localStorage.setItem('ultimoDia', diaAtual.toString());
-        desafiosDiarios = novosDesafios;
-
-        if (notificacoesAtivas) {
-            const notification = document.getElementById('newChallengeNotification');
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 7000);
-        }
-    }
-    else {
-        desafiosDiarios = JSON.parse(localStorage.getItem('desafiosDiarios')) || [];
-    }
-
-    atualizarUIDesafios();
-    updateChallengeTimer();
-}
 
 function verificarProgressoDesafios(tipo, quantidade = 1) {
     desafiosDiarios.forEach(desafio => {
@@ -2180,7 +2131,7 @@ let xpData = {
             document.getElementById(`${dupla}-xp-bar`).style.width = `${porcentagem}%`;
             const xpTextElement = document.getElementById(`${dupla}-xp-text`);
      xpTextElement.textContent = `${formatarNumero(currentXP)} / ${formatarNumero(requiredXP)} XP`;
-            document.getElementById(`${dupla}-level`).textContent = `Lv: ${currentLevel}`;
+            document.getElementById(`${dupla}-level`).textContent = `Lv ${currentLevel}`;
         }
 
         function salvarXPData() {
@@ -2196,25 +2147,44 @@ let xpData = {
             }
         }
 
-function editarNome(dupla) {
-    const novoNome = prompt(`Digite o novo nome para ${nomesDuplas[dupla]}:`, nomesDuplas[dupla]);
-    if (novoNome) {
-        const nomeFormatado = novoNome.trim().substring(0, 5);
-        
-        if (nomeFormatado !== "") {
-            nomesDuplas[dupla] = nomeFormatado;
-            document.getElementById(`${dupla}-nome`).textContent = nomesDuplas[dupla];
-            salvarNomes();
+        let duplaAtualEditando = '';
 
-            const msgac = document.getElementById("msgac");
-            msgac.innerHTML = `<i class="fas fa-check-circle"></i>  Nome alterado`; 
-            msgac.classList.add("show");
-            
-            setTimeout(() => {
-                msgac.classList.remove("show");
-            }, 3000);
-        }
+function editarNome(dupla) {
+    duplaAtualEditando = dupla;
+    const modal = document.getElementById('modalEditarNome');
+    const input = document.getElementById('novoNomeInput');
+    input.value = nomesDuplas[dupla];
+    modal.style.display = 'flex';
+    input.focus();
+}
+
+document.getElementById('modalEditarNome').addEventListener('click', function(e) {
+    if (e.target === this) {
+        fecharModal();
     }
+});
+
+function confirmarEdicao() {
+    const novoNome = document.getElementById('novoNomeInput').value.trim();
+    if (novoNome) {
+        nomesDuplas[duplaAtualEditando] = novoNome.substring(0, 10);
+        document.getElementById(`${duplaAtualEditando}-nome`).textContent = nomesDuplas[duplaAtualEditando];
+        salvarNomes();
+        
+        const msgac = document.getElementById("msgac");
+        msgac.innerHTML = `<i class="fas fa-check-circle"></i> Nome alterado`;
+        msgac.classList.add("show");
+        
+        setTimeout(() => {
+            msgac.classList.remove("show");
+        }, 3000);
+    }
+    fecharModal();
+}
+
+function fecharModal() {
+    document.getElementById('modalEditarNome').style.display = 'none';
+    duplaAtualEditando = '';
 }
 
 function salvarNomes() {
@@ -2608,7 +2578,7 @@ target.setHours(21, 0, 0, 0);
 }
 
 function loadTheme() {
-    const savedTheme = localStorage.getItem('theme') || 'classico';
+    const savedTheme = localStorage.getItem('theme') || 'new';
     document.body.setAttribute('data-theme', savedTheme);
 }
 
@@ -2626,8 +2596,6 @@ function toggleSettings() {
 loadTheme();
 
 function loadCheckboxState() {
-    const savedState = localStorage.getItem('notificacoesAtivas') === 'true';
-    document.getElementById('notificacoes-check').checked = savedState;
     document.getElementById('historico-check').checked = localStorage.getItem('mostrarHistorico') === 'true';
 atualizarVisibilidadeHistorico();
 }
@@ -2645,11 +2613,6 @@ document.getElementById('historico-check').addEventListener('change', function()
     localStorage.setItem('mostrarHistorico', this.checked);
     atualizarVisibilidadeHistorico();
 });
-
-function saveCheckboxState() {
-    const checkbox = document.getElementById('notificacoes-check');
-    localStorage.setItem('notificacoesAtivas', checkbox.checked);
-}
 
 let themesOpen = false;
 
@@ -2690,24 +2653,6 @@ function confirmReset() {
 
     localStorage.clear();
     location.reload();
-}
-
-document.getElementById('notificacoes-check').addEventListener('change', function() {
-    notificacoesAtivas = this.checked;
-    saveCheckboxState();
-    if(!this.checked) {
-        const notification = document.getElementById('newChallengeNotification');
-        notification.classList.remove('show');
-        localStorage.removeItem('ultimoDiaNotificacao');
-        localStorage.removeItem('notificacaoMostrada');
-    }
-});
-
-function handleAtualizacao() {
-    localStorage.removeItem('ultimoDia');
-    gerarDesafiosDiarios();
-    const notification = document.getElementById('newChallengeNotification');
-    notification.classList.remove('show');
 }
 
 function togglePatches() {
